@@ -31,7 +31,8 @@ def exec(request_json_string):
         # レスポンスBeanをレスポンスjson文字列に変換
         response_json_string = json_utils.encode(response_bean.parse_to_dict())
     
-    except:
+    except Exception as e:
+        print(e)
         response_bean.set_service_response_bean(None)
         response_json_string = json_utils.encode(response_bean.parse_to_dict())
     

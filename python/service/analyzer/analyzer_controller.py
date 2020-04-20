@@ -2,7 +2,7 @@
 # 動画解析のコントロール部品
 # ==================================================
 
-from service.analyzer import analyzer_command_creater
+from service.analyzer import analyze_command_creater
 from service.analyzer.bean.analyzer_response_bean import AnalyzerResponseBean
 from service.analyzer.bean.analyzer_response_bean import AnalyzerVideoStreamBean
 from service.analyzer.bean.analyzer_response_bean import AnalyzerAudioStreamBean
@@ -14,7 +14,7 @@ from service.common import json_utils
 def analize(request_bean):
     
     # コマンド作成
-    command = analyzer_command_creater.create_command(request_bean)
+    command = analyze_command_creater.create_command(request_bean)
     
     # 実行
     proc_stdout = command_runner.run(command, True)
