@@ -3,25 +3,39 @@
 # ==================================================
 
 from service.converter import request_bean_parser
-from service.converter import convert_command_creater
-from service.common import command_runner
+from service.converter import converter_controller
+from service.common import json_utils
+from service.common.bean.response_bean import ResponseBean
 
 # 動画変換処理実行
 def exec(request_json_string):
     
     print('converter')
     
-    # リクエストjson文字列の解析
-    request_bean = request_bean_parser.parse_to_request_bean(request_json_string)
-    print(request_bean.get_output_file_bean().get_output_file_name())
+    response_bean = ResponseBean()
     
-    # コマンド作成
-    command = convert_command_creater.create_command(request_bean)
-    command = [r'ipconfig', r'/all']
+    try:
+        
+        # リクエストjson文字列の解析
+        request_bean = request_bean_parser.parse_to_request_bean(request_json_string)
+        
+        # 動画変換リクエストBeanへセット
+        service_request_bean = request_bean.get_service_request_bean()
+        
+        # ffmpegを用いて動画変換
+        service_response_bean = converter_controller.convert(service_request_bean)
+        
+        # レスポンスBeanへセット
+        response_bean.set_service_response_bean(service_response_bean)
+        
+        # レスポンスBeanをレスポンスjson文字列に変換
+        response_json_string = json_utils.encode(response_bean.parse_to_dict())
     
-    # 実行
-    proc_stdout = command_runner.run(command)
-    for line in proc_stdout:
-        print(line)
+    except Exception as e:
+        print(e)
+        response_bean.set_service_response_bean(None)
+        response_json_string = json_utils.encode(response_bean.parse_to_dict())
     
+    # レスポンスjson文字列を返却
+    return response_json_string
 
