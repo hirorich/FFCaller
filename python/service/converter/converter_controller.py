@@ -1,5 +1,5 @@
 # ==================================================
-# “®‰æ•ÏŠ·‚ÌƒRƒ“ƒgƒ[ƒ‹•”•i
+# å‹•ç”»å¤‰æ›ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«éƒ¨å“
 # ==================================================
 
 from service.converter import convert_command_creater
@@ -7,16 +7,16 @@ from service.converter.bean.converter_response_bean import ConverterResponseBean
 from service.common import command_runner
 from service.common import json_utils
 
-# •ÏŠ·Às
+# å¤‰æ›å®Ÿè¡Œ
 def convert(request_bean):
     
-    # ƒRƒ}ƒ“ƒhì¬
+    # ã‚³ãƒãƒ³ãƒ‰ä½œæˆ
     command = convert_command_creater.create_command(request_bean)
     
-    # Às
+    # å®Ÿè¡Œ
     # proc_stdout = command_runner.run(command, True)
     
-    # “®‰æ•ÏŠ·ƒŒƒXƒ|ƒ“ƒXBean‚ÖƒZƒbƒg
+    # å‹•ç”»å¤‰æ›ãƒ¬ã‚¹ãƒãƒ³ã‚¹Beanã¸ã‚»ãƒƒãƒˆ
     response_bean = ConverterResponseBean()
     response_bean.set_output_file_name('output.mp4')
     return response_bean

@@ -1,26 +1,26 @@
 # ==================================================
-# ffprobe‚ğ—p‚¢‚½“®‰æ‰ğÍƒRƒ}ƒ“ƒh¶¬
+# ffprobeã‚’ç”¨ã„ãŸå‹•ç”»è§£æã‚³ãƒãƒ³ãƒ‰ç”Ÿæˆ
 # ==================================================
 
 from service.common.type import str_utils
 from service.common import file_utils
 
-# ƒRƒ}ƒ“ƒh¶¬
+# ã‚³ãƒãƒ³ãƒ‰ç”Ÿæˆ
 def create_command(request_bean):
     
-    # === “ü—Íƒ`ƒFƒbƒN ===
-    # “ü—Íƒtƒ@ƒCƒ‹–¼‚ª‹ó”’
+    # === å…¥åŠ›ãƒã‚§ãƒƒã‚¯ ===
+    # å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«åãŒç©ºç™½
     input = request_bean.get_input_file_name()
     if str_utils.is_none_or_whitespace(input):
         raise Exception('input_file is not specified')
     
-    # “ü—Íƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢
+    # å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„
     input = input.strip()
     if not file_utils.is_exists(input):
         raise Exception(input + ' is not exists')
     # ====================
     
-    # ƒRƒ}ƒ“ƒh¶¬
+    # ã‚³ãƒãƒ³ãƒ‰ç”Ÿæˆ
     command = [r'ffprobe', r'-v', r'quiet', r'-show_format', r'-show_streams', r'-print_format', r'json']
     command.append(input)
     

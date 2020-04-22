@@ -1,5 +1,5 @@
 # ==================================================
-# “®‰æ‰ğÍ‚ÌƒRƒ“ƒgƒ[ƒ‹•”•i
+# å‹•ç”»è§£æã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«éƒ¨å“
 # ==================================================
 
 from service.analyzer import analyze_command_creater
@@ -10,56 +10,56 @@ from service.analyzer.bean.analyzer_response_bean import AnalyzerFormatBean
 from service.common import command_runner
 from service.common import json_utils
 
-# ‰ğÍÀs
+# è§£æå®Ÿè¡Œ
 def analize(request_bean):
     
-    # ƒRƒ}ƒ“ƒhì¬
+    # ã‚³ãƒãƒ³ãƒ‰ä½œæˆ
     command = analyze_command_creater.create_command(request_bean)
     
-    # Às
+    # å®Ÿè¡Œ
     proc_stdout = command_runner.run(command, True)
     
-    # json•¶š—ñ‚©‚ç«‘Œ^‚É•ÏŠ·
+    # jsonæ–‡å­—åˆ—ã‹ã‚‰è¾æ›¸å‹ã«å¤‰æ›
     decodeed_video_info = json_utils.decode(''.join(proc_stdout))
     
-    # “®‰æ‰ğÍƒŒƒXƒ|ƒ“ƒXBean‚ÖƒZƒbƒg
+    # å‹•ç”»è§£æãƒ¬ã‚¹ãƒãƒ³ã‚¹Beanã¸ã‚»ãƒƒãƒˆ
     return create_response_bean(decodeed_video_info)
     
 
-# ‰ğÍŒ‹‰Ê‚©‚ç“®‰æ‰ğÍƒŒƒXƒ|ƒ“ƒXBean‚ğì¬
+# è§£æçµæœã‹ã‚‰å‹•ç”»è§£æãƒ¬ã‚¹ãƒãƒ³ã‚¹Beanã‚’ä½œæˆ
 def create_response_bean(decodeed_video_info):
     
     video_stream_bean = None
     audio_stream_bean_list = []
     format_bean = None
     
-    # ƒXƒgƒŠ[ƒ€‚ÌƒR[ƒfƒbƒNƒ^ƒCƒv‚²‚Æ‚ÉBean‚ğì¬
+    # ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯ã‚¿ã‚¤ãƒ—ã”ã¨ã«Beanã‚’ä½œæˆ
     for i in range(len(decodeed_video_info['streams'])):
         codec_type = decodeed_video_info['streams'][i]['codec_type']
         
-        # ƒR[ƒfƒbƒNƒ^ƒCƒv‚ªvideo‚Ìê‡AƒrƒfƒIƒXƒgƒŠ[ƒ€Bean‚ğì¬
+        # ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯ã‚¿ã‚¤ãƒ—ãŒvideoã®å ´åˆã€ãƒ“ãƒ‡ã‚ªã‚¹ãƒˆãƒªãƒ¼ãƒ Beanã‚’ä½œæˆ
         if codec_type == 'video':
             video_stream_bean = create_video_stream_bean(decodeed_video_info['streams'][i])
             
-        # ƒR[ƒfƒbƒNƒ^ƒCƒv‚ªaudio‚Ìê‡AƒI[ƒfƒBƒIƒXƒgƒŠ[ƒ€Bean‚ğì¬
+        # ã‚³ãƒ¼ãƒ‡ãƒƒã‚¯ã‚¿ã‚¤ãƒ—ãŒaudioã®å ´åˆã€ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¹ãƒˆãƒªãƒ¼ãƒ Beanã‚’ä½œæˆ
         elif codec_type == 'audio':
             audio_stream_bean = create_audio_stream_bean(decodeed_video_info['streams'][i])
             audio_stream_bean_list.append(audio_stream_bean)
     
-    # ƒtƒH[ƒ}ƒbƒgBean‚ğì¬
+    # ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆBeanã‚’ä½œæˆ
     format_bean = create_format_bean(decodeed_video_info['format'])
     
-    # ì¬‚µ‚½Bean‚ğ“®‰æ‰ğÍƒŒƒXƒ|ƒ“ƒXBean‚Éİ’è
+    # ä½œæˆã—ãŸBeanã‚’å‹•ç”»è§£æãƒ¬ã‚¹ãƒãƒ³ã‚¹Beanã«è¨­å®š
     response_bean = AnalyzerResponseBean()
     response_bean.set_video_stream_bean(video_stream_bean)
     response_bean.set_audio_stream_bean_list(audio_stream_bean_list)
     response_bean.set_format_bean(format_bean)
     
-    # “®‰æ‰ğÍƒŒƒXƒ|ƒ“ƒXBean‚ğ•Ô‹p
+    # å‹•ç”»è§£æãƒ¬ã‚¹ãƒãƒ³ã‚¹Beanã‚’è¿”å´
     return response_bean
     
 
-# ‰ğÍŒ‹‰Ê‚©‚ç“®‰æ‰ğÍƒrƒfƒIƒXƒgƒŠ[ƒ€Bean‚ğì¬
+# è§£æçµæœã‹ã‚‰å‹•ç”»è§£æãƒ“ãƒ‡ã‚ªã‚¹ãƒˆãƒªãƒ¼ãƒ Beanã‚’ä½œæˆ
 def create_video_stream_bean(decodeed_stream_info):
     
     video_stream_bean = AnalyzerVideoStreamBean()
@@ -77,7 +77,7 @@ def create_video_stream_bean(decodeed_stream_info):
     return video_stream_bean
     
 
-# ‰ğÍŒ‹‰Ê‚©‚ç“®‰æ‰ğÍƒI[ƒfƒBƒIƒXƒgƒŠ[ƒ€Bean‚ğì¬
+# è§£æçµæœã‹ã‚‰å‹•ç”»è§£æã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¹ãƒˆãƒªãƒ¼ãƒ Beanã‚’ä½œæˆ
 def create_audio_stream_bean(decodeed_stream_info):
     
     audio_stream_bean = AnalyzerAudioStreamBean()
@@ -92,7 +92,7 @@ def create_audio_stream_bean(decodeed_stream_info):
     return audio_stream_bean
     
 
-# ‰ğÍŒ‹‰Ê‚©‚ç“®‰æ‰ğÍƒtƒH[ƒ}ƒbƒgBean‚ğì¬
+# è§£æçµæœã‹ã‚‰å‹•ç”»è§£æãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆBeanã‚’ä½œæˆ
 def create_format_bean(decodeed_stream_info):
     
     format_bean = AnalyzerFormatBean()

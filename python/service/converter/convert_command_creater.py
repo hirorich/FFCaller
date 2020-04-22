@@ -1,5 +1,5 @@
 # ==================================================
-# ffmpeg‚ğ—p‚¢‚½“®‰æ•ÏŠ·ƒRƒ}ƒ“ƒh¶¬
+# ffmpegã‚’ç”¨ã„ãŸå‹•ç”»å¤‰æ›ã‚³ãƒãƒ³ãƒ‰ç”Ÿæˆ
 # ==================================================
 
 from service.analyzer import analyzer_controller
@@ -13,7 +13,7 @@ from service.common.type import str_utils
 # 
 def create_command(request_bean):
     
-    # === “ü—Íƒ`ƒFƒbƒN ===
+    # === å…¥åŠ›ãƒã‚§ãƒƒã‚¯ ===
     # ====================
     
     command = []
@@ -50,18 +50,18 @@ def create_input_bean(input_file_bean):
     
     command_input_bean = CommandInputBean()
     
-    # === “ü—Íƒ`ƒFƒbƒN ===
-    # “ü—Íƒtƒ@ƒCƒ‹–¼‚ª‹ó”’
+    # === å…¥åŠ›ãƒã‚§ãƒƒã‚¯ ===
+    # å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«åãŒç©ºç™½
     input_file_name = input_file_bean.get_input_file_name()
     if str_utils.is_none_or_whitespace(input_file_name):
         raise Exception('"input_file" is not specified')
     
-    # “ü—Íƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢
+    # å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ãªã„
     input_file_name = input_file_name.strip()
     if not file_utils.is_exists(input_file_name):
         raise Exception('"' + input_file_name + '" is not exists')
     
-    # ƒtƒŒ[ƒ€w’è‚Ìê‡AƒtƒŒ[ƒ€‚Í1ˆÈã‚ğw’è
+    # ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šã®å ´åˆã€ãƒ•ãƒ¬ãƒ¼ãƒ ã¯1ä»¥ä¸Šã‚’æŒ‡å®š
     if input_file_bean.get_frame_specification_flag():
         if number_utils.is_less(input_file_bean.get_start_frame(), 1):
             raise Exception('"' + input_file_name + '": specify at least 1 for "start_frame"')
@@ -69,7 +69,7 @@ def create_input_bean(input_file_bean):
         if number_utils.is_less(input_file_bean.get_frame_number(), 1):
             raise Exception('"' + input_file_name + '": specify at least 1 for "frame_number"')
         
-        # ƒtƒŒ[ƒ€w’è‚Å‚È‚¢ê‡AŠÔ‚Í0ˆÈã‚ğw’è
+        # ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šã§ãªã„å ´åˆã€æ™‚é–“ã¯0ä»¥ä¸Šã‚’æŒ‡å®š
     else:
         if number_utils.is_less(input_file_bean.get_start_time(), 0):
             raise Exception('"' + input_file_name + '": specify at least 0 for "start_time"')
@@ -78,10 +78,10 @@ def create_input_bean(input_file_bean):
             raise Exception('"' + input_file_name + '": specify at least 0 for "trim_duration"')
     # ====================
     
-    # “ü—Íƒtƒ@ƒCƒ‹–¼w’è
+    # å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«åæŒ‡å®š
     command_input_bean.set_input_file_name(input_file_name)
     
-    # “®‰æî•ñæ“¾
+    # å‹•ç”»æƒ…å ±å–å¾—
     analyzer_request_bean = AnalyzerRequestBean()
     analyzer_request_bean.set_input_file_name(input_file_name)
     analyzer_response_bean = analyzer_controller.analize(analyzer_request_bean)
@@ -90,20 +90,20 @@ def create_input_bean(input_file_bean):
     audio_stream_bean_list = analyzer_response_bean.get_audio_stream_bean_list()
     print(video_stream_bean.get_r_frame_rate())
     
-    # ƒtƒŒ[ƒ€w’è‚Ìê‡
+    # ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šã®å ´åˆ
     if input_file_bean.get_frame_specification_flag():
         
-        # === •¡‡ƒ`ƒFƒbƒN ===
-        # ƒrƒfƒIƒXƒgƒŠ[ƒ€‚ª‚È‚¢ê‡AƒtƒŒ[ƒ€w’è•s‰Â
+        # === è¤‡åˆãƒã‚§ãƒƒã‚¯ ===
+        # ãƒ“ãƒ‡ã‚ªã‚¹ãƒˆãƒªãƒ¼ãƒ ãŒãªã„å ´åˆã€ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šä¸å¯
         if video_stream_bean is None:
             raise Exception('"' + input_file_name + '": video stream is not exists')
         
-        # ŠJnƒtƒŒ[ƒ€‚Í‘ƒtƒŒ[ƒ€”ˆÈ‰º‚ğw’è
+        # é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ ã¯ç·ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ä»¥ä¸‹ã‚’æŒ‡å®š
         if number_utils.is_greater(input_file_bean.get_start_frame(), video_stream_bean.get_nb_frames()):
             raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for "start_frame"')
         
-        # Ø‚èæ‚èƒtƒŒ[ƒ€”iŠJnƒtƒŒ[ƒ€ + ƒtƒŒ[ƒ€” - 1j‚Í
-        # ‘ƒtƒŒ[ƒ€”ˆÈ‰º‚ğw’è
+        # åˆ‡ã‚Šå–ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°ï¼ˆé–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ  + ãƒ•ãƒ¬ãƒ¼ãƒ æ•° - 1ï¼‰ã¯
+        # ç·ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ä»¥ä¸‹ã‚’æŒ‡å®š
         trim_frames = input_file_bean.get_start_frame() + input_file_bean.get_frame_number() - 1
         if number_utils.is_greater(trim_frames, video_stream_bean.get_nb_frames()):
             raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for trim frames')
@@ -113,16 +113,16 @@ def create_input_bean(input_file_bean):
         trim_duration = fps_utils.frame_to_sec(trim_frames, video_stream_bean.get_r_frame_rate())
         start_frame = input_file_bean.get_start_frame()
         
-        # ƒtƒŒ[ƒ€w’è‚Å‚È‚¢ê‡AŠÔ‚Í0ˆÈã‚ğw’è
+        # ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®šã§ãªã„å ´åˆã€æ™‚é–“ã¯0ä»¥ä¸Šã‚’æŒ‡å®š
     else:
         
-        # === •¡‡ƒ`ƒFƒbƒN ===
-        # ŠJnƒtƒŒ[ƒ€‚Í“®‰æÄ¶ŠÔˆÈ‰º‚ğw’è
+        # === è¤‡åˆãƒã‚§ãƒƒã‚¯ ===
+        # é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ ã¯å‹•ç”»å†ç”Ÿæ™‚é–“ä»¥ä¸‹ã‚’æŒ‡å®š
         if number_utils.is_greater(input_file_bean.get_start_time(), format_bean.get_duration()):
             raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for "start_frame"')
         
-        # I—¹ŠÔiŠJnŠÔ + Ø‚èæ‚èŠúŠÔj‚Í
-        # “®‰æÄ¶ŠÔˆÈ‰º‚ğw’è
+        # çµ‚äº†æ™‚é–“ï¼ˆé–‹å§‹æ™‚é–“ + åˆ‡ã‚Šå–ã‚ŠæœŸé–“ï¼‰ã¯
+        # å‹•ç”»å†ç”Ÿæ™‚é–“ä»¥ä¸‹ã‚’æŒ‡å®š
         end_time = input_file_bean.get_start_time() + input_file_bean.get_trim_duration()
         if number_utils.is_greater(end_time, format_bean.get_duration()):
             raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for trim frames')
@@ -133,14 +133,14 @@ def create_input_bean(input_file_bean):
         start_frame = fps_utils.sec_to_frame(input_file_bean.get_start_time(), video_stream_bean.get_r_frame_rate())
         
     
-    # ŠJnŠÔw’è
+    # é–‹å§‹æ™‚é–“æŒ‡å®š
     command_input_bean.set_start_time(start_time)
-    # Ø‚èæ‚èŠúŠÔw’è
+    # åˆ‡ã‚Šå–ã‚ŠæœŸé–“æŒ‡å®š
     command_input_bean.set_trim_duration(trim_duration)
-    # ŠJnƒtƒŒ[ƒ€w’è
+    # é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ æŒ‡å®š
     command_input_bean.set_start_frame(start_frame)
     
-    # ƒtƒBƒ‹ƒ^[İ’è
+    # ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼è¨­å®š
     
     return command_input_bean
     
