@@ -5,6 +5,7 @@
 from service.converter import request_bean_parser
 from service.converter import converter_controller
 from service.common import json_utils
+from service.common import log_utils
 from service.common.bean.response_bean import ResponseBean
 
 # 動画変換処理実行
@@ -32,7 +33,7 @@ def exec(request_json_string):
         response_json_string = json_utils.encode(response_bean.parse_to_dict())
     
     except Exception as e:
-        print(e)
+        log_utils.write_log(e)
         response_bean.set_service_response_bean(None)
         response_json_string = json_utils.encode(response_bean.parse_to_dict())
     
