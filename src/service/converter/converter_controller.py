@@ -14,7 +14,7 @@ def convert(request_bean):
     command = convert_command_creater.create_command(request_bean)
     
     # 実行
-    # proc_stdout = command_runner.run(command, True)
+    proc_stdout = command_runner.run(command, True)
     
     # 動画変換レスポンスBeanへセット
     response_bean = ConverterResponseBean()
