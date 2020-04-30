@@ -87,13 +87,13 @@ def create_input_bean(input_file_bean, file_index):
         
         # 切り取りフレーム数（開始フレーム + フレーム数 - 1）は
         # 総フレーム数以下を指定
-        trim_frames = input_file_bean.get_start_frame() + input_file_bean.get_frame_number() - 1
-        if number_utils.is_greater(trim_frames, video_stream_bean.get_nb_frames()):
-            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for trim frames')
+        end_frames = input_file_bean.get_start_frame() + input_file_bean.get_frame_number() - 1
+        if number_utils.is_greater(end_frames, video_stream_bean.get_nb_frames()):
+            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for sum(start_frame, frame_number)')
         # ====================
         
         start_time = fps_utils.frame_to_sec(input_file_bean.get_start_frame(), video_stream_bean.get_r_frame_rate())
-        trim_duration = fps_utils.frame_to_sec(trim_frames, video_stream_bean.get_r_frame_rate())
+        trim_duration = fps_utils.frame_to_sec(input_file_bean.get_frame_number(), video_stream_bean.get_r_frame_rate())
         start_frame = input_file_bean.get_start_frame()
         
         # フレーム指定でない場合、時間は0以上を指定
