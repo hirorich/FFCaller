@@ -22,6 +22,6 @@ def frame_to_sec(frame, fps):
     denominator_fps = int(splited_fps[1])
     
     digit_number = np.power(10, 3)
-    sec = np.floor(digit_number * (frame - 1) * denominator_fps / numerator_fps) / digit_number
+    sec = np.floor((frame - 1) * denominator_fps / numerator_fps * digit_number) / digit_number
     return float(sec)
 
