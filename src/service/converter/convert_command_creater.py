@@ -2,6 +2,7 @@
 # ffmpegを用いた動画変換コマンド生成
 # ==================================================
 
+import os
 from service.analyzer import analyzer_controller
 from service.analyzer.bean.analyzer_request_bean import AnalyzerRequestBean
 from service.converter.bean.command_bean import CommandInputBean
@@ -220,12 +221,16 @@ def marge_command(input_bean_list, output_file_bean):
     for input_bean in input_bean_list:
         
         file_count += 1
-        if not str_utils.is_none_or_empty(input_bean.get_filtered_video_id()):
-            video_count += 1
-            filter_id += input_bean.get_filtered_video_id()
-        if not str_utils.is_none_or_empty(input_bean.get_filtered_audio_id()):
-            audio_count += 1
-            filter_id += input_bean.get_filtered_audio_id()
+        if (number_utils.is_equal(output_file_bean.get_codec_type_combination(), 2)
+            or number_utils.is_equal(output_file_bean.get_codec_type_combination(), 1)):
+            if not str_utils.is_none_or_empty(input_bean.get_filtered_video_id()):
+                video_count += 1
+                filter_id += input_bean.get_filtered_video_id()
+        if (number_utils.is_equal(output_file_bean.get_codec_type_combination(), 3)
+            or number_utils.is_equal(output_file_bean.get_codec_type_combination(), 1)):
+            if not str_utils.is_none_or_empty(input_bean.get_filtered_audio_id()):
+                audio_count += 1
+                filter_id += input_bean.get_filtered_audio_id()
         
         command.extend(input_bean.create_input_command())
         filter += input_bean.get_filter_string()
@@ -233,26 +238,45 @@ def marge_command(input_bean_list, output_file_bean):
     # フィルタ文字列作成
     filter += filter_id + 'concat=n=' + str(file_count)
     
-    if video_count == 0:
+    if number_utils.is_equal(video_count, 0):
         filter += ':v=0'
-    elif video_count == file_count:
+    elif number_utils.is_equal(video_count, file_count):
         filter += ':v=1'
     else:
         raise Exception('全て映像なし または 全て映像ありのみ結合可能')
     
-    if audio_count == 0:
+    if number_utils.is_equal(audio_count, 0):
         filter += ':a=0'
-    elif audio_count == file_count:
+    elif number_utils.is_equal(audio_count, file_count):
         filter += ':a=1'
     else:
         raise Exception('全て音声なし または 全て音声ありのみ結合可能')
     
-    # フィルタ指定
-    command.append('-filter_complex')
-    command.append(filter)
-    
     # 出力ファイル名指定
-    command.append(output_file_bean.get_output_file_name())
+    output_file_name = output_file_bean.get_output_file_name()
+    # TRIM
+    if number_utils.is_equal(output_file_bean.get_convert_mode(), 1):
+        
+        # フィルタ指定
+        command.append('-filter_complex')
+        command.append(filter)
+        
+        #IMAGE(フィルタは無視される)
+    elif number_utils.is_equal(output_file_bean.get_convert_mode(), 2):
+        if not (number_utils.is_equal(video_count, 1) and number_utils.is_equal(file_count, 1)):
+            raise Exception('フレーム切り出しは映像あり1ファイルのみ可能')
+        
+        command.append('-f')
+        command.append('image2')
+        command.append('-start_number')
+        command.append(str(input_bean_list[0].get_start_frame()))
+        
+        file_name = os.path.splitext(os.path.basename(output_file_name))[0]
+        file_name += '_%06d.png'
+        dir_name = os.path.dirname(output_file_name)
+        output_file_name = dir_name + '/' + file_name
+    
+    command.append(output_file_name)
     
     return command
 
