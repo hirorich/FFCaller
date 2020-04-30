@@ -15,3 +15,14 @@ def is_exists(parameter):
     return os.path.exists(parameter)
     
 
+# 
+def read_file_one_line(filename):
+    stdout = ''
+    with open(filename, encoding='utf-8') as f:
+        while True:
+            line = f.readline()
+            if not line:
+                break
+            stdout += line.strip()
+    
+    return stdout
