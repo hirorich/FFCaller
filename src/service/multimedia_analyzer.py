@@ -6,6 +6,7 @@ from service.analyzer import request_bean_parser
 from service.analyzer import analyzer_controller
 from service.common import json_utils
 from service.common import log_utils
+from service.analyzer.bean.analyzer_request_bean import AnalyzerRequestBean
 from service.common.bean.response_bean import ResponseBean
 
 # 動画解析処理実行
@@ -39,4 +40,19 @@ def exec(request_json_string):
     
     # レスポンスjson文字列を返却
     return response_json_string
+
+# 動画解析処理実行
+def exec_local(filename):
+    
+    print('analyzer_local')
+    
+    # 動画解析リクエストBeanへセット
+    service_request_bean = AnalyzerRequestBean()
+    service_request_bean.set_input_file_name(filename)
+    
+    # ffprobeを用いて動画情報取得
+    service_response_bean = analyzer_controller.analize(service_request_bean)
+    
+    # レスポンスBeanへセット
+    return service_response_bean.parse_to_dict()
 

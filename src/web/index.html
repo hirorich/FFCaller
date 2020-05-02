@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="./common/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="./common/jquery/jquery-3.4.1.min.js"></script>
+    <script src="./common/vue-2.6.10/dist/vue.min.js"></script>
+    <script src="./common/ScreenTransition.js"></script>
+    <link rel="stylesheet" type="text/css" href="./common/v-cloak.css">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 入力欄 -->
+    <div id="input_info" v-cloak>
+        <div class="form-group">
+            <span class="label label-default">filename</span>
+            <input v-model="filename" type="text" class="form-control">
+            <button class="btn btn-primary" v-on:click="analyze()">動画情報取得</button class="btn btn-primary">
+        </div>
+    </div>
+
+    <!-- ファイル情報欄 -->
+    <div id="stream_info">
+        <span class="label label-default">filename</span>
+        <span class="label label-default" v-cloak>{{format.filename}}</span>
+
+        <!-- Table Format -->
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>nb_streams</th>
+                    <th>duration</th>
+                    <th>size</th>
+                </tr>
+            </thead>
+            <tbody v-cloak>
+                <tr>
+                    <td>{{format.nb_streams}}</td>
+                    <td>{{format.duration}}</td>
+                    <td>{{format.size}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Table Video Stream, Audio Stream -->
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>項目</th>
+                    <th>映像</th>
+                    <th>音声</th>
+                </tr>
+            </thead>
+            <tbody v-cloak>
+                <tr>
+                    <th>index</th>
+                    <td>{{video_stream.index}}</td>
+                    <td>{{audio_stream[0].index}}</td>
+                </tr>
+                <tr>
+                    <th>codec_type</th>
+                    <td>{{video_stream.codec_type}}</td>
+                    <td>{{audio_stream[0].codec_type}}</td>
+                </tr>
+                <tr>
+                    <th>codec_name</th>
+                    <td>{{video_stream.codec_name}}</td>
+                    <td>{{audio_stream[0].codec_name}}</td>
+                </tr>
+                <tr>
+                    <th>codec_long_name</th>
+                    <td>{{video_stream.codec_long_name}}</td>
+                    <td>{{audio_stream[0].codec_long_name}}</td>
+                </tr>
+                <tr>
+                    <th>duration</th>
+                    <td>{{video_stream.duration}}</td>
+                    <td>{{audio_stream[0].duration}}</td>
+                </tr>
+                <tr>
+                    <th>bit_rate</th>
+                    <td>{{video_stream.bit_rate}}</td>
+                    <td>{{audio_stream[0].bit_rate}}</td>
+                </tr>
+                <tr>
+                    <th>width x height</th>
+                    <td>{{video_stream.width}} x {{video_stream.height}}</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <th>r_frame_rate</th>
+                    <td>{{video_stream.r_frame_rate}}</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <th>nb_frames</th>
+                    <td>{{video_stream.nb_frames}}</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <th>sample_rate</th>
+                    <td>-</td>
+                    <td>{{audio_stream[0].sample_rate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="trim_marge-tab" data-toggle="tab" href="#trim_marge" role="tab" aria-controls="trim_marge" aria-selected=true>トリム・マージ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="frame_segmentation-tab" data-toggle="tab" href="#frame_segmentation" role="tab" aria-controls="frame_segmentation" aria-selected=false>フレーム分割</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade active show" id="trim_marge" role="tabpanel" aria-labelledby="trim_marge-tab">
+            <div>トリム・マージ処理</div>
+        </div>
+        <div class="tab-pane fade" id="frame_segmentation" role="tabpanel" aria-labelledby="frame_segmentation-tab">
+            <div>フレーム分割処理</div>
+        </div>
+    </div>
+
+    <!-- Vue定義 -->
+    <script src="index.js"></script>
+
+    <script src="./common/popper.js-1.16.0/dist/umd/popper.min.js"></script>
+    <script src="./common/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
