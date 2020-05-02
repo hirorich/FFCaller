@@ -1,18 +1,3 @@
-// 対象動画ファイル名
-var input_info=new Vue({
-    el:'#input_info',
-    data:{
-        filename:''
-    },
-    methods:{
-        analyze: function(){
-            filename=this.filename;
-            eel.analyze(filename);
-            this.filename='';
-        }
-    }
-});
-
 // 動画情報
 var stream_info=new Vue({
     el:'#stream_info',
@@ -48,12 +33,6 @@ var stream_info=new Vue({
         }
     }
 });
-
-// サーバ処理失敗時
-eel.expose(get_server_error_msg)
-function get_server_error_msg(msg) {
-    alert(msg);
-}
 
 // 動画解析結果取得
 eel.expose(response_analyzer)
