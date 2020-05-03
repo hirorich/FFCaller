@@ -82,4 +82,7 @@ function response_analyzer(analyze_info) {
 
     // マージ・トリム情報初期化
     trim_marge_info.init()
+
+    // フレーム分割情報初期化
+    frame_segmentation_info.init()
 }
