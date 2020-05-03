@@ -25,7 +25,7 @@
     <!-- ファイル情報欄 -->
     <div id="stream_info">
         <span class="label label-default">filename</span>
-        <span class="label label-default" v-cloak>{{format.filename}}</span>
+        <input v-model="format.filename" type="text" class="form-control" v-cloak disabled>
 
         <!-- Table Format -->
         <table class="table table-striped table-bordered">
@@ -120,9 +120,56 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade active show" id="trim_marge" role="tabpanel" aria-labelledby="trim_marge-tab">
-            <div>トリム・マージ処理</div>
+            <div id="trim_marge_info">
+                <div class="form-group">
+                    <span class="label label-default">input_file_name</span>
+                    <input v-model="input_file.input_file_name" type="text" class="form-control" v-cloak disabled>
+                    <span class="label label-default">frame_specification_flag</span>
+                    <input type="checkbox" v-model="input_file.frame_specification_flag" class=".form-check-input" v-cloak>
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>start_time</th>
+                                <th>trim_duration</th>
+                                <th>start_frame</th>
+                                <th>frame_number</th>
+                            </tr>
+                        </thead>
+                        <tbody v-cloak>
+                            <tr>
+                                <th><input v-model="input_file.start_time" type="text" class="form-control" :disabled='input_file.frame_specification_flag'></th>
+                                <th><input v-model="input_file.trim_duration" type="text" class="form-control" :disabled='input_file.frame_specification_flag'></th>
+                                <th><input v-model="input_file.start_frame" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
+                                <th><input v-model="input_file.frame_number" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>video_fade_in</th>
+                                <th>video_fade_out</th>
+                                <th>audio_fade_in</th>
+                                <th>audio_fade_out</th>
+                            </tr>
+                        </thead>
+                        <tbody v-cloak>
+                            <tr>
+                                <th><input v-model="input_file.video_fade_in_duration" type="text" class="form-control"></th>
+                                <th><input v-model="input_file.video_fade_out_duration" type="text" class="form-control"></th>
+                                <th><input v-model="input_file.audio_fade_in_duration" type="text" class="form-control"></th>
+                                <th><input v-model="input_file.audio_fade_out_duration" type="text" class="form-control"></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span class="label label-default">output_file_name</span>
+                    <input v-model="output_file.output_file_name" type="text" class="form-control" v-cloak>
+                </div>
+                <button class="btn btn-primary" v-on:click="convert()">トリム・マージ実行</button class="btn btn-primary">
+            </div>
         </div>
-        <div class="tab-pane fade" id="frame_segmentation" role="tabpanel" aria-labelledby="frame_segmentation-tab">
+    </div>
+    <div class="tab-pane fade" id="frame_segmentation" role="tabpanel" aria-labelledby="frame_segmentation-tab">
             <div>フレーム分割処理</div>
         </div>
     </div>
@@ -130,6 +177,7 @@
     <!-- Vue定義 -->
     <script src="input_info.js"></script>
     <script src="stream_info.js"></script>
+    <script src="trim_marge_info.js"></script>
 
     <script src="./common/popper.js-1.16.0/dist/umd/popper.min.js"></script>
     <script src="./common/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
