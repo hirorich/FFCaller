@@ -19,8 +19,8 @@ var frame_segmentation_info=new Vue({
     },
     methods:{
         convert: function(){
-            reqest={input_file_bean:this.input_file, output_file_bean:this.output_file};
-            alert('frame_segmentation_info');
+            request={input_file_bean:this.input_file, output_file_bean:this.output_file};
+            eel.segment(request);
         }, init: function(){
             this.input_file.input_file_name=stream_info.format.filename;
             this.input_file.start_time=0;
@@ -36,3 +36,12 @@ var frame_segmentation_info=new Vue({
         }
     }
 });
+
+// マージ・トリム結果取得
+eel.expose(response_segment)
+function response_segment(segment_info) {
+
+    // 出力ファイル名
+    output_file_name=segment_info['output_file_name'];
+    alert(output_file_name)
+}
