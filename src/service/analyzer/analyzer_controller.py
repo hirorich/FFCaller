@@ -3,12 +3,8 @@
 # ==================================================
 
 from service.analyzer import analyze_command_creater
-from service.analyzer.bean.analyzer_response_bean import AnalyzerResponseBean
-from service.analyzer.bean.analyzer_response_bean import AnalyzerVideoStreamBean
-from service.analyzer.bean.analyzer_response_bean import AnalyzerAudioStreamBean
-from service.analyzer.bean.analyzer_response_bean import AnalyzerFormatBean
-from service.common import command_runner
-from service.common import json_utils
+from service.analyzer.bean.response_bean import AnalyzerResponseBean, AnalyzerVideoStreamBean, AnalyzerAudioStreamBean, AnalyzerFormatBean
+from service.common import command_runner, json_utils
 
 # 解析実行
 def analize(request_bean):
@@ -24,7 +20,6 @@ def analize(request_bean):
     
     # 動画解析レスポンスBeanへセット
     return create_response_bean(decodeed_video_info)
-    
 
 # 解析結果から動画解析レスポンスBeanを作成
 def create_response_bean(decodeed_video_info):
@@ -57,7 +52,6 @@ def create_response_bean(decodeed_video_info):
     
     # 動画解析レスポンスBeanを返却
     return response_bean
-    
 
 # 解析結果から動画解析ビデオストリームBeanを作成
 def create_video_stream_bean(decodeed_stream_info):
@@ -75,7 +69,6 @@ def create_video_stream_bean(decodeed_stream_info):
     video_stream_bean.set_nb_frames(decodeed_stream_info['nb_frames'])
     
     return video_stream_bean
-    
 
 # 解析結果から動画解析オーディオストリームBeanを作成
 def create_audio_stream_bean(decodeed_stream_info):
@@ -90,7 +83,6 @@ def create_audio_stream_bean(decodeed_stream_info):
     audio_stream_bean.set_sample_rate(decodeed_stream_info['sample_rate'])
     
     return audio_stream_bean
-    
 
 # 解析結果から動画解析フォーマットBeanを作成
 def create_format_bean(decodeed_stream_info):
@@ -102,5 +94,4 @@ def create_format_bean(decodeed_stream_info):
     format_bean.set_size(decodeed_stream_info['size'])
     
     return format_bean
-    
 

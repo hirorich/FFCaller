@@ -5,7 +5,7 @@
 # ==================================================
 # フレーム分割リクエストBean
 # ==================================================
-class RequestBean:
+class SegmenterRequestBean:
     
     def __init__(self):
         self.__input_file_bean_list = []
@@ -27,7 +27,7 @@ class RequestBean:
 # ==================================================
 # フレーム分割入力ファイルBean
 # ==================================================
-class InputFileBean:
+class SegmenterInputFileBean:
     
     def __init__(self):
         self.__input_file_name = ''
@@ -76,7 +76,7 @@ class InputFileBean:
 # ==================================================
 # フレーム分割出力ファイルBean
 # ==================================================
-class OutputFileBean:
+class SegmenterOutputFileBean:
     
     def __init__(self):
         self.__overwriting_flag = True

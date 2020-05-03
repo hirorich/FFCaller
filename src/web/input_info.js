@@ -6,8 +6,8 @@ var input_info=new Vue({
     },
     methods:{
         analyze: function(){
-            filename=this.filename;
-            eel.analyze(filename);
+            request={input_file_name:this.filename};
+            eel.analyze(request);
         }
     }
 });

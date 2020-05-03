@@ -4,16 +4,14 @@
 
 from service.analyzer import request_bean_parser
 from service.analyzer import analyzer_controller
-from service.analyzer.bean.analyzer_request_bean import AnalyzerRequestBean
 
 # 動画解析処理実行
-def exec(filename):
+def exec(request_dict):
     
     print('analyzer')
     
     # 動画解析リクエストBeanへセット
-    service_request_bean = AnalyzerRequestBean()
-    service_request_bean.set_input_file_name(filename)
+    service_request_bean= request_bean_parser.parse_to_request_bean(request_dict)
     
     # ffprobeを用いて動画情報取得
     service_response_bean = analyzer_controller.analize(service_request_bean)

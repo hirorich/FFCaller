@@ -5,7 +5,7 @@
 # ==================================================
 # 動画変換レスポンスBean
 # ==================================================
-class ResponseBean:
+class MargerResponseBean:
     
     def __init__(self):
         self.__output_file_name = ''

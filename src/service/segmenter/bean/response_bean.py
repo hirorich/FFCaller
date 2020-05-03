@@ -5,7 +5,7 @@
 # ==================================================
 # フレーム分割レスポンスBean
 # ==================================================
-class ResponseBean:
+class SegmenterResponseBean:
     
     def __init__(self):
         self.__output_file_name = ''

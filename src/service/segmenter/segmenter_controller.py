@@ -3,7 +3,7 @@
 # ==================================================
 
 from service.segmenter import segmente_command_creater
-from service.segmenter.bean.response_bean import ResponseBean
+from service.segmenter.bean.response_bean import SegmenterResponseBean
 from service.common import command_runner, json_utils
 
 # フレーム分割実行
@@ -16,7 +16,7 @@ def segment(request_bean):
     proc_stdout = command_runner.run(command, True)
     
     # フレーム分割レスポンスBeanへセット
-    response_bean = ResponseBean()
+    response_bean = SegmenterResponseBean()
     response_bean.set_output_file_name(request_bean.get_output_file_bean().get_output_file_name())
     return response_bean
 

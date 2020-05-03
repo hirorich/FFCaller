@@ -49,7 +49,6 @@ class AnalyzerResponseBean:
             bean_dict['format'] = self.__format_bean.parse_to_dict()
         
         return bean_dict
-    
 
 # ==================================================
 # 動画解析ビデオストリームBean
@@ -144,7 +143,6 @@ class AnalyzerVideoStreamBean:
         bean_dict['nb_frames'] = self.__nb_frames
         
         return bean_dict
-    
 
 # ==================================================
 # 動画解析オーディオストリームBean
@@ -215,7 +213,6 @@ class AnalyzerAudioStreamBean:
         bean_dict['sample_rate'] = self.__sample_rate
         
         return bean_dict
-        
 
 # ==================================================
 # 動画解析フォーマットBean
@@ -262,5 +259,4 @@ class AnalyzerFormatBean:
         bean_dict['size'] = self.__size
         
         return bean_dict
-        
 

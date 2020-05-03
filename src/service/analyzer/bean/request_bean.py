@@ -16,5 +16,4 @@ class AnalyzerRequestBean:
         return self.__input_file_name
     def set_input_file_name(self, input_file_name):
         self.__input_file_name = input_file_name
-    
 

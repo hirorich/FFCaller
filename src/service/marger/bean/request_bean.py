@@ -5,7 +5,7 @@
 # ==================================================
 # 動画変換リクエストBean
 # ==================================================
-class RequestBean:
+class MargerRequestBean:
     
     def __init__(self):
         self.__input_file_bean_list = []
@@ -27,7 +27,7 @@ class RequestBean:
 # ==================================================
 # 動画変換入力ファイルBean
 # ==================================================
-class InputFileBean:
+class MargerInputFileBean:
     
     def __init__(self):
         self.__input_file_name = ''
@@ -106,7 +106,7 @@ class InputFileBean:
 # ==================================================
 # 動画変換出力ファイルBean
 # ==================================================
-class OutputFileBean:
+class MargerOutputFileBean:
     
     def __init__(self):
         self.__overwriting_flag = True

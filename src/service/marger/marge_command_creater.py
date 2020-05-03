@@ -4,7 +4,7 @@
 
 import os
 from service.analyzer import analyzer_controller
-from service.analyzer.bean.analyzer_request_bean import AnalyzerRequestBean
+from service.analyzer.bean.request_bean import AnalyzerRequestBean
 from service.marger.bean.command_bean import CommandInputBean
 from service.common import file_utils, fps_utils
 from service.common.type import number_utils, str_utils
