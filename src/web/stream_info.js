@@ -79,4 +79,7 @@ function response_analyzer(analyze_info) {
         size:format_info['size']
     }
     stream_info.format=format
+
+    // マージ・トリム情報初期化
+    trim_marge_info.init()
 }
