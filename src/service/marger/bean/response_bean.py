@@ -5,7 +5,7 @@
 # ==================================================
 # 動画変換レスポンスBean
 # ==================================================
-class ConverterResponseBean:
+class ResponseBean:
     
     def __init__(self):
         self.__output_file_name = ''
@@ -23,5 +23,4 @@ class ConverterResponseBean:
         bean_dict['output_file_name'] = self.__output_file_name
         
         return bean_dict
-    
 

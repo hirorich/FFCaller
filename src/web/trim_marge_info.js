@@ -17,7 +17,6 @@ var trim_marge_info=new Vue({
             audio_fade_out_duration:0
         },
         output_file:{
-            convert_mode:1,
             overwriting_flag:true,
             output_file_name:'',
             codec_type_combination:1
@@ -47,7 +46,6 @@ var trim_marge_info=new Vue({
             this.input_file.audio_fade_in_duration=0;
             this.input_file.audio_fade_out_duration=0;
             
-            this.output_file.convert_mode=1;
             this.output_file.overwriting_flag=true;
             this.output_file.output_file_name=converted_filename(stream_info.format.filename);
             this.output_file.codec_type_combination=1;

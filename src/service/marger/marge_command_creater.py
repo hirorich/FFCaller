@@ -5,11 +5,9 @@
 import os
 from service.analyzer import analyzer_controller
 from service.analyzer.bean.analyzer_request_bean import AnalyzerRequestBean
-from service.converter.bean.command_bean import CommandInputBean
-from service.common import file_utils
-from service.common import fps_utils
-from service.common.type import number_utils
-from service.common.type import str_utils
+from service.marger.bean.command_bean import CommandInputBean
+from service.common import file_utils, fps_utils
+from service.common.type import number_utils, str_utils
 
 # コマンド作成
 def create_command(request_bean):
@@ -254,32 +252,12 @@ def marge_command(input_bean_list, output_file_bean):
     
     # 出力ファイル名指定
     output_file_name = output_file_bean.get_output_file_name()
-    # TRIM
-    if number_utils.is_equal(output_file_bean.get_convert_mode(), 1):
-        
-        # フィルタ指定
-        command.append('-filter_complex')
-        command.append(filter)
-        
-        #IMAGE(フィルタは無視される)
-    elif number_utils.is_equal(output_file_bean.get_convert_mode(), 2):
-        if not (number_utils.is_equal(video_count, 1) and number_utils.is_equal(file_count, 1)):
-            raise Exception('フレーム切り出しは映像あり1ファイルのみ可能')
-        
-        command.append('-f')
-        command.append('image2')
-        command.append('-start_number')
-        command.append(str(input_bean_list[0].get_start_frame()))
-        
-        file_name = os.path.splitext(os.path.basename(output_file_name))[0]
-        file_name += '_%06d.png'
-        dir_name = os.path.dirname(output_file_name)
-        output_file_name = dir_name + '/' + file_name
+    
+    # フィルタ指定
+    command.append('-filter_complex')
+    command.append(filter)
     
     command.append(output_file_name)
     
     return command
-
-
-
 
