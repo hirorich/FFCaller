@@ -5,22 +5,20 @@ import argparse
 import eel
 
 from service.common import log_utils
-from service import multimedia_analyzer
-from service import multimedia_marger
-from service import multimedia_segmenter
+from service import multimedia_analyzer, multimedia_marger, multimedia_segmenter
 
-#javascriptからpythonを呼び出す
+# javascriptから動画解析ツールを呼び出す
 @eel.expose
-def analyze(filename):
+def analyze(request):
     
     try:
-        analyze_info = multimedia_analyzer.exec_local(filename)
+        analyze_info = multimedia_analyzer.exec(request)
         eel.response_analyzer(analyze_info)
     except Exception as e:
         log_utils.write_log(e)
         eel.get_server_error_msg('ローカルサーバでエラーが発生しました')
 
-#javascriptからpythonを呼び出す
+# javascriptから動画変換ツールを呼び出す
 @eel.expose
 def marge_trim(request):
     
@@ -31,7 +29,7 @@ def marge_trim(request):
         log_utils.write_log(e)
         eel.get_server_error_msg('ローカルサーバでエラーが発生しました')
 
-#javascriptからpythonを呼び出す
+# javascriptからフレーム分割ツールを呼び出す
 @eel.expose
 def segment(request):
     
