@@ -18,7 +18,7 @@ def convert(request_bean):
     
     # 動画変換レスポンスBeanへセット
     response_bean = ConverterResponseBean()
-    response_bean.set_output_file_name('output.mp4')
+    response_bean.set_output_file_name(request_bean.get_output_file_bean().get_output_file_name())
     return response_bean
     
 

@@ -3,6 +3,7 @@ import eel
 
 from service.common import log_utils
 from service import multimedia_analyzer
+from service import multimedia_converter
 
 #javascriptからpythonを呼び出す
 @eel.expose
@@ -11,6 +12,17 @@ def analyze(filename):
     try:
         analyze_info = multimedia_analyzer.exec_local(filename)
         eel.response_analyzer(analyze_info)
+    except Exception as e:
+        log_utils.write_log(e)
+        eel.get_server_error_msg('ローカルサーバでエラーが発生しました')
+
+#javascriptからpythonを呼び出す
+@eel.expose
+def marge_trim(request):
+    
+    try:
+        convert_info = multimedia_converter.exec(request)
+        eel.response_marge_trim(convert_info)
     except Exception as e:
         log_utils.write_log(e)
         eel.get_server_error_msg('ローカルサーバでエラーが発生しました')

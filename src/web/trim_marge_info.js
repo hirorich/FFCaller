@@ -30,8 +30,8 @@ var trim_marge_info=new Vue({
             } else {
                 this.input_file_list.splice(this.input_file_list.length - 1, 0, this.input_file);
             }
-            reqest={input_file_bean:this.input_file_list, output_file_bean:this.output_file};
-            alert(this.input_file_list.length);
+            request={input_file_bean:this.input_file_list, output_file_bean:this.output_file};
+            eel.marge_trim(request);
         }, init: function(){
             this.input_file_index=0;
             this.input_file_list=[];
@@ -64,9 +64,10 @@ function converted_filename(filename) {
 }
 
 // マージ・トリム結果取得
-eel.expose(response_convert)
-function response_convert(convert_info) {
+eel.expose(response_marge_trim)
+function response_marge_trim(convert_info) {
 
     // 出力ファイル名
     output_file_name=convert_info['output_file_name'];
+    alert(output_file_name)
 }

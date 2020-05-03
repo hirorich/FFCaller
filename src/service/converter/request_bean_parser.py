@@ -2,25 +2,20 @@
 # json文字列から動画変換リクエストBeanの解析
 # ==================================================
 
-from service.common import json_utils
-from service.common.bean.request_bean import RequestBean
 from service.converter.bean.converter_request_bean import ConverterInputFileBean
 from service.converter.bean.converter_request_bean import ConverterOutputFileBean
 from service.converter.bean.converter_request_bean import ConverterRequestBean
 
 # リクエストjson文字列を解析してリクエストBeanを返却
-def parse_to_request_bean(request_json_string):
-    
-    # json形式の文字列をdict型に変換
-    bean_dict= json_utils.decode(request_json_string)
+def parse_to_request_bean(request_dict):
     
     # 動画変換入力ファイルBean に格納
     input_bean_list = []
-    for input_dict in bean_dict['service_request']['input_file_bean']:
+    for input_dict in request_dict['input_file_bean']:
         input_bean_list.append(parse_to_input_bean(input_dict))
     
     # 動画変換出力ファイルBean に格納
-    output_dict = bean_dict['service_request']['output_file_bean']
+    output_dict = request_dict['output_file_bean']
     output_bean = parse_to_output_bean(output_dict)
     
     # 動画変換リクエストBean に格納
@@ -28,12 +23,8 @@ def parse_to_request_bean(request_json_string):
     converter_request_bean.set_input_file_bean_list(input_bean_list)
     converter_request_bean.set_output_file_bean(output_bean)
     
-    # リクエストBean に格納
-    request_bean = RequestBean()
-    request_bean.set_service_request_bean(converter_request_bean)
-    
-    # リクエストBean を返却
-    return request_bean
+    # 動画変換リクエストBean を返却
+    return converter_request_bean
     
 
 # 動画変換入力ファイルBeanを返却
@@ -41,15 +32,15 @@ def parse_to_input_bean(input_file_dict):
     
     input_file_bean = ConverterInputFileBean()
     input_file_bean.set_input_file_name(input_file_dict['input_file_name'])
-    input_file_bean.set_start_time(input_file_dict['start_time'])
-    input_file_bean.set_trim_duration(input_file_dict['trim_duration'])
-    input_file_bean.set_start_frame(input_file_dict['start_frame'])
-    input_file_bean.set_frame_number(input_file_dict['frame_number'])
+    input_file_bean.set_start_time(float(input_file_dict['start_time']))
+    input_file_bean.set_trim_duration(float(input_file_dict['trim_duration']))
+    input_file_bean.set_start_frame(float(input_file_dict['start_frame']))
+    input_file_bean.set_frame_number(float(input_file_dict['frame_number']))
     input_file_bean.set_frame_specification_flag(input_file_dict['frame_specification_flag'])
-    input_file_bean.set_video_fade_in_duration(input_file_dict['video_fade_in_duration'])
-    input_file_bean.set_video_fade_out_duration(input_file_dict['video_fade_out_duration'])
-    input_file_bean.set_audio_fade_in_duration(input_file_dict['audio_fade_in_duration'])
-    input_file_bean.set_audio_fade_out_duration(input_file_dict['audio_fade_out_duration'])
+    input_file_bean.set_video_fade_in_duration(float(input_file_dict['video_fade_in_duration']))
+    input_file_bean.set_video_fade_out_duration(float(input_file_dict['video_fade_out_duration']))
+    input_file_bean.set_audio_fade_in_duration(float(input_file_dict['audio_fade_in_duration']))
+    input_file_bean.set_audio_fade_out_duration(float(input_file_dict['audio_fade_out_duration']))
     
     return input_file_bean
     
