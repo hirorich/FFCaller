@@ -1,23 +1,40 @@
 # 起動引数使用のため
 import argparse
 
-#
-from service.common import file_utils
+# eelのインポート
+import eel
 
-# ファイル情報の取得
+from service.common import log_utils
 from service import multimedia_analyzer
 from service import multimedia_converter
+
+#javascriptからpythonを呼び出す
+@eel.expose
+def analyze(filename):
+    
+    try:
+        analyze_info = multimedia_analyzer.exec_local(filename)
+        eel.response_analyzer(analyze_info)
+    except Exception as e:
+        log_utils.write_log(e)
+        eel.get_server_error_msg('ローカルサーバでエラーが発生しました')
+
+#javascriptからpythonを呼び出す
+@eel.expose
+def marge_trim(request):
+    
+    try:
+        convert_info = multimedia_converter.exec(request)
+        eel.response_marge_trim(convert_info)
+    except Exception as e:
+        log_utils.write_log(e)
+        eel.get_server_error_msg('ローカルサーバでエラーが発生しました')
 
 # main
 if __name__ == "__main__":
     
-    # 動画解析処理実行
-    # result = multimedia_analyzer.exec('{"service_request":{"input_file_name":"../../input2.mp4"}}')
-    # print(result)
+    # ウェブコンテンツを持つフォルダー
+    eel.init('web')
     
-    # 動画変換処理実行
-    read_line = file_utils.read_file_one_line('./input_json/param_trim.json')
-    # read_line = file_utils.read_file_one_line('./input_json/param_image.json')
-    result = multimedia_converter.exec(read_line)
-    print(result)
-
+    # 最初に表示するhtmlページ
+    eel.start('index.html', mode='chrome', host='localhost', position=(400, 100), port=9090, size=(800, 600))
