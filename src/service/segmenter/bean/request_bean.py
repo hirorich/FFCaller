@@ -55,7 +55,7 @@ class SegmenterInputFileBean:
         return self.__start_time
     @start_time.setter
     def start_time(self, start_time):
-        self.__start_time = start_time
+        self.__start_time = float(start_time)
     
     # 切り取り期間
     @property
@@ -63,7 +63,7 @@ class SegmenterInputFileBean:
         return self.__trim_duration
     @trim_duration.setter
     def trim_duration(self, trim_duration):
-        self.__trim_duration = trim_duration
+        self.__trim_duration = float(trim_duration)
     
     # 開始フレーム
     @property
@@ -71,7 +71,7 @@ class SegmenterInputFileBean:
         return self.__start_frame
     @start_frame.setter
     def start_frame(self, start_frame):
-        self.__start_frame = start_frame
+        self.__start_frame = int(start_frame)
     
     # 終了フレーム
     @property
@@ -79,7 +79,7 @@ class SegmenterInputFileBean:
         return self.__end_frame
     @end_frame.setter
     def end_frame(self, end_frame):
-        self.__end_frame = end_frame
+        self.__end_frame = int(end_frame)
     
     # フレーム指定フラグ
     @property

@@ -61,7 +61,7 @@ class MargerInputFileBean:
         return self.__start_time
     @start_time.setter
     def start_time(self, start_time):
-        self.__start_time = start_time
+        self.__start_time = float(start_time)
     
     # 切り取り期間
     @property
@@ -69,7 +69,7 @@ class MargerInputFileBean:
         return self.__trim_duration
     @trim_duration.setter
     def trim_duration(self, trim_duration):
-        self.__trim_duration = trim_duration
+        self.__trim_duration = float(trim_duration)
     
     # 開始フレーム
     @property
@@ -77,7 +77,7 @@ class MargerInputFileBean:
         return self.__start_frame
     @start_frame.setter
     def start_frame(self, start_frame):
-        self.__start_frame = start_frame
+        self.__start_frame = int(start_frame)
     
     # 終了フレーム
     @property
@@ -85,7 +85,7 @@ class MargerInputFileBean:
         return self.__end_frame
     @end_frame.setter
     def end_frame(self, end_frame):
-        self.__end_frame = end_frame
+        self.__end_frame = int(end_frame)
     
     # フレーム指定フラグ
     @property
@@ -101,7 +101,7 @@ class MargerInputFileBean:
         return self.__video_fade_in_duration
     @video_fade_in_duration.setter
     def video_fade_in_duration(self, video_fade_in_duration):
-        self.__video_fade_in_duration = video_fade_in_duration
+        self.__video_fade_in_duration = float(video_fade_in_duration)
     
     # 映像フェードアウト期間
     @property
@@ -109,7 +109,7 @@ class MargerInputFileBean:
         return self.__video_fade_out_duration
     @video_fade_out_duration.setter
     def video_fade_out_duration(self, video_fade_out_duration):
-        self.__video_fade_out_duration = video_fade_out_duration
+        self.__video_fade_out_duration = float(video_fade_out_duration)
     
     # 音声フェードイン期間
     @property
@@ -117,7 +117,7 @@ class MargerInputFileBean:
         return self.__audio_fade_in_duration
     @audio_fade_in_duration.setter
     def audio_fade_in_duration(self, audio_fade_in_duration):
-        self.__audio_fade_in_duration = audio_fade_in_duration
+        self.__audio_fade_in_duration = float(audio_fade_in_duration)
     
     # 音声フェードアウト期間
     @property
@@ -125,7 +125,7 @@ class MargerInputFileBean:
         return self.__audio_fade_out_duration
     @audio_fade_out_duration.setter
     def audio_fade_out_duration(self, audio_fade_out_duration):
-        self.__audio_fade_out_duration = audio_fade_out_duration
+        self.__audio_fade_out_duration = float(audio_fade_out_duration)
 
 # ==================================================
 # 動画変換出力ファイルBean

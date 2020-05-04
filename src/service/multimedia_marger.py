@@ -16,9 +16,6 @@ def exec(request_dict):
     # ffmpegを用いて動画変換
     service_response_bean = marger_controller.marge(service_request_bean)
     
-    # レスポンスBeanをレスポンスjson文字列に変換
-    response_json_string = service_response_bean.parse_to_dict()
-    
-    # レスポンスjson文字列を返却
-    return response_json_string
+    # 動画変換情報を辞書型に変換し返却
+    return service_response_bean.parse_to_dict()
 

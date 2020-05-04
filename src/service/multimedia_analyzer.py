@@ -16,6 +16,6 @@ def exec(request_dict):
     # ffprobeを用いて動画情報取得
     service_response_bean = analyzer_controller.analize(service_request_bean)
     
-    # レスポンスBeanへセット
+    # 動画情報を辞書型に変換し返却
     return service_response_bean.parse_to_dict()
 

@@ -28,10 +28,10 @@ def parse_to_input_bean(input_file_dict):
     
     input_file_bean = SegmenterInputFileBean()
     input_file_bean.input_file_name = input_file_dict['input_file_name']
-    input_file_bean.start_time = float(input_file_dict['start_time'])
-    input_file_bean.trim_duration = float(input_file_dict['trim_duration'])
-    input_file_bean.start_frame = int(input_file_dict['start_frame'])
-    input_file_bean.end_frame = int(input_file_dict['end_frame'])
+    input_file_bean.start_time = input_file_dict['start_time']
+    input_file_bean.trim_duration = input_file_dict['trim_duration']
+    input_file_bean.start_frame = input_file_dict['start_frame']
+    input_file_bean.end_frame = input_file_dict['end_frame']
     input_file_bean.frame_specification_flag = input_file_dict['frame_specification_flag']
     
     return input_file_bean

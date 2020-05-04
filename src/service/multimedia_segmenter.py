@@ -16,9 +16,6 @@ def exec(request_dict):
     # ffmpegを用いてフレーム分割
     service_response_bean = segmenter_controller.segment(service_request_bean)
     
-    # レスポンスBeanをレスポンスjson文字列に変換
-    response_json_string = service_response_bean.parse_to_dict()
-    
-    # レスポンスjson文字列を返却
-    return response_json_string
+    # フレーム分割情報を辞書型に変換し返却
+    return service_response_bean.parse_to_dict()
 
