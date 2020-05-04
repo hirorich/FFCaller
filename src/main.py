@@ -1,5 +1,5 @@
-# 起動引数使用のため
 import argparse
+import pathlib
 
 # eelのインポート
 import eel
@@ -43,7 +43,10 @@ def segment(request):
 # main
 if __name__ == "__main__":
     
-    # ウェブコンテンツを持つフォルダー
+    # 
+    pathlib.Path('./_output/frame').mkdir(parents=True, exist_ok=True)
+    
+    # ウェブコンテンツを持つフォルダ
     eel.init('web')
     
     # 最初に表示するhtmlページ

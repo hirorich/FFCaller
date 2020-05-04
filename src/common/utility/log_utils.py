@@ -16,7 +16,7 @@ def write_log(message):
             __write_business_error(message)
         return
     
-    path='./test.log'
+    path='./server.log'
     with open(path, mode='a', encoding='utf-8') as f:
         f.write(message)
 
