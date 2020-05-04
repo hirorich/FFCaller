@@ -47,18 +47,20 @@ var trim_marge_info=new Vue({
             this.input_file.audio_fade_out_duration=0;
             
             this.output_file.overwriting_flag=true;
-            this.output_file.output_file_name=converted_filename(stream_info.format.filename);
+            this.output_file.output_file_name=converted_file_name(stream_info.format.filename);
             this.output_file.codec_type_combination=1;
         }
     }
 });
 
 // 変換後ファイル名(デフォルト)取得
-function converted_filename(filename) {
-    pathlist=filename.split(".");
-    filename=pathlist[pathlist.length - 2] + '_converted';
-    pathlist[pathlist.length - 2]=filename;
-    return pathlist.join(".");
+function converted_file_name(filename) {
+    pathlist=filename.split("/");
+    filelist=pathlist[pathlist.length - 1].split(".");
+    filelist[filelist.length - 2]=filelist[filelist.length - 2] + '_converted';
+    pathlist[pathlist.length - 1]=filelist.join(".");
+    //return pathlist.join("/");
+    return './_output/' + filelist.join(".");
 }
 
 // マージ・トリム結果取得

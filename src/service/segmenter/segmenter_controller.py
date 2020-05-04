@@ -17,6 +17,6 @@ def segment(request_bean):
     
     # フレーム分割レスポンスBeanへセット
     response_bean = SegmenterResponseBean()
-    response_bean.output_file_name = request_bean.output_file_bean.output_file_name
+    response_bean.output_directry_name = request_bean.output_file_bean.output_directry_name
     return response_bean
 

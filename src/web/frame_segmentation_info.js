@@ -13,7 +13,7 @@ var frame_segmentation_info=new Vue({
         output_file:{
             convert_mode:2,
             overwriting_flag:true,
-            output_file_name:'',
+            output_directry_name:'',
             codec_type_combination:1
         }
     },
@@ -31,17 +31,22 @@ var frame_segmentation_info=new Vue({
             
             this.output_file.convert_mode=1;
             this.output_file.overwriting_flag=true;
-            this.output_file.output_file_name=stream_info.format.filename;
+            this.output_file.output_directry_name=converted_directry_name(stream_info.format.filename);
             this.output_file.codec_type_combination=1;
         }
     }
 });
+
+// 変換後フォルダ名(デフォルト)取得
+function converted_directry_name(filename) {
+    return './_output/frame/'
+}
 
 // マージ・トリム結果取得
 eel.expose(response_segment)
 function response_segment(segment_info) {
 
     // 出力ファイル名
-    output_file_name=segment_info['output_file_name'];
-    alert(output_file_name)
+    output_directry_name=segment_info['output_directry_name'];
+    alert(output_directry_name)
 }

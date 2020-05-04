@@ -45,10 +45,9 @@ def marge_command(input_bean, output_file_bean):
     command.append(str(input_bean.start_frame))
     
     # 出力ファイル名指定
-    output_file_name = output_file_bean.output_file_name
-    file_name = os.path.splitext(os.path.basename(output_file_name))[0]
-    file_name += '_%06d.png'
-    dir_name = os.path.dirname(output_file_name)
+    output_directry_name = output_file_bean.output_directry_name
+    dir_name = os.path.dirname(output_directry_name)
+    file_name = '%06d.png'
     output_file_name = dir_name + '/' + file_name
     command.append(output_file_name)
     

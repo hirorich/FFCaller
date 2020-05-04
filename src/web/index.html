@@ -163,7 +163,7 @@
                         </tbody>
                     </table>
                     <span class="label label-default">output_file_name</span>
-                    <input v-model="output_file.output_file_name" type="text" class="form-control" v-cloak>
+                    <input v-model="output_file.output_file_name" type="text" class="form-control" disabled v-cloak>
                 </div>
                 <button class="btn btn-primary" v-on:click="convert()">トリム・マージ実行</button class="btn btn-primary">
             </div>
@@ -193,8 +193,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <span class="label label-default">output_file_name</span>
-                    <input v-model="output_file.output_file_name" type="text" class="form-control" v-cloak>
+                    <span class="label label-default">output_directry_name</span>
+                    <input v-model="output_file.output_directry_name" type="text" class="form-control" disabled v-cloak>
                 </div>
                 <button class="btn btn-primary" v-on:click="convert()">フレーム分割実行</button class="btn btn-primary">
             </div>

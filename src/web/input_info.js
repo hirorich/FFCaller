@@ -6,7 +6,7 @@ var input_info=new Vue({
     },
     methods:{
         analyze: function(){
-            request={input_file_name:this.filename};
+            request={input_file_name:this.filename.split("\\").join("/")};
             eel.analyze(request);
         }
     }

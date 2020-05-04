@@ -41,7 +41,7 @@ def parse_to_output_bean(output_file_dict):
     
     output_file_bean = SegmenterOutputFileBean()
     output_file_bean.overwriting_flag = output_file_dict['overwriting_flag']
-    output_file_bean.output_file_name = output_file_dict['output_file_name']
+    output_file_bean.output_directry_name = output_file_dict['output_directry_name']
     
     return output_file_bean
 
