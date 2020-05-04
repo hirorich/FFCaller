@@ -12,8 +12,10 @@ class AnalyzerRequestBean:
         
     
     # 入力ファイル名
-    def get_input_file_name(self):
+    @property
+    def input_file_name(self):
         return self.__input_file_name
-    def set_input_file_name(self, input_file_name):
+    @input_file_name.setter
+    def input_file_name(self, input_file_name):
         self.__input_file_name = input_file_name
 

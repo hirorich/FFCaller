@@ -18,6 +18,6 @@ def marge(request_bean):
     
     # 動画変換レスポンスBeanへセット
     response_bean = MargerResponseBean()
-    response_bean.set_output_file_name(request_bean.get_output_file_bean().get_output_file_name())
+    response_bean.output_file_name = request_bean.output_file_bean.output_file_name
     return response_bean
 

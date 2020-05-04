@@ -10,7 +10,7 @@ def create_command(request_bean):
     
     # === 入力チェック ===
     # 入力ファイル名が空白
-    input = request_bean.get_input_file_name()
+    input = request_bean.input_file_name
     if str_utils.is_none_or_whitespace(input):
         raise Exception('input_file is not specified')
     

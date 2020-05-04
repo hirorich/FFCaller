@@ -12,9 +12,11 @@ class MargerResponseBean:
         
     
     # 出力ファイル名
-    def get_output_file_name(self):
+    @property
+    def output_file_name(self):
         return self.__output_file_name
-    def set_output_file_name(self, output_file_name):
+    @output_file_name.setter
+    def output_file_name(self, output_file_name):
         self.__output_file_name = output_file_name
     
     # 辞書型に変換

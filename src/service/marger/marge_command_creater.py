@@ -9,7 +9,7 @@ from common.utility.type import number_utils, str_utils
 # コマンド作成
 def create_command(request_bean):
     
-    input_file_bean_list = request_bean.get_input_file_bean_list()
+    input_file_bean_list = request_bean.input_file_bean_list
     input_bean_list = []
     for i in range(len(input_file_bean_list)):
         input_file_bean = input_file_bean_list[i]
@@ -17,7 +17,7 @@ def create_command(request_bean):
         input_bean = create_input_bean(input_file_bean, i)
         input_bean_list.append(input_bean)
     
-    output_file_bean = request_bean.get_output_file_bean()
+    output_file_bean = request_bean.output_file_bean
     
     command = marge_command(input_bean_list, output_file_bean)
     print(command)
@@ -31,11 +31,11 @@ def create_input_bean(input_file_bean, file_index):
     command_input_bean = command_input_tuple[0]
     analyzer_response_bean = command_input_tuple[1]
     
-    input_file_name = command_input_bean.get_input_file_name()
-    trim_duration = command_input_bean.get_trim_duration()
-    format_bean = analyzer_response_bean.get_format_bean()
-    video_stream_bean = analyzer_response_bean.get_video_stream_bean()
-    audio_stream_bean_list = analyzer_response_bean.get_audio_stream_bean_list()
+    input_file_name = command_input_bean.input_file_name
+    trim_duration = command_input_bean.trim_duration
+    format_bean = analyzer_response_bean.format_bean
+    video_stream_bean = analyzer_response_bean.video_stream_bean
+    audio_stream_bean_list = analyzer_response_bean.audio_stream_bean_list
     
     
     
@@ -45,11 +45,11 @@ def create_input_bean(input_file_bean, file_index):
     # 映像フィルター設定
     if video_stream_bean is not None:
         filtered_count = 0
-        stream_index = video_stream_bean.get_index()
+        stream_index = video_stream_bean.index
         filtered_id = '[' + str(file_index) + ':' + str(stream_index) + ']'
         
         # 映像フェードイン
-        fade_in_duration = input_file_bean.get_video_fade_in_duration()
+        fade_in_duration = input_file_bean.video_fade_in_duration
         if fade_in_duration > 0:
             if number_utils.is_greater(fade_in_duration, trim_duration):
                 raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_in_duration')
@@ -60,7 +60,7 @@ def create_input_bean(input_file_bean, file_index):
             filtered_id = new_filtered_id
         
         # 映像フェードアウト
-        fade_out_duration = input_file_bean.get_video_fade_out_duration()
+        fade_out_duration = input_file_bean.video_fade_out_duration
         if fade_out_duration > 0:
             if number_utils.is_greater(fade_out_duration, trim_duration):
                 raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_out_duration')
@@ -71,7 +71,7 @@ def create_input_bean(input_file_bean, file_index):
             filtered_id = new_filtered_id
         
         # 映像識別子指定
-        command_input_bean.set_filtered_video_id(filtered_id)
+        command_input_bean.filtered_video_id = filtered_id
     
     # 音声フィルター設定
     if audio_stream_bean_list is not None:
@@ -79,11 +79,11 @@ def create_input_bean(input_file_bean, file_index):
             audio_stream_bean = audio_stream_bean_list[0]
             
             filtered_count = 0
-            stream_index = audio_stream_bean.get_index()
+            stream_index = audio_stream_bean.index
             filtered_id = '[' + str(file_index) + ':' + str(stream_index) + ']'
             
             # 音声フェードイン
-            fade_in_duration = input_file_bean.get_audio_fade_in_duration()
+            fade_in_duration = input_file_bean.audio_fade_in_duration
             if fade_in_duration > 0:
                 if number_utils.is_greater(fade_in_duration, trim_duration):
                     raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_in_duration')
@@ -94,7 +94,7 @@ def create_input_bean(input_file_bean, file_index):
                 filtered_id = new_filtered_id
             
             # 音声フェードアウト
-            fade_out_duration = input_file_bean.get_audio_fade_out_duration()
+            fade_out_duration = input_file_bean.audio_fade_out_duration
             if fade_out_duration > 0:
                 if number_utils.is_greater(fade_out_duration, trim_duration):
                     raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_out_duration')
@@ -105,10 +105,10 @@ def create_input_bean(input_file_bean, file_index):
                 filtered_id = new_filtered_id
             
             # 映像識別子指定
-            command_input_bean.set_filtered_audio_id(filtered_id)
+            command_input_bean.filtered_audio_id = filtered_id
     
     # フィルター指定
-    command_input_bean.set_filter_string(filter_string)
+    command_input_bean.filter_string = filter_string
     
     return command_input_bean
 
@@ -126,7 +126,7 @@ def marge_command(input_bean_list, output_file_bean):
     command.append('ffmpeg')
     
     # 上書き可否
-    if output_file_bean.get_overwriting_flag():
+    if output_file_bean.overwriting_flag:
         command.append('-y')
     
     # 入力部分を組み合わせる
@@ -136,19 +136,19 @@ def marge_command(input_bean_list, output_file_bean):
     for input_bean in input_bean_list:
         
         file_count += 1
-        if (number_utils.is_equal(output_file_bean.get_codec_type_combination(), 2)
-            or number_utils.is_equal(output_file_bean.get_codec_type_combination(), 1)):
-            if not str_utils.is_none_or_empty(input_bean.get_filtered_video_id()):
+        if (number_utils.is_equal(output_file_bean.codec_type_combination, 2)
+            or number_utils.is_equal(output_file_bean.codec_type_combination, 1)):
+            if not str_utils.is_none_or_empty(input_bean.filtered_video_id):
                 video_count += 1
-                filter_id += input_bean.get_filtered_video_id()
-        if (number_utils.is_equal(output_file_bean.get_codec_type_combination(), 3)
-            or number_utils.is_equal(output_file_bean.get_codec_type_combination(), 1)):
-            if not str_utils.is_none_or_empty(input_bean.get_filtered_audio_id()):
+                filter_id += input_bean.filtered_video_id
+        if (number_utils.is_equal(output_file_bean.codec_type_combination, 3)
+            or number_utils.is_equal(output_file_bean.codec_type_combination, 1)):
+            if not str_utils.is_none_or_empty(input_bean.filtered_audio_id):
                 audio_count += 1
-                filter_id += input_bean.get_filtered_audio_id()
+                filter_id += input_bean.filtered_audio_id
         
         command.extend(input_bean.create_input_command())
-        filter += input_bean.get_filter_string()
+        filter += input_bean.filter_string
     
     # フィルタ文字列作成
     filter += filter_id + 'concat=n=' + str(file_count)
@@ -168,7 +168,7 @@ def marge_command(input_bean_list, output_file_bean):
         raise Exception('全て音声なし または 全て音声ありのみ結合可能')
     
     # 出力ファイル名指定
-    output_file_name = output_file_bean.get_output_file_name()
+    output_file_name = output_file_bean.output_file_name
     
     # フィルタ指定
     command.append('-filter_complex')

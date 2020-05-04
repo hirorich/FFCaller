@@ -13,15 +13,19 @@ class MargerRequestBean:
         
     
     # 入力ファイルBeanリスト
-    def get_input_file_bean_list(self):
+    @property
+    def input_file_bean_list(self):
         return self.__input_file_bean_list
-    def set_input_file_bean_list(self, input_file_bean_list):
+    @input_file_bean_list.setter
+    def input_file_bean_list(self, input_file_bean_list):
         self.__input_file_bean_list = input_file_bean_list
     
     # 出力ファイルBean
-    def get_output_file_bean(self):
+    @property
+    def output_file_bean(self):
         return self.__output_file_bean
-    def set_output_file_bean(self, output_file_bean):
+    @output_file_bean.setter
+    def output_file_bean(self, output_file_bean):
         self.__output_file_bean = output_file_bean
 
 # ==================================================
@@ -44,63 +48,83 @@ class MargerInputFileBean:
         
     
     # 入力ファイル名
-    def get_input_file_name(self):
+    @property
+    def input_file_name(self):
         return self.__input_file_name
-    def set_input_file_name(self, input_file_name):
+    @input_file_name.setter
+    def input_file_name(self, input_file_name):
         self.__input_file_name = input_file_name
     
     # 開始時間
-    def get_start_time(self):
+    @property
+    def start_time(self):
         return self.__start_time
-    def set_start_time(self, start_time):
+    @start_time.setter
+    def start_time(self, start_time):
         self.__start_time = start_time
     
     # 切り取り期間
-    def get_trim_duration(self):
+    @property
+    def trim_duration(self):
         return self.__trim_duration
-    def set_trim_duration(self, trim_duration):
+    @trim_duration.setter
+    def trim_duration(self, trim_duration):
         self.__trim_duration = trim_duration
     
     # 開始フレーム
-    def get_start_frame(self):
+    @property
+    def start_frame(self):
         return self.__start_frame
-    def set_start_frame(self, start_frame):
+    @start_frame.setter
+    def start_frame(self, start_frame):
         self.__start_frame = start_frame
     
     # 終了フレーム
-    def get_end_frame(self):
+    @property
+    def end_frame(self):
         return self.__end_frame
-    def set_end_frame(self, end_frame):
+    @end_frame.setter
+    def end_frame(self, end_frame):
         self.__end_frame = end_frame
     
     # フレーム指定フラグ
-    def get_frame_specification_flag(self):
+    @property
+    def frame_specification_flag(self):
         return self.__frame_specification_flag
-    def set_frame_specification_flag(self, frame_specification_flag):
+    @frame_specification_flag.setter
+    def frame_specification_flag(self, frame_specification_flag):
         self.__frame_specification_flag = frame_specification_flag
     
     # 映像フェードイン期間
-    def get_video_fade_in_duration(self):
+    @property
+    def video_fade_in_duration(self):
         return self.__video_fade_in_duration
-    def set_video_fade_in_duration(self, video_fade_in_duration):
+    @video_fade_in_duration.setter
+    def video_fade_in_duration(self, video_fade_in_duration):
         self.__video_fade_in_duration = video_fade_in_duration
     
     # 映像フェードアウト期間
-    def get_video_fade_out_duration(self):
+    @property
+    def video_fade_out_duration(self):
         return self.__video_fade_out_duration
-    def set_video_fade_out_duration(self, video_fade_out_duration):
+    @video_fade_out_duration.setter
+    def video_fade_out_duration(self, video_fade_out_duration):
         self.__video_fade_out_duration = video_fade_out_duration
     
     # 音声フェードイン期間
-    def get_audio_fade_in_duration(self):
+    @property
+    def audio_fade_in_duration(self):
         return self.__audio_fade_in_duration
-    def set_audio_fade_in_duration(self, audio_fade_in_duration):
+    @audio_fade_in_duration.setter
+    def audio_fade_in_duration(self, audio_fade_in_duration):
         self.__audio_fade_in_duration = audio_fade_in_duration
     
     # 音声フェードアウト期間
-    def get_audio_fade_out_duration(self):
+    @property
+    def audio_fade_out_duration(self):
         return self.__audio_fade_out_duration
-    def set_audio_fade_out_duration(self, audio_fade_out_duration):
+    @audio_fade_out_duration.setter
+    def audio_fade_out_duration(self, audio_fade_out_duration):
         self.__audio_fade_out_duration = audio_fade_out_duration
 
 # ==================================================
@@ -115,20 +139,26 @@ class MargerOutputFileBean:
         
     
     # 上書きフラグ
-    def get_overwriting_flag(self):
+    @property
+    def overwriting_flag(self):
         return self.__overwriting_flag
-    def set_overwriting_flag(self, overwriting_flag):
+    @overwriting_flag.setter
+    def overwriting_flag(self, overwriting_flag):
         self.__overwriting_flag = overwriting_flag
     
     # 出力ファイル名
-    def get_output_file_name(self):
+    @property
+    def output_file_name(self):
         return self.__output_file_name
-    def set_output_file_name(self, output_file_name):
+    @output_file_name.setter
+    def output_file_name(self, output_file_name):
         self.__output_file_name = output_file_name
     
     # コーデックタイプ組み合わせ
-    def get_codec_type_combination(self):
+    @property
+    def codec_type_combination(self):
         return self.__codec_type_combination
-    def set_codec_type_combination(self, codec_type_combination):
+    @codec_type_combination.setter
+    def codec_type_combination(self, codec_type_combination):
         self.__codec_type_combination = codec_type_combination
 

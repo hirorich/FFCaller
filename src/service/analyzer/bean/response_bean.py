@@ -14,21 +14,27 @@ class AnalyzerResponseBean:
         
     
     # ビデオストリームBean
-    def get_video_stream_bean(self):
+    @property
+    def video_stream_bean(self):
         return self.__video_stream_bean
-    def set_video_stream_bean(self, video_stream_bean):
+    @video_stream_bean.setter
+    def video_stream_bean(self, video_stream_bean):
         self.__video_stream_bean = video_stream_bean
     
     # オーディオストリームBeanリスト
-    def get_audio_stream_bean_list(self):
+    @property
+    def audio_stream_bean_list(self):
         return self.__audio_stream_bean_list
-    def set_audio_stream_bean_list(self, audio_stream_bean_list):
+    @audio_stream_bean_list.setter
+    def audio_stream_bean_list(self, audio_stream_bean_list):
         self.__audio_stream_bean_list = audio_stream_bean_list
     
     # フォーマットBean
-    def get_format_bean(self):
+    @property
+    def format_bean(self):
         return self.__format_bean
-    def set_format_bean(self, format_bean):
+    @format_bean.setter
+    def format_bean(self, format_bean):
         self.__format_bean = format_bean
     
     # 辞書型に変換
@@ -69,63 +75,83 @@ class AnalyzerVideoStreamBean:
         
     
     # インデックス
-    def get_index(self):
+    @property
+    def index(self):
         return self.__index
-    def set_index(self, index):
+    @index.setter
+    def index(self, index):
         self.__index = index
     
     # コーデックタイプ
-    def get_codec_type(self):
+    @property
+    def codec_type(self):
         return self.__codec_type
-    def set_codec_type(self, codec_type):
+    @codec_type.setter
+    def codec_type(self, codec_type):
         self.__codec_type = codec_type
     
     # コーデック名_略称
-    def get_codec_name(self):
+    @property
+    def codec_name(self):
         return self.__codec_name
-    def set_codec_name(self, codec_name):
+    @codec_name.setter
+    def codec_name(self, codec_name):
         self.__codec_name = codec_name
     
     # コーデック名
-    def get_codec_long_name(self):
+    @property
+    def codec_long_name(self):
         return self.__codec_long_name
-    def set_codec_long_name(self, codec_long_name):
+    @codec_long_name.setter
+    def codec_long_name(self, codec_long_name):
         self.__codec_long_name = codec_long_name
     
     # 長さ
-    def get_duration(self):
+    @property
+    def duration(self):
         return self.__duration
-    def set_duration(self, duration):
+    @duration.setter
+    def duration(self, duration):
         self.__duration = duration
     
     # ビットレート
-    def get_bit_rate(self):
+    @property
+    def bit_rate(self):
         return self.__bit_rate
-    def set_bit_rate(self, bit_rate):
+    @bit_rate.setter
+    def bit_rate(self, bit_rate):
         self.__bit_rate = bit_rate
     
     # フレーム幅
-    def get_width(self):
+    @property
+    def width(self):
         return self.__width
-    def set_width(self, width):
+    @width.setter
+    def width(self, width):
         self.__width = width
     
     # フレーム高
-    def get_height(self):
+    @property
+    def height(self):
         return self.__height
-    def set_height(self, height):
+    @height.setter
+    def height(self, height):
         self.__height = height
     
     # fps
-    def get_r_frame_rate(self):
+    @property
+    def r_frame_rate(self):
         return self.__r_frame_rate
-    def set_r_frame_rate(self, r_frame_rate):
+    @r_frame_rate.setter
+    def r_frame_rate(self, r_frame_rate):
         self.__r_frame_rate = r_frame_rate
     
     # 総フレーム数
-    def get_nb_frames(self):
+    @property
+    def nb_frames(self):
         return self.__nb_frames
-    def set_nb_frames(self, nb_frames):
+    @nb_frames.setter
+    def nb_frames(self, nb_frames):
         self.__nb_frames = nb_frames
     
     # 辞書型に変換
@@ -160,45 +186,59 @@ class AnalyzerAudioStreamBean:
         
     
     # インデックス
-    def get_index(self):
+    @property
+    def index(self):
         return self.__index
-    def set_index(self, index):
+    @index.setter
+    def index(self, index):
         self.__index = index
     
     # コーデックタイプ
-    def get_codec_type(self):
+    @property
+    def codec_type(self):
         return self.__codec_type
-    def set_codec_type(self, codec_type):
+    @codec_type.setter
+    def codec_type(self, codec_type):
         self.__codec_type = codec_type
     
     # コーデック名_略称
-    def get_codec_name(self):
+    @property
+    def codec_name(self):
         return self.__codec_name
-    def set_codec_name(self, codec_name):
+    @codec_name.setter
+    def codec_name(self, codec_name):
         self.__codec_name = codec_name
     
     # コーデック名
-    def get_codec_long_name(self):
+    @property
+    def codec_long_name(self):
         return self.__codec_long_name
-    def set_codec_long_name(self, codec_long_name):
+    @codec_long_name.setter
+    def codec_long_name(self, codec_long_name):
         self.__codec_long_name = codec_long_name
     
     # 長さ
-    def get_duration(self):
+    @property
+    def duration(self):
         return self.__duration
-    def set_duration(self, duration):
+    @duration.setter
+    def duration(self, duration):
         self.__duration = duration
     
     # ビットレート
-    def get_bit_rate(self):
+    @property
+    def bit_rate(self):
         return self.__bit_rate
-    def set_bit_rate(self, bit_rate):
+    @bit_rate.setter
+    def bit_rate(self, bit_rate):
         self.__bit_rate = bit_rate
     
     # サンプリング周波数
-    def get_sample_rate(self):
+    @property
+    def sample_rate(self):
         return self.__sample_rate
-    def set_sample_rate(self, sample_rate):
+    @sample_rate.setter
+    def sample_rate(self, sample_rate):
         self.__sample_rate = sample_rate
     
     # 辞書型に変換
@@ -227,27 +267,35 @@ class AnalyzerFormatBean:
         
     
     # ファイル名
-    def get_filename(self):
+    @property
+    def filename(self):
         return self.__filename
-    def set_filename(self, filename):
+    @filename.setter
+    def filename(self, filename):
         self.__filename = filename
     
     # ストリーム数
-    def get_nb_streams(self):
+    @property
+    def nb_streams(self):
         return self.__nb_streams
-    def set_nb_streams(self, nb_streams):
+    @nb_streams.setter
+    def nb_streams(self, nb_streams):
         self.__nb_streams = nb_streams
     
     # 長さ
-    def get_duration(self):
+    @property
+    def duration(self):
         return self.__duration
-    def set_duration(self, duration):
+    @duration.setter
+    def duration(self, duration):
         self.__duration = duration
     
     # ファイルサイズ
-    def get_size(self):
+    @property
+    def size(self):
         return self.__size
-    def set_size(self, size):
+    @size.setter
+    def size(self, size):
         self.__size = size
     
     # 辞書型に変換

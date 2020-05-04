@@ -47,9 +47,9 @@ def create_response_bean(decodeed_video_info):
     
     # 作成したBeanを動画解析レスポンスBeanに設定
     response_bean = AnalyzerResponseBean()
-    response_bean.set_video_stream_bean(video_stream_bean)
-    response_bean.set_audio_stream_bean_list(audio_stream_bean_list)
-    response_bean.set_format_bean(format_bean)
+    response_bean.video_stream_bean = video_stream_bean
+    response_bean.audio_stream_bean_list = audio_stream_bean_list
+    response_bean.format_bean = format_bean
     
     # 動画解析レスポンスBeanを返却
     return response_bean
@@ -58,16 +58,16 @@ def create_response_bean(decodeed_video_info):
 def create_video_stream_bean(decodeed_stream_info):
     
     video_stream_bean = AnalyzerVideoStreamBean()
-    video_stream_bean.set_index(decodeed_stream_info['index'])
-    video_stream_bean.set_codec_type(decodeed_stream_info['codec_type'])
-    video_stream_bean.set_codec_name(decodeed_stream_info['codec_name'])
-    video_stream_bean.set_codec_long_name(decodeed_stream_info['codec_long_name'])
-    video_stream_bean.set_duration(decodeed_stream_info['duration'])
-    video_stream_bean.set_bit_rate(decodeed_stream_info['bit_rate'])
-    video_stream_bean.set_width(decodeed_stream_info['width'])
-    video_stream_bean.set_height(decodeed_stream_info['height'])
-    video_stream_bean.set_r_frame_rate(decodeed_stream_info['r_frame_rate'])
-    video_stream_bean.set_nb_frames(decodeed_stream_info['nb_frames'])
+    video_stream_bean.index = decodeed_stream_info['index']
+    video_stream_bean.codec_type = decodeed_stream_info['codec_type']
+    video_stream_bean.codec_name = decodeed_stream_info['codec_name']
+    video_stream_bean.codec_long_name = decodeed_stream_info['codec_long_name']
+    video_stream_bean.duration = decodeed_stream_info['duration']
+    video_stream_bean.bit_rate = decodeed_stream_info['bit_rate']
+    video_stream_bean.width = decodeed_stream_info['width']
+    video_stream_bean.height = decodeed_stream_info['height']
+    video_stream_bean.r_frame_rate = decodeed_stream_info['r_frame_rate']
+    video_stream_bean.nb_frames = decodeed_stream_info['nb_frames']
     
     return video_stream_bean
 
@@ -75,13 +75,13 @@ def create_video_stream_bean(decodeed_stream_info):
 def create_audio_stream_bean(decodeed_stream_info):
     
     audio_stream_bean = AnalyzerAudioStreamBean()
-    audio_stream_bean.set_index(decodeed_stream_info['index'])
-    audio_stream_bean.set_codec_type(decodeed_stream_info['codec_type'])
-    audio_stream_bean.set_codec_name(decodeed_stream_info['codec_name'])
-    audio_stream_bean.set_codec_long_name(decodeed_stream_info['codec_long_name'])
-    audio_stream_bean.set_duration(decodeed_stream_info['duration'])
-    audio_stream_bean.set_bit_rate(decodeed_stream_info['bit_rate'])
-    audio_stream_bean.set_sample_rate(decodeed_stream_info['sample_rate'])
+    audio_stream_bean.index = decodeed_stream_info['index']
+    audio_stream_bean.codec_type = decodeed_stream_info['codec_type']
+    audio_stream_bean.codec_name = decodeed_stream_info['codec_name']
+    audio_stream_bean.codec_long_name = decodeed_stream_info['codec_long_name']
+    audio_stream_bean.duration = decodeed_stream_info['duration']
+    audio_stream_bean.bit_rate = decodeed_stream_info['bit_rate']
+    audio_stream_bean.sample_rate = decodeed_stream_info['sample_rate']
     
     return audio_stream_bean
 
@@ -89,10 +89,10 @@ def create_audio_stream_bean(decodeed_stream_info):
 def create_format_bean(decodeed_stream_info):
     
     format_bean = AnalyzerFormatBean()
-    format_bean.set_filename(decodeed_stream_info['filename'])
-    format_bean.set_nb_streams(decodeed_stream_info['nb_streams'])
-    format_bean.set_duration(decodeed_stream_info['duration'])
-    format_bean.set_size(decodeed_stream_info['size'])
+    format_bean.filename = decodeed_stream_info['filename']
+    format_bean.nb_streams = decodeed_stream_info['nb_streams']
+    format_bean.duration = decodeed_stream_info['duration']
+    format_bean.size = decodeed_stream_info['size']
     
     return format_bean
 
