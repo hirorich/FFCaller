@@ -47,4 +47,4 @@ if __name__ == "__main__":
     eel.init('web')
     
     # 最初に表示するhtmlページ
-    eel.start('index.html', mode='chrome', host='localhost', position=(400, 100), port=9090, size=(800, 600))
+    eel.start('index.html', mode='chrome', host='localhost', position=(400, 100), port=9090, size=(800, 600), cmdline_args=['--incognito'])
