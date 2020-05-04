@@ -5,8 +5,9 @@ cd %~dp0
 
 rem envファイル読み込み
 call loadenv.bat env\python.env
+call conda activate %env%
 
 rem 実行
-C:\Users\%USERNAME%\%python% main.py
+python main.py
 
 pause
