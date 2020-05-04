@@ -2,7 +2,7 @@
 # ビジネスエラー部品
 # ==================================================
 
-from service.common.type import str_utils
+from common.utility.type import str_utils
 
 # ビジネスエラークラス
 class BusinessError(Exception):

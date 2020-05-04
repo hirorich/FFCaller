@@ -4,7 +4,7 @@
 
 from service.segmenter import segmente_command_creater
 from service.segmenter.bean.response_bean import SegmenterResponseBean
-from service.common import command_runner, json_utils
+from service.common import command_runner
 
 # フレーム分割実行
 def segment(request_bean):

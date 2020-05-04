@@ -18,7 +18,6 @@ def run(cmd, strip_flg=False):
             
         except:
             continue
-        
     
     return stdout
 

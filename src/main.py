@@ -4,7 +4,7 @@ import argparse
 # eelのインポート
 import eel
 
-from service.common import log_utils
+from common.utility import log_utils
 from service import multimedia_analyzer, multimedia_marger, multimedia_segmenter
 
 # javascriptから動画解析ツールを呼び出す

@@ -2,9 +2,10 @@
 # 動画解析のコントロール部品
 # ==================================================
 
+from common.utility import json_utils
 from service.analyzer import analyze_command_creater
 from service.analyzer.bean.response_bean import AnalyzerResponseBean, AnalyzerVideoStreamBean, AnalyzerAudioStreamBean, AnalyzerFormatBean
-from service.common import command_runner, json_utils
+from service.common import command_runner
 
 # 解析実行
 def analize(request_bean):

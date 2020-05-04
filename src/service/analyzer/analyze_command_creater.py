@@ -2,8 +2,8 @@
 # ffprobeを用いた動画解析コマンド生成
 # ==================================================
 
-from service.common.type import str_utils
-from service.common import file_utils
+from common.utility.type import str_utils
+from common.utility import file_utils
 
 # コマンド生成
 def create_command(request_bean):

@@ -2,7 +2,7 @@
 # 文字列型(str型)共通部品
 # ==================================================
 
-from service.common.type import type_utils
+from common.utility.type import type_utils
 
 # None、または空文字の場合True
 def is_none_or_empty(string):

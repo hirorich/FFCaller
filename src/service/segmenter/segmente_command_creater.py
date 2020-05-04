@@ -3,11 +3,12 @@
 # ==================================================
 
 import os
+from common.utility import file_utils
+from common.utility.type import number_utils, str_utils
 from service.analyzer import analyzer_controller
 from service.analyzer.bean.request_bean import AnalyzerRequestBean
 from service.segmenter.bean.command_bean import CommandInputBean
-from service.common import file_utils, fps_utils
-from service.common.type import number_utils, str_utils
+from service.common import fps_utils
 
 # コマンド作成
 def create_command(request_bean):
@@ -95,13 +96,13 @@ def create_input_bean(input_file_bean):
         # === 複合チェック ===
         # 開始フレームは動画再生時間以下を指定
         if number_utils.is_greater(input_file_bean.get_start_time(), format_bean.get_duration()):
-            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for "start_frame"')
+            raise Exception('"' + input_file_name + '": specify less than ' + format_bean.get_duration() + ' for "start_frame"')
         
         # 終了時間（開始時間 + 切り取り期間）は
         # 動画再生時間以下を指定
         end_time = input_file_bean.get_start_time() + input_file_bean.get_trim_duration()
         if number_utils.is_greater(end_time, format_bean.get_duration()):
-            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for trim frames')
+            raise Exception('"' + input_file_name + '": specify less than ' + format_bean.get_duration() + ' for trim frames')
         # ====================
         
         start_time = input_file_bean.get_start_time()

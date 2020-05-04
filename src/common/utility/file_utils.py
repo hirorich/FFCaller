@@ -3,9 +3,9 @@
 # ==================================================
 
 import os
-from service.common.type import str_utils
+from common.utility.type import str_utils
 
-# 
+# ファイルの存在チェック
 def is_exists(parameter):
     
     # 入力ファイル名が空白
@@ -13,9 +13,8 @@ def is_exists(parameter):
         return False
     
     return os.path.exists(parameter)
-    
 
-# 
+# ファイルを1列の文字列として読み込む
 def read_file_one_line(filename):
     stdout = ''
     with open(filename, encoding='utf-8') as f:

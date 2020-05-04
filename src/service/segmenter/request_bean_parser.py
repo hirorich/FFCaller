@@ -1,10 +1,10 @@
 # ==================================================
-# json文字列からフレーム分割リクエストBeanの解析
+# 辞書型のリクエストからフレーム分割リクエストBeanの解析
 # ==================================================
 
 from service.segmenter.bean.request_bean import SegmenterInputFileBean, SegmenterOutputFileBean, SegmenterRequestBean
 
-# リクエストjson文字列を解析してリクエストBeanを返却
+# 辞書型のリクエストを解析してリクエストBeanを返却
 def parse_to_request_bean(request_dict):
     
     # 動画変換入力ファイルBean に格納

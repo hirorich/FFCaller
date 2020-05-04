@@ -3,8 +3,8 @@
 # ==================================================
 
 import traceback
-from service.common.error import business_error
-from service.common.error.business_error import BusinessError
+from common.error import business_error
+from common.error.business_error import BusinessError
 
 # ログファイル出力
 def write_log(message):

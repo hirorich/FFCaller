@@ -1,11 +1,10 @@
 # ==================================================
-# json文字列から動画解析リクエストBeanの解析
+# 辞書型のリクエストから動画解析リクエストBeanの解析
 # ==================================================
 
-from service.common import json_utils
 from service.analyzer.bean.request_bean import AnalyzerRequestBean
 
-# リクエストjson文字列を解析してリクエストBeanを返却
+# 辞書型のリクエストを解析してリクエストBeanを返却
 def parse_to_request_bean(request_dict):
     
     # 動画解析リクエストBean に格納

@@ -2,9 +2,10 @@
 # 動画変換のコントロール部品
 # ==================================================
 
+from common.utility import json_utils
 from service.marger import marge_command_creater
 from service.marger.bean.response_bean import MargerResponseBean
-from service.common import command_runner, json_utils
+from service.common import command_runner
 
 # 変換実行
 def marge(request_bean):
