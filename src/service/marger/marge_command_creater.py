@@ -3,12 +3,8 @@
 # ==================================================
 
 import os
-from common.utility import file_utils
+from service.common.ffmpeg import ffmpeg_input_creater
 from common.utility.type import number_utils, str_utils
-from service.analyzer import analyzer_controller
-from service.analyzer.bean.request_bean import AnalyzerRequestBean
-from service.common import fps_utils
-from service.marger.bean.command_bean import CommandInputBean
 
 # コマンド作成
 def create_command(request_bean):
@@ -30,97 +26,18 @@ def create_command(request_bean):
 # コマンドの入力部分作成
 def create_input_bean(input_file_bean, file_index):
     
-    command_input_bean = CommandInputBean()
+    # コマンドの入力部分と解析情報取得
+    command_input_tuple = ffmpeg_input_creater.create_input_bean(input_file_bean)
+    command_input_bean = command_input_tuple[0]
+    analyzer_response_bean = command_input_tuple[1]
     
-    # === 入力チェック ===
-    # 入力ファイル名が空白
-    input_file_name = input_file_bean.get_input_file_name()
-    if str_utils.is_none_or_whitespace(input_file_name):
-        raise Exception('"input_file" is not specified')
-    
-    # 入力ファイルが存在しない
-    input_file_name = input_file_name.strip()
-    if not file_utils.is_exists(input_file_name):
-        raise Exception('"' + input_file_name + '" is not exists')
-    
-    # フレーム指定の場合、フレームは1以上を指定
-    if input_file_bean.get_frame_specification_flag():
-        if number_utils.is_less(input_file_bean.get_start_frame(), 1):
-            raise Exception('"' + input_file_name + '": specify at least 1 for "start_frame"')
-        
-        if number_utils.is_less(input_file_bean.get_frame_number(), 1):
-            raise Exception('"' + input_file_name + '": specify at least 1 for "frame_number"')
-        
-        # フレーム指定でない場合、時間は0以上を指定
-    else:
-        if number_utils.is_less(input_file_bean.get_start_time(), 0):
-            raise Exception('"' + input_file_name + '": specify at least 0 for "start_time"')
-        
-        if number_utils.is_less(input_file_bean.get_trim_duration(), 0):
-            raise Exception('"' + input_file_name + '": specify at least 0 for "trim_duration"')
-    # ====================
-    
-    # 入力ファイル名指定
-    command_input_bean.set_input_file_name(input_file_name)
-    
-    # 動画情報取得
-    analyzer_request_bean = AnalyzerRequestBean()
-    analyzer_request_bean.set_input_file_name(input_file_name)
-    analyzer_response_bean = analyzer_controller.analize(analyzer_request_bean)
+    input_file_name = command_input_bean.get_input_file_name()
+    trim_duration = command_input_bean.get_trim_duration()
     format_bean = analyzer_response_bean.get_format_bean()
     video_stream_bean = analyzer_response_bean.get_video_stream_bean()
     audio_stream_bean_list = analyzer_response_bean.get_audio_stream_bean_list()
-    print('fps:' + video_stream_bean.get_r_frame_rate())
     
-    # フレーム指定の場合
-    if input_file_bean.get_frame_specification_flag():
-        
-        # === 複合チェック ===
-        # ビデオストリームがない場合、フレーム指定不可
-        if video_stream_bean is None:
-            raise Exception('"' + input_file_name + '": video stream is not exists')
-        
-        # 開始フレームは総フレーム数以下を指定
-        if number_utils.is_greater(input_file_bean.get_start_frame(), video_stream_bean.get_nb_frames()):
-            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for "start_frame"')
-        
-        # 切り取りフレーム数（開始フレーム + フレーム数 - 1）は
-        # 総フレーム数以下を指定
-        end_frames = input_file_bean.get_start_frame() + input_file_bean.get_frame_number() - 1
-        if number_utils.is_greater(end_frames, video_stream_bean.get_nb_frames()):
-            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for sum(start_frame, frame_number)')
-        # ====================
-        
-        start_time = fps_utils.frame_to_sec(input_file_bean.get_start_frame(), video_stream_bean.get_r_frame_rate())
-        trim_duration = fps_utils.frame_to_sec(input_file_bean.get_frame_number(), video_stream_bean.get_r_frame_rate())
-        start_frame = input_file_bean.get_start_frame()
-        
-        # フレーム指定でない場合、時間は0以上を指定
-    else:
-        
-        # === 複合チェック ===
-        # 開始フレームは動画再生時間以下を指定
-        if number_utils.is_greater(input_file_bean.get_start_time(), format_bean.get_duration()):
-            raise Exception('"' + input_file_name + '": specify less than ' + format_bean.get_duration() + ' for "start_frame"')
-        
-        # 終了時間（開始時間 + 切り取り期間）は
-        # 動画再生時間以下を指定
-        end_time = input_file_bean.get_start_time() + input_file_bean.get_trim_duration()
-        if number_utils.is_greater(end_time, format_bean.get_duration()):
-            raise Exception('"' + input_file_name + '": specify less than ' + format_bean.get_duration() + ' for trim frames')
-        # ====================
-        
-        start_time = input_file_bean.get_start_time()
-        trim_duration = input_file_bean.get_trim_duration()
-        start_frame = fps_utils.sec_to_frame(input_file_bean.get_start_time(), video_stream_bean.get_r_frame_rate())
-        
     
-    # 開始時間指定
-    command_input_bean.set_start_time(start_time)
-    # 切り取り期間指定
-    command_input_bean.set_trim_duration(trim_duration)
-    # 開始フレーム指定
-    command_input_bean.set_start_frame(start_frame)
     
     # フィルター設定
     filter_string = ''
@@ -194,7 +111,6 @@ def create_input_bean(input_file_bean, file_index):
     command_input_bean.set_filter_string(filter_string)
     
     return command_input_bean
-    
 
 # 映像・音声識別子作成
 def create_filtered_id(file_index, stream_index, count):
