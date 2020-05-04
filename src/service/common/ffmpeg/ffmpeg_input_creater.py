@@ -48,8 +48,8 @@ def create_input_bean(input_file_bean):
             raise Exception('"' + input_file_name + '": specify at least 1 for "start_frame"')
         
         # フレーム数は1以上を指定
-        if number_utils.is_less(input_file_bean.get_frame_number(), 1):
-            raise Exception('"' + input_file_name + '": specify at least 1 for "frame_number"')
+        if number_utils.is_less(input_file_bean.get_end_frame(), 1):
+            raise Exception('"' + input_file_name + '": specify at least 1 for "end_frame"')
         
         # === 複合チェック ===
         # ビデオストリームがない場合、フレーム指定不可
@@ -60,15 +60,20 @@ def create_input_bean(input_file_bean):
         if number_utils.is_greater(input_file_bean.get_start_frame(), video_stream_bean.get_nb_frames()):
             raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for "start_frame"')
         
-        # 切り取りフレーム数（開始フレーム + フレーム数 - 1）は
-        # 総フレーム数以下を指定
-        end_frames = input_file_bean.get_start_frame() + input_file_bean.get_frame_number() - 1
-        if number_utils.is_greater(end_frames, video_stream_bean.get_nb_frames()):
-            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for sum(start_frame, frame_number)')
+        # 終了フレームは総フレーム数以下を指定
+        if number_utils.is_greater(input_file_bean.get_end_frame(), video_stream_bean.get_nb_frames()):
+            raise Exception('"' + input_file_name + '": specify less than ' + video_stream_bean.get_nb_frames() + ' for "end_frame"')
+        
+        # 終了フレームは開始フレーム以上を指定
+        if number_utils.is_less(input_file_bean.get_end_frame(), input_file_bean.get_start_frame()):
+            raise Exception('"' + input_file_name + '": specify at least ' + str(input_file_bean.get_start_frame()) + ' for "end_frame"')
+        
+        # 切り取りフレーム数（終了フレーム - 開始フレーム + 1）
+        trim_frames = input_file_bean.get_end_frame() - input_file_bean.get_start_frame() + 1
         # ====================
         
         start_time = fps_utils.frame_to_sec(input_file_bean.get_start_frame(), video_stream_bean.get_r_frame_rate())
-        trim_duration = fps_utils.frame_to_sec(input_file_bean.get_frame_number(), video_stream_bean.get_r_frame_rate())
+        trim_duration = fps_utils.frame_to_sec(trim_frames + 1, video_stream_bean.get_r_frame_rate())
         start_frame = input_file_bean.get_start_frame()
         
         

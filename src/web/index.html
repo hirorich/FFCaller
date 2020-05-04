@@ -132,7 +132,7 @@
                                 <th>start_time</th>
                                 <th>trim_duration</th>
                                 <th>start_frame</th>
-                                <th>frame_number</th>
+                                <th>end_frame</th>
                             </tr>
                         </thead>
                         <tbody v-cloak>
@@ -140,7 +140,7 @@
                                 <th><input v-model="input_file.start_time" type="text" class="form-control" :disabled='input_file.frame_specification_flag'></th>
                                 <th><input v-model="input_file.trim_duration" type="text" class="form-control" :disabled='input_file.frame_specification_flag'></th>
                                 <th><input v-model="input_file.start_frame" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
-                                <th><input v-model="input_file.frame_number" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
+                                <th><input v-model="input_file.end_frame" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
                             </tr>
                         </tbody>
                     </table>
@@ -181,7 +181,7 @@
                                 <th>start_time</th>
                                 <th>trim_duration</th>
                                 <th>start_frame</th>
-                                <th>frame_number</th>
+                                <th>end_frame</th>
                             </tr>
                         </thead>
                         <tbody v-cloak>
@@ -189,7 +189,7 @@
                                 <th><input v-model="input_file.start_time" type="text" class="form-control" :disabled='input_file.frame_specification_flag'></th>
                                 <th><input v-model="input_file.trim_duration" type="text" class="form-control" :disabled='input_file.frame_specification_flag'></th>
                                 <th><input v-model="input_file.start_frame" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
-                                <th><input v-model="input_file.frame_number" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
+                                <th><input v-model="input_file.end_frame" type="text" class="form-control" :disabled='!input_file.frame_specification_flag'></th>
                             </tr>
                         </tbody>
                     </table>

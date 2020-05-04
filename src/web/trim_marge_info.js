@@ -9,7 +9,7 @@ var trim_marge_info=new Vue({
             start_time:0,
             trim_duration:0,
             start_frame:1,
-            frame_number:1,
+            end_frame:1,
             frame_specification_flag:false,
             video_fade_in_duration:0,
             video_fade_out_duration:0,
@@ -39,7 +39,7 @@ var trim_marge_info=new Vue({
             this.input_file.start_time=0;
             this.input_file.trim_duration=stream_info.video_stream.duration;
             this.input_file.start_frame=1;
-            this.input_file.frame_number=stream_info.video_stream.nb_frames;
+            this.input_file.end_frame=stream_info.video_stream.nb_frames;
             this.input_file.frame_specification_flag=false;
             this.input_file.video_fade_in_duration=0;
             this.input_file.video_fade_out_duration=0;

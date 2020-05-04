@@ -34,7 +34,7 @@ class SegmenterInputFileBean:
         self.__start_time = 0
         self.__trim_duration = 0
         self.__start_frame = 1
-        self.__frame_number = 1
+        self.__end_frame = 1
         self.__frame_specification_flag = False
     
     # 入力ファイル名
@@ -61,11 +61,11 @@ class SegmenterInputFileBean:
     def set_start_frame(self, start_frame):
         self.__start_frame = start_frame
     
-    # フレーム数
-    def get_frame_number(self):
-        return self.__frame_number
-    def set_frame_number(self, frame_number):
-        self.__frame_number = frame_number
+    # 終了フレーム
+    def get_end_frame(self):
+        return self.__end_frame
+    def set_end_frame(self, end_frame):
+        self.__end_frame = end_frame
     
     # フレーム指定フラグ
     def get_frame_specification_flag(self):

@@ -31,7 +31,7 @@ def parse_to_input_bean(input_file_dict):
     input_file_bean.set_start_time(float(input_file_dict['start_time']))
     input_file_bean.set_trim_duration(float(input_file_dict['trim_duration']))
     input_file_bean.set_start_frame(int(input_file_dict['start_frame']))
-    input_file_bean.set_frame_number(int(input_file_dict['frame_number']))
+    input_file_bean.set_end_frame(int(input_file_dict['end_frame']))
     input_file_bean.set_frame_specification_flag(input_file_dict['frame_specification_flag'])
     
     return input_file_bean
