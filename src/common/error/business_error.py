@@ -6,22 +6,38 @@ from common.utility.type import str_utils
 
 # ビジネスエラークラス
 class BusinessError(Exception):
-    pass
-
-# IDを基にメッセージ取得
-def get_business_message(message_id):
     
-    try:
+    # IDを基にメッセージ設定
+    def set_business_error_message(self):
+        self.args = (self.get_business_error_message(), )
+    
+    # IDを基にメッセージ取得
+    def get_business_error_message(self):
         
-        if str_utils.is_none_or_whitespace(message_id):
-            return 'メッセージIDが指定されていません'
-        
-        # IDを基にメッセージ取得
-        
-        # メッセージが見つからない場合はメッセージが見つからない旨を返却
-        return 'メッセージは定義されていません（メッセージID:' + message_id + '）'
-        
-    except:
-        # 例外が発生した場合はメッセージ取得に失敗した旨を返却
-        return 'メッセージの取得に失敗しました（メッセージID:' + message_id + '）'
+        try:
+            
+            # メッセージ指定チェック
+            if len(self.args) == 0:
+                return 'エラーメッセージ未指定'
+            
+            # メッセージIDとパラメータ取得
+            message_id = self.args[0]
+            if len(self.args) >= 2:
+                message_args = self.args[1:]
+            else:
+                message_args = None
+            
+            # メッセージIDのチェック
+            if str_utils.is_none_or_whitespace(message_id):
+                return 'エラーメッセージID未指定'
+            
+            # IDを基にメッセージ取得
+            # 未実装
+            
+            # メッセージが見つからない場合はメッセージが見つからない旨を返却
+            return 'エラーメッセージID未定義（ID:' + message_id + '）'
+            
+        except:
+            # 例外が発生した場合はメッセージ取得に失敗した旨を返却
+            return 'エラーメッセージの取得失敗'
 

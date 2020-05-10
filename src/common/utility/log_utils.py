@@ -3,7 +3,6 @@
 # ==================================================
 
 import traceback
-from common.error import business_error
 from common.error.business_error import BusinessError
 
 # ログファイル出力
@@ -11,9 +10,10 @@ def write_log(message):
     
     # 例外の場合はスタックトレースも出力
     if isinstance(message, Exception):
-        write_log(traceback.format_exc())
         if isinstance(message, BusinessError):
             __write_business_error(message)
+        else:
+            write_log(traceback.format_exc())
         return
     
     path='./server.log'
@@ -21,15 +21,11 @@ def write_log(message):
         f.write(message)
 
 # ビジネスエラーログ出力
-def __write_business_error(business_error_object):
+def __write_business_error(business_error):
     
-    if len(business_error_object.args) == 0:
-        return
-    
-    # IDを基にメッセージ取得
-    message_id = business_error_object.args[0]
-    message = business_error.get_business_message(message_id)
+    # ビジネスエラーメッセージ取得
+    business_error.set_business_error_message()
     
     # ログ出力
-    write_log(message)
+    write_log(traceback.format_exc())
 
