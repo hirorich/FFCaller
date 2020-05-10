@@ -10,7 +10,6 @@ sqlite3 ./db/cmn_db.sqlite3 < ./sql/create_tb_message.sql
 create table tb_message (
 	id text not null, -- メッセージID
 	message text not null, -- メッセージ内容
-	del_flg integer not null default 0, -- 削除フラグ(0:有効, 1:無効)
 	primary key (
 		id
 	)
