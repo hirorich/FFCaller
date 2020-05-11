@@ -26,7 +26,7 @@ insert into tb_message (id, message) values ('W0000000', '警告メッセージ'
 .output ./tb_message.txt
 
 /* メッセージTBLの内容をファイルに出力 */
-select id, message, del_flg from tb_message order by id;
+select id, message from tb_message order by id;
 
 /* 標準出力に戻す */
 .output stdout
