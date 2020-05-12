@@ -7,29 +7,15 @@ from common.error.business_error import BusinessError
 # 
 def create_message(message_id):
     
-    db_filename = './db/cmn_db.sqlite3'
-    
-    with sqlite3.connect(db_filename) as conn:
-        
-        cursor = conn.cursor()
-        
-        query = "select id, message from tb_message where id = ?"
-        
-        cursor.execute(query, (message_id,))
-        
-        list1 = cursor.fetchone()
-        
-        print(message_id)
-        print(list1[1].replace('%0', 'AA').replace('%1', 'あい').replace('%2', '上限').replace('%3', '0%09'))
+    try:
+        raise BusinessError(message_id, '引数0', 'ぱらめ1', 'パラメ2', 'param3')
+    except Exception as e:
+        log_utils.write_log(e)
 
 # main
 if __name__ == "__main__":
         
-        try:
-            raise BusinessError('E0000005', 'param1', 'ぱらめ2', 'パラメ3')
-        except Exception as e:
-            log_utils.write_log(e)
-        
+        create_message('A0000000')
         create_message('E0000000')
         create_message('E0000001')
         create_message('E0000002')
@@ -42,4 +28,5 @@ if __name__ == "__main__":
         create_message('E0000009')
         create_message('I0000000')
         create_message('W0000000')
+        create_message('B0000000')
     
