@@ -2,7 +2,7 @@
 # ビジネスエラー部品
 # ==================================================
 
-from common.utility.type import str_utils
+from common.utility import message_utils
 
 # ビジネスエラークラス
 class BusinessError(Exception):
@@ -27,15 +27,8 @@ class BusinessError(Exception):
             else:
                 message_args = None
             
-            # メッセージIDのチェック
-            if str_utils.is_none_or_whitespace(message_id):
-                return 'エラーメッセージID未指定'
-            
-            # IDを基にメッセージ取得
-            # 未実装
-            
-            # メッセージが見つからない場合はメッセージが見つからない旨を返却
-            return 'エラーメッセージID未定義（ID:' + message_id + '）'
+            # メッセージ取得
+            return message_utils.get_message(message_id, message_args)
             
         except:
             # 例外が発生した場合はメッセージ取得に失敗した旨を返却
