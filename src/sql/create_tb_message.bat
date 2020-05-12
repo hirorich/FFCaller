@@ -2,9 +2,10 @@ echo off
 
 rem ディレクトリ移動
 cd %~dp0
+cd ..\
 
 rem envファイル読み込み
-call loadenv.bat env\python.env
+call env\loadenv.bat env\python.env
 call conda activate %env%
 
 rem 実行
