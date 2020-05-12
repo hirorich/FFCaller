@@ -7,10 +7,6 @@ from common.utility import message_utils
 # ビジネスエラークラス
 class BusinessError(Exception):
     
-    # IDを基にメッセージ設定
-    def set_business_error_message(self):
-        self.args = (self.get_business_error_message(), )
-    
     # IDを基にメッセージ取得
     def get_business_error_message(self):
         
