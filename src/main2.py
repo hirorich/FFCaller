@@ -1,6 +1,9 @@
 # sqlite3のインポート
 import sqlite3
 
+from common.utility import log_utils
+from common.error.business_error import BusinessError
+
 # 
 def create_message(message_id):
     
@@ -21,6 +24,11 @@ def create_message(message_id):
 
 # main
 if __name__ == "__main__":
+        
+        try:
+            raise BusinessError('E0000005', 'param1', 'ぱらめ2', 'パラメ3')
+        except Exception as e:
+            log_utils.write_log(e)
         
         create_message('E0000000')
         create_message('E0000001')
