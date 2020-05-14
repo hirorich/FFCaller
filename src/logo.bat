@@ -10,3 +10,4 @@ call conda activate %env%
 rem é¿çs
 python logo.py
 
+pause
