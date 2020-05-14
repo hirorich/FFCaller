@@ -1,8 +1,11 @@
 # 亀
 from turtle import Turtle
 
+import numpy as np
+import cv2
+
 # 座標リスト取得
-def create_pos_list(kame, l):
+def create_pos_dict(kame, l):
     
     kame.getscreen().setworldcoordinates(0, 0, 511, 511)
     
@@ -58,45 +61,55 @@ def create_pos_list(kame, l):
     
     kame.clear()
     
-    list = []
-    list.append(p1)
-    list.append(p2)
-    list.append(p3)
-    list.append(p4)
-    list.append(p5)
-    list.append(p6)
-    list.append(p7)
-    list.append(p8)
-    list.append(p9)
-    list.append(p10)
-    list.append(p0)
+    pos_dict = dict()
+    pos_dict['p0'] = p0
+    print('p0:' + str(p0[0]) + ', ' + str(p0[1]))
+    pos_dict['p1'] = p1
+    print('p1:' + str(p1[0]) + ', ' + str(p1[1]))
+    pos_dict['p2'] = p2
+    print('p2:' + str(p2[0]) + ', ' + str(p2[1]))
+    pos_dict['p3'] = p3
+    print('p3:' + str(p3[0]) + ', ' + str(p3[1]))
+    pos_dict['p4'] = p4
+    print('p4:' + str(p4[0]) + ', ' + str(p4[1]))
+    pos_dict['p5'] = p5
+    print('p5:' + str(p5[0]) + ', ' + str(p5[1]))
+    pos_dict['p6'] = p6
+    print('p6:' + str(p6[0]) + ', ' + str(p6[1]))
+    pos_dict['p7'] = p7
+    print('p7:' + str(p7[0]) + ', ' + str(p7[1]))
+    pos_dict['p8'] = p8
+    print('p8:' + str(p8[0]) + ', ' + str(p8[1]))
+    pos_dict['p9'] = p9
+    print('p9:' + str(p9[0]) + ', ' + str(p9[1]))
+    pos_dict['p10'] = p10
+    print('p10:' + str(p10[0]) + ', ' + str(p10[1]))
     
-    return list
+    return pos_dict
 
 # 描写
-def write_list(kame, list, pos_x = 0, pos_y = 0, color1='blue', color2='yellow'):
+def write_turtle(kame, pos_dict, color1='blue', color2='yellow'):
     
     kame.shapesize(1)
     
-    kame.setpos(list[len(list) - 1][0] + pos_x, list[len(list) - 1][1] + pos_y)
-    print('x:' + str(list[len(list) - 1][0] + pos_x) + ', y:' + str(list[len(list) - 1][1] + pos_y))
+    point = pos_dict['p' + str(len(pos_dict) - 1)]
+    kame.setpos(point[0], point[1])
     kame.color(color1, color1)
     kame.pendown()
     kame.begin_fill()
-    for pos in list:
-        kame.setpos(pos[0] + pos_x, pos[1] + pos_y)
-        print('x:' + str(pos[0] + pos_x) + ', y:' + str(pos[1] + pos_y))
+    for pos in range(len(pos_dict)):
+        point = pos_dict['p' + str(pos)]
+        kame.setpos(point[0], point[1])
     kame.end_fill()
     kame.penup()
     
-    kame.setpos(511 - list[len(list) - 1][0] + pos_x, 511 - list[len(list) - 1][1] + pos_y)
-    print('x:' + str(511 - list[len(list) - 1][0] + pos_x) + ', y:' + str(511 - list[len(list) - 1][1] + pos_y))
+    kame.setpos(511 - pos_dict['p' + str(len(pos_dict) - 1)][0], 511 - pos_dict['p' + str(len(pos_dict) - 1)][1])
     kame.color(color2, color2)
     kame.pendown()
     kame.begin_fill()
-    for pos in list:
-        kame.setpos(511 - pos[0] + pos_x, 511 - pos[1] + pos_y)
-        print('x:' + str(511 - pos[0] + pos_x) + ', y:' + str(511 - pos[1] + pos_y))
+    for pos in range(len(pos_dict)):
+        point = pos_dict['p' + str(pos)]
+        kame.setpos(511 - point[0], 511 - point[1])
     kame.end_fill()
     kame.penup()
 
@@ -106,10 +119,12 @@ if __name__ == "__main__":
     l = 64
     
     kame = Turtle()
-    list = create_pos_list(kame, l)
-    write_list(kame, list)
+    pos_dict = create_pos_dict(kame, l)
+    write_turtle(kame, pos_dict)
     
-    kame.getscreen().getcanvas().postscript(file='file_name.ps', colormode='color')
+    
+    
+    
     
     k=input()
 
