@@ -113,18 +113,43 @@ def write_turtle(kame, pos_dict, color1='blue', color2='yellow'):
     kame.end_fill()
     kame.penup()
 
+# 描写
+def create_image(pos_dict, color1='blue', color2='yellow'):
+    
+    # Turtle は左下が原点
+    # opencv は左上が原点
+    
+    output_filename = 'icon.png'
+    img_data = np.zeros((512, 512, 4), np.uint8)
+    
+    # blue
+    img_data[100:200, :, 0] = 255
+    img_data[100:200, :, 3] = 255
+    
+    # green
+    img_data[300:400, :, 1] = 255
+    img_data[300:400, :, 3] = 255
+    
+    # red
+    img_data[:, 200:300, 2] = 255
+    img_data[:, 200:300, 3] = 255
+    
+    cv2.imwrite(output_filename, img_data)
+
 # main
 if __name__ == "__main__":
     
     l = 64
     
+    # 座標取得
     kame = Turtle()
     pos_dict = create_pos_dict(kame, l)
-    write_turtle(kame, pos_dict)
     
+    # 座標確認
+    #write_turtle(kame, pos_dict)
     
+    # 画像出力
+    create_image(pos_dict)
     
-    
-    
-    k=input()
+    #k=input()
 
