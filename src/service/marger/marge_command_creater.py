@@ -51,7 +51,9 @@ def create_input_bean(input_file_bean, file_index):
         
         # 映像フェードイン
         fade_in_duration = input_file_bean.video_fade_in_duration
-        if fade_in_duration > 0:
+        if number_utils.is_less(fade_in_duration, 0):
+            raise BusinessError('E0000003', 'fade_in_duration' ,'0' , input_file_name)
+        if not number_utils.is_equal(fade_in_duration, 0):
             if number_utils.is_greater(fade_in_duration, trim_duration):
                 raise BusinessError('E0000004', 'fade_in_duration', str(trim_duration), input_file_name)
             
@@ -62,7 +64,9 @@ def create_input_bean(input_file_bean, file_index):
         
         # 映像フェードアウト
         fade_out_duration = input_file_bean.video_fade_out_duration
-        if fade_out_duration > 0:
+        if number_utils.is_less(fade_out_duration, 0):
+            raise BusinessError('E0000003', 'fade_out_duration' ,'0' , input_file_name)
+        if not number_utils.is_equal(fade_out_duration, 0):
             if number_utils.is_greater(fade_out_duration, trim_duration):
                 raise BusinessError('E0000004', 'fade_out_duration', str(trim_duration), input_file_name)
             
@@ -85,7 +89,9 @@ def create_input_bean(input_file_bean, file_index):
             
             # 音声フェードイン
             fade_in_duration = input_file_bean.audio_fade_in_duration
-            if fade_in_duration > 0:
+            if number_utils.is_less(fade_in_duration, 0):
+                raise BusinessError('E0000003', 'fade_in_duration' ,'0' , input_file_name)
+            if not number_utils.is_equal(fade_in_duration, 0):
                 if number_utils.is_greater(fade_in_duration, trim_duration):
                     raise BusinessError('E0000004', 'fade_in_duration', str(trim_duration), input_file_name)
                 
@@ -96,7 +102,9 @@ def create_input_bean(input_file_bean, file_index):
             
             # 音声フェードアウト
             fade_out_duration = input_file_bean.audio_fade_out_duration
-            if fade_out_duration > 0:
+            if number_utils.is_less(fade_out_duration, 0):
+                raise BusinessError('E0000003', 'fade_out_duration' ,'0' , input_file_name)
+            if not number_utils.is_equal(fade_out_duration, 0):
                 if number_utils.is_greater(fade_out_duration, trim_duration):
                     raise BusinessError('E0000004', 'fade_out_duration', str(trim_duration), input_file_name)
                 
