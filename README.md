@@ -24,6 +24,9 @@
   - FFCaller の名前で環境を作成
 - [numpy](https://anaconda.org/anaconda/numpy) v.1.18.1
   - BSD 3-Clause License
+- [opencv](https://anaconda.org/anaconda/opencv) v.4.0.1
+  - BSD 3-Clause License
+  - アイコン作成のみに使用
 - [eel](https://github.com/samuelhwilliams/Eel) v.0.12.3
   - MIT License
   - Anacondaからターミナルを開き以下を実行することでインストール

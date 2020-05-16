@@ -4,7 +4,7 @@ rem ディレクトリ移動
 cd %~dp0
 
 rem envファイル読み込み
-call ..\src\env\loadenv.bat env\icon.env
+call ..\src\env\loadenv.bat ..\src\env\python.env
 call conda activate %env%
 
 rem フォルダ作成
@@ -17,4 +17,3 @@ python icon.py
 rem アイコン作成
 convert ./icon/icon_512x512.png -define icon:auto-resize ./icon/icon.ico
 
-pause
