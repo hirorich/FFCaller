@@ -3,8 +3,9 @@
 # ==================================================
 
 import os
-from service.common.ffmpeg import ffmpeg_input_creater
+from common.error.business_error import BusinessError
 from common.utility.type import number_utils, str_utils
+from service.common.ffmpeg import ffmpeg_input_creater
 
 # コマンド作成
 def create_command(request_bean):
@@ -50,9 +51,11 @@ def create_input_bean(input_file_bean, file_index):
         
         # 映像フェードイン
         fade_in_duration = input_file_bean.video_fade_in_duration
-        if fade_in_duration > 0:
+        if number_utils.is_less(fade_in_duration, 0):
+            raise BusinessError('E0000003', 'fade_in_duration' ,'0' , input_file_name)
+        if not number_utils.is_equal(fade_in_duration, 0):
             if number_utils.is_greater(fade_in_duration, trim_duration):
-                raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_in_duration')
+                raise BusinessError('E0000004', 'fade_in_duration', str(trim_duration), input_file_name)
             
             filtered_count += 1
             new_filtered_id = create_filtered_id(file_index, stream_index, filtered_count)
@@ -61,9 +64,11 @@ def create_input_bean(input_file_bean, file_index):
         
         # 映像フェードアウト
         fade_out_duration = input_file_bean.video_fade_out_duration
-        if fade_out_duration > 0:
+        if number_utils.is_less(fade_out_duration, 0):
+            raise BusinessError('E0000003', 'fade_out_duration' ,'0' , input_file_name)
+        if not number_utils.is_equal(fade_out_duration, 0):
             if number_utils.is_greater(fade_out_duration, trim_duration):
-                raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_out_duration')
+                raise BusinessError('E0000004', 'fade_out_duration', str(trim_duration), input_file_name)
             
             filtered_count += 1
             new_filtered_id = create_filtered_id(file_index, stream_index, filtered_count)
@@ -84,9 +89,11 @@ def create_input_bean(input_file_bean, file_index):
             
             # 音声フェードイン
             fade_in_duration = input_file_bean.audio_fade_in_duration
-            if fade_in_duration > 0:
+            if number_utils.is_less(fade_in_duration, 0):
+                raise BusinessError('E0000003', 'fade_in_duration' ,'0' , input_file_name)
+            if not number_utils.is_equal(fade_in_duration, 0):
                 if number_utils.is_greater(fade_in_duration, trim_duration):
-                    raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_in_duration')
+                    raise BusinessError('E0000004', 'fade_in_duration', str(trim_duration), input_file_name)
                 
                 filtered_count += 1
                 new_filtered_id = create_filtered_id(file_index, stream_index, filtered_count)
@@ -95,9 +102,11 @@ def create_input_bean(input_file_bean, file_index):
             
             # 音声フェードアウト
             fade_out_duration = input_file_bean.audio_fade_out_duration
-            if fade_out_duration > 0:
+            if number_utils.is_less(fade_out_duration, 0):
+                raise BusinessError('E0000003', 'fade_out_duration' ,'0' , input_file_name)
+            if not number_utils.is_equal(fade_out_duration, 0):
                 if number_utils.is_greater(fade_out_duration, trim_duration):
-                    raise Exception('"' + input_file_name + '": specify less than trim_duration for fade_out_duration')
+                    raise BusinessError('E0000004', 'fade_out_duration', str(trim_duration), input_file_name)
                 
                 filtered_count += 1
                 new_filtered_id = create_filtered_id(file_index, stream_index, filtered_count)
@@ -158,14 +167,14 @@ def marge_command(input_bean_list, output_file_bean):
     elif number_utils.is_equal(video_count, file_count):
         filter += ':v=1'
     else:
-        raise Exception('全て映像なし または 全て映像ありのみ結合可能')
+        raise BusinessError('E0000006')
     
     if number_utils.is_equal(audio_count, 0):
         filter += ':a=0'
     elif number_utils.is_equal(audio_count, file_count):
         filter += ':a=1'
     else:
-        raise Exception('全て音声なし または 全て音声ありのみ結合可能')
+        raise BusinessError('E0000007')
     
     # 出力ファイル名指定
     output_file_name = output_file_bean.output_file_name

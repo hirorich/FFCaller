@@ -3,33 +3,32 @@
 # ==================================================
 
 import traceback
-from common.error import business_error
 from common.error.business_error import BusinessError
 
 # ログファイル出力
 def write_log(message):
     
-    # 例外の場合はスタックトレースも出力
-    if isinstance(message, Exception):
-        write_log(traceback.format_exc())
-        if isinstance(message, BusinessError):
-            __write_business_error(message)
-        return
-    
     path='./server.log'
     with open(path, mode='a', encoding='utf-8') as f:
         f.write(message)
 
-# ビジネスエラーログ出力
-def __write_business_error(business_error_object):
+# ログファイル出力
+def writeline_log(message):
+    write_log(message + '\n')
+
+# 例外出力
+def write_exception(e):
     
-    if len(business_error_object.args) == 0:
-        return
+    # スタックトレースと例外メッセージ出力
+    write_log(traceback.format_exc())
     
-    # IDを基にメッセージ取得
-    message_id = business_error_object.args[0]
-    message = business_error.get_business_message(message_id)
+    # ビジネスエラーのメッセージを取得
+    if isinstance(e, BusinessError):
+        message = e.get_business_error_message()
+    else:
+        message = '不明なエラーが発生しました。詳細はログを確認してください。'
     
-    # ログ出力
-    write_log(message)
+    # メッセージを出力し返却
+    writeline_log(message)
+    return message
 
