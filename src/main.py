@@ -1,5 +1,5 @@
 import argparse
-import pathlib
+import pathlib, shutil
 
 # eelのインポート
 import eel
@@ -45,6 +45,7 @@ if __name__ == "__main__":
     
     try:
         # デフォルトの出力先フォルダ生成
+        shutil.rmtree('./_output', ignore_errors=True)
         pathlib.Path('./_output/frame').mkdir(parents=True, exist_ok=True)
         
         # ウェブコンテンツを持つフォルダ
