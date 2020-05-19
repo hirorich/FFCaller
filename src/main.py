@@ -74,7 +74,7 @@ if __name__ == "__main__":
     
     try:
         # 設定ファイル読み込み
-        property.property_file = '.js'
+        property.property_file = './env/property.json'
         property.read_property_file()
         
         # 出力先フォルダ生成

@@ -2,6 +2,8 @@
 # 設定値
 # ==================================================
 
+import json
+
 class _Property:
     
     # 初期値設定
@@ -45,7 +47,11 @@ class _Property:
     
     # 設定ファイル読み込み
     def read_property_file(self):
-        pass
+        with open(self.__property_file) as f:
+            dict_json = json.load(f)
+        self.__port = dict_json['port']
+        self.__browser = dict_json['browser']
+        self.__outdir = dict_json['outdir']
 
 import sys
 sys.modules[__name__] = _Property()
