@@ -49,6 +49,8 @@ var trim_marge_info=new Vue({
             this.output_file.overwriting_flag=true;
             this.output_file.output_file_name=converted_file_name(stream_info.format.filename);
             this.output_file.codec_type_combination=1;
+        }, clear_outdir: function(){
+            eel.clear_outdir();
         }
     }
 });

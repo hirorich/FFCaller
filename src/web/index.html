@@ -167,6 +167,7 @@
                     <input v-model="output_file.output_file_name" type="text" class="form-control" disabled v-cloak>
                 </div>
                 <button class="btn btn-primary" v-on:click="convert()">トリム・マージ実行</button class="btn btn-primary">
+                <button class="btn btn-primary" v-on:click="clear_outdir()">出力先フォルダクリア</button class="btn btn-primary">
             </div>
         </div>
         <div class="tab-pane fade" id="frame_segmentation" role="tabpanel" aria-labelledby="frame_segmentation-tab">
@@ -198,6 +199,7 @@
                     <input v-model="output_file.output_directry_name" type="text" class="form-control" disabled v-cloak>
                 </div>
                 <button class="btn btn-primary" v-on:click="convert()">フレーム分割実行</button class="btn btn-primary">
+                <button class="btn btn-primary" v-on:click="clear_outdir()">出力先フォルダクリア</button class="btn btn-primary">
             </div>
         </div>
     </div>

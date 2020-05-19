@@ -33,6 +33,8 @@ var frame_segmentation_info=new Vue({
             this.output_file.overwriting_flag=true;
             this.output_file.output_directry_name=converted_directry_name(stream_info.format.filename);
             this.output_file.codec_type_combination=1;
+        }, clear_outdir: function(){
+            eel.clear_outdir();
         }
     }
 });
