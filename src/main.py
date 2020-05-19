@@ -48,18 +48,26 @@ def clear_outdir():
     try:
         create_outdir()
     except Exception as e:
-        log_utils.write_exception(e)
-        eel.get_server_error_msg('出力先フォルダのクリアに失敗しました')
+        message = log_utils.write_exception(e)
+        eel.get_server_error_msg(message)
+
+# javascriptからプロパティ情報を取得する
+@eel.expose
+def get_property():
+    
+    try:
+        eel.set_property(property.outdir)
+    except Exception as e:
+        message = log_utils.write_exception(e)
+        eel.get_server_error_msg(message)
 
 # 出力先フォルダ生成
 def create_outdir():
     # 既存フォルダを削除
-    shutil.rmtree(property.outdir_marge, ignore_errors=True)
-    shutil.rmtree(property.outdir_segment, ignore_errors=True)
+    shutil.rmtree(property.outdir, ignore_errors=True)
     
     # 新規フォルダ作成
-    pathlib.Path(property.outdir_marge).mkdir(parents=True, exist_ok=True)
-    pathlib.Path(property.outdir_segment).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(property.outdir + 'frame/').mkdir(parents=True, exist_ok=True)
 
 # main
 if __name__ == "__main__":

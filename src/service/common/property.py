@@ -9,8 +9,7 @@ class _Property:
         self.__property_file = ''
         self.__port = 9090
         self.__browser = 'chrome'
-        self.__outdir_marge = './_output'
-        self.__outdir_segment = './_output/frame'
+        self.__outdir = './_output/'
     
     # 設定ファイル
     @property
@@ -36,21 +35,13 @@ class _Property:
     def browser(self, browser):
         self.__browser = browser
     
-    # 動画変換出力先フォルダ
+    # 出力先フォルダ
     @property
-    def outdir_marge(self):
-        return self.__outdir_marge
-    @outdir_marge.setter
-    def outdir_marge(self, outdir_marge):
-        self.__outdir_marge = outdir_marge
-    
-    # フレーム分割出力先フォルダ
-    @property
-    def outdir_segment(self):
-        return self.__outdir_segment
-    @outdir_segment.setter
-    def outdir_segment(self, outdir_segment):
-        self.__outdir_segment = outdir_segment
+    def outdir(self):
+        return self.__outdir
+    @outdir.setter
+    def outdir(self, outdir):
+        self.__outdir = outdir
     
     # 設定ファイル読み込み
     def read_property_file(self):

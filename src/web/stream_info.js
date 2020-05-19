@@ -51,8 +51,8 @@ function response_analyzer(analyze_info) {
         height:video_info['height'],
         r_frame_rate:video_info['r_frame_rate'],
         nb_frames:video_info['nb_frames']
-    }
-    stream_info.video_stream=video_stream
+    };
+    stream_info.video_stream=video_stream;
 
     // 音声ストリーム情報
     audio_info_list=analyze_info['audio'];
@@ -66,7 +66,7 @@ function response_analyzer(analyze_info) {
             duration:audio_info['duration'],
             bit_rate:audio_info['bit_rate'],
             sample_rate:audio_info['sample_rate']
-        }
+        };
         stream_info.audio_stream.splice(stream_info.audio_stream.length, 0, audio_stream);
     });
 
@@ -77,12 +77,12 @@ function response_analyzer(analyze_info) {
         nb_streams:format_info['nb_streams'],
         duration:format_info['duration'],
         size:format_info['size']
-    }
-    stream_info.format=format
+    };
+    stream_info.format=format;
 
     // マージ・トリム情報初期化
-    trim_marge_info.init()
+    trim_marge_info.init();
 
     // フレーム分割情報初期化
-    frame_segmentation_info.init()
+    frame_segmentation_info.init();
 }

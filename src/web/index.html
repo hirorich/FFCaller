@@ -14,6 +14,11 @@
     <title>FFCaller</title>
 </head>
 <body>
+    <!-- プロパティ -->
+    <div id="property" v-cloak>
+        <button class="btn btn-primary" v-on:click="clear_outdir()">出力フォルダクリア</button>
+    </div>
+
     <!-- 入力欄 -->
     <div id="input_info" v-cloak>
         <div class="form-group">
@@ -203,6 +208,7 @@
     </div>
 
     <!-- Vue定義 -->
+    <script src="property.js"></script>
     <script src="input_info.js"></script>
     <script src="stream_info.js"></script>
     <script src="trim_marge_info.js"></script>
