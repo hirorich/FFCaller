@@ -39,7 +39,7 @@ var frame_segmentation_info=new Vue({
 
 // 変換後フォルダ名(デフォルト)取得
 function converted_directry_name(filename) {
-    return './_output/frame/'
+    return property.outdir_frame;
 }
 
 // マージ・トリム結果取得
@@ -48,5 +48,5 @@ function response_segment(segment_info) {
 
     // 出力ファイル名
     output_directry_name=segment_info['output_directry_name'];
-    alert(output_directry_name)
+    alert(output_directry_name);
 }

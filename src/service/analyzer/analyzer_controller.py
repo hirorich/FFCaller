@@ -3,7 +3,7 @@
 # ==================================================
 
 from common.utility import json_utils
-from service.analyzer import analyze_command_creater
+from service.analyzer import analyze_command_creater, analyzer_controller_spare
 from service.analyzer.bean.response_bean import AnalyzerResponseBean, AnalyzerVideoStreamBean, AnalyzerAudioStreamBean, AnalyzerFormatBean
 from service.common import command_runner
 
@@ -20,10 +20,10 @@ def analize(request_bean):
     decodeed_video_info = json_utils.decode(''.join(proc_stdout))
     
     # 動画解析レスポンスBeanへセット
-    return create_response_bean(decodeed_video_info)
+    return create_response_bean(decodeed_video_info, request_bean.input_file_name)
 
 # 解析結果から動画解析レスポンスBeanを作成
-def create_response_bean(decodeed_video_info):
+def create_response_bean(decodeed_video_info, input_file_name):
     
     video_stream_bean = None
     audio_stream_bean_list = []
@@ -35,7 +35,7 @@ def create_response_bean(decodeed_video_info):
         
         # コーデックタイプがvideoの場合、ビデオストリームBeanを作成
         if codec_type == 'video':
-            video_stream_bean = create_video_stream_bean(decodeed_video_info['streams'][i])
+            video_stream_bean = create_video_stream_bean(decodeed_video_info['streams'][i], input_file_name)
             
         # コーデックタイプがaudioの場合、オーディオストリームBeanを作成
         elif codec_type == 'audio':
@@ -55,7 +55,7 @@ def create_response_bean(decodeed_video_info):
     return response_bean
 
 # 解析結果から動画解析ビデオストリームBeanを作成
-def create_video_stream_bean(decodeed_stream_info):
+def create_video_stream_bean(decodeed_stream_info, input_file_name):
     
     video_stream_bean = AnalyzerVideoStreamBean()
     video_stream_bean.index = decodeed_stream_info['index']
@@ -67,7 +67,10 @@ def create_video_stream_bean(decodeed_stream_info):
     video_stream_bean.width = decodeed_stream_info['width']
     video_stream_bean.height = decodeed_stream_info['height']
     video_stream_bean.r_frame_rate = decodeed_stream_info['r_frame_rate']
-    video_stream_bean.nb_frames = decodeed_stream_info['nb_frames']
+    if 'nb_frames' in decodeed_stream_info:
+        video_stream_bean.nb_frames = decodeed_stream_info['nb_frames']
+    else:
+        video_stream_bean.nb_frames = analyzer_controller_spare.get_nb_frames(input_file_name)
     
     return video_stream_bean
 

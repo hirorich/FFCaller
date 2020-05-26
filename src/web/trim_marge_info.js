@@ -60,7 +60,7 @@ function converted_file_name(filename) {
     filelist[filelist.length - 2]=filelist[filelist.length - 2] + '_converted';
     pathlist[pathlist.length - 1]=filelist.join(".");
     //return pathlist.join("/");
-    return './_output/' + filelist.join(".");
+    return property.outdir + filelist.join(".");
 }
 
 // マージ・トリム結果取得

@@ -2,6 +2,7 @@
 # ffmpegの入力部分設定
 # ==================================================
 
+from common.error import error_id
 from common.error.business_error import BusinessError
 from common.utility import file_utils
 from common.utility.type import number_utils, str_utils
@@ -19,12 +20,12 @@ def create_input_bean(input_file_bean):
     # 入力ファイル名が空白
     input_file_name = input_file_bean.input_file_name
     if str_utils.is_none_or_whitespace(input_file_name):
-        raise BusinessError('E0000001')
+        raise BusinessError(error_id.E0000001)
     
     # 入力ファイルが存在しない
     input_file_name = input_file_name.strip()
     if not file_utils.is_exists(input_file_name):
-        raise BusinessError('E0000002', input_file_name)
+        raise BusinessError(error_id.E0000002, input_file_name)
     
     # 入力ファイル名指定
     command_input_bean.input_file_name = input_file_name
@@ -46,28 +47,28 @@ def create_input_bean(input_file_bean):
         
         # 開始フレームは1以上を指定
         if number_utils.is_less(input_file_bean.start_frame, 1):
-            raise BusinessError('E0000003', 'start_frame' ,'1' , input_file_name)
+            raise BusinessError(error_id.E0000003, 'start_frame' ,'1' , input_file_name)
         
         # フレーム数は1以上を指定
         if number_utils.is_less(input_file_bean.end_frame, 1):
-            raise BusinessError('E0000003', 'end_frame' ,'1' , input_file_name)
+            raise BusinessError(error_id.E0000003, 'end_frame' ,'1' , input_file_name)
         
         # === 複合チェック ===
         # ビデオストリームがない場合、フレーム指定不可
         if video_stream_bean is None:
-            raise BusinessError('E0000008', input_file_name)
+            raise BusinessError(error_id.E0000008, input_file_name)
         
         # 開始フレームは総フレーム数以下を指定
         if number_utils.is_greater(input_file_bean.start_frame, video_stream_bean.nb_frames):
-            raise BusinessError('E0000004', 'start_frame', str(video_stream_bean.nb_frames), input_file_name)
+            raise BusinessError(error_id.E0000004, 'start_frame', str(video_stream_bean.nb_frames), input_file_name)
         
         # 終了フレームは総フレーム数以下を指定
         if number_utils.is_greater(input_file_bean.end_frame, video_stream_bean.nb_frames):
-            raise BusinessError('E0000004', 'end_frame', str(video_stream_bean.nb_frames), input_file_name)
+            raise BusinessError(error_id.E0000004, 'end_frame', str(video_stream_bean.nb_frames), input_file_name)
         
         # 終了フレームは開始フレーム以上を指定
         if number_utils.is_less(input_file_bean.end_frame, input_file_bean.start_frame):
-            raise BusinessError('E0000003', 'end_frame' ,str(input_file_bean.start_frame) , input_file_name)
+            raise BusinessError(error_id.E0000003, 'end_frame' ,str(input_file_bean.start_frame) , input_file_name)
         
         # 切り取りフレーム数（終了フレーム - 開始フレーム + 1）
         trim_frames = input_file_bean.end_frame - input_file_bean.start_frame + 1
@@ -83,22 +84,22 @@ def create_input_bean(input_file_bean):
         
         # 開始時間は0以上を指定
         if number_utils.is_less(input_file_bean.start_time, 0):
-            raise BusinessError('E0000003', 'start_time' ,'0' , input_file_name)
+            raise BusinessError(error_id.E0000003, 'start_time' ,'0' , input_file_name)
         
         # 切り取り期間は0以上を指定
         if number_utils.is_less(input_file_bean.trim_duration, 0):
-            raise BusinessError('E0000003', 'trim_duration' ,'0' , input_file_name)
+            raise BusinessError(error_id.E0000003, 'trim_duration' ,'0' , input_file_name)
         
         # === 複合チェック ===
         # 開始フレームは動画再生時間以下を指定
         if number_utils.is_greater(input_file_bean.start_time, format_bean.duration):
-            raise BusinessError('E0000004', 'start_frame', str(format_bean.duration), input_file_name)
+            raise BusinessError(error_id.E0000004, 'start_frame', str(format_bean.duration), input_file_name)
         
         # 終了時間（開始時間 + 切り取り期間）は
         # 動画再生時間以下を指定
         end_time = input_file_bean.start_time + input_file_bean.trim_duration
         if number_utils.is_greater(end_time, format_bean.duration):
-            raise BusinessError('E0000004', 'start_frameとtrim_durationの合計', str(format_bean.duration), input_file_name)
+            raise BusinessError(error_id.E0000004, 'start_frameとtrim_durationの合計', str(format_bean.duration), input_file_name)
         # ====================
         
         start_time = input_file_bean.start_time
