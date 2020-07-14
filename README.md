@@ -26,7 +26,7 @@
   - BSD 3-Clause License
 - [opencv](https://anaconda.org/anaconda/opencv) v.4.0.1
   - BSD 3-Clause License
-  - アイコン作成のみに使用
+  - アイコン作成、一部バグ対応に使用
 - [eel](https://github.com/samuelhwilliams/Eel) v.0.12.3
   - MIT License
   - Anacondaからターミナルを開き以下を実行することでインストール
