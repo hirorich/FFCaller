@@ -174,7 +174,7 @@ def create_image(pos_dict, color1='blue', color2='yellow'):
     img_data += np.flip(img_data, (0, 1))[:, :, (1, 0, 0, 3)]
     
     # 画像出力
-    cv2.imwrite('./icon/icon_512x512.png', img_data)
+    cv2.imwrite('./icon_512x512.png', img_data)
 
 # main
 if __name__ == "__main__":
