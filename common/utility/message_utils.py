@@ -2,11 +2,35 @@
 # メッセージ取得部品
 # ==================================================
 
-from common.utility import sqlite3_utils
+from common import app_property
+from common.utility import path_utils, sqlite3_utils
 from common.utility.type import str_utils
 
+# IDを基にメッセージ取得
+def get_business_error_message(business_error):
+    
+    try:
+        
+        # メッセージ指定チェック
+        if len(business_error.args) == 0:
+            return 'エラーメッセージ未指定'
+        
+        # メッセージIDとパラメータ取得
+        message_id = business_error.args[0]
+        if len(business_error.args) >= 2:
+            message_args = business_error.args[1:]
+        else:
+            message_args = None
+        
+        # メッセージ取得
+        return get_message(message_id, message_args)
+        
+    except:
+        # 例外が発生した場合はメッセージ取得に失敗した旨を返却
+        return 'エラーメッセージの取得失敗'
+
 # メッセージ取得
-def get_message(message_id, message_args):
+def get_message(message_id, message_args = None):
     
     # メッセージIDのチェック
     if str_utils.is_none_or_whitespace(message_id):
@@ -24,13 +48,13 @@ def get_message(message_id, message_args):
         for i in range(len(message_args)):
             message = message.replace('%' + str(i), message_args[i])
     
-    return message_id + '：' + message
+    return message_id + '：\n' + message.replace('\\n', '\n')
 
 # テーブルからメッセージ内容取得
 def select_tb_message(message_id):
     
     # 実行するクエリを定義
-    db_filename = './db/cmn_db.sqlite3'
+    db_filename = path_utils.convert_to_absolute_path(app_property.add_data.cmn_db_sqlite3)
     query = 'select id, message from tb_message where id = ?'
     param = (message_id,)
     

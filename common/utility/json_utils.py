@@ -2,14 +2,36 @@
 # json共通部品
 # ==================================================
 
-# jsonを扱う
 import json
 
-# String -> dict
-def decode(json_string):
-    return json.loads(json_string)
+class __Element:
+    def __setattr__(self, name, value):
+        if name in self.__dict__:
+            raise AttributeError('属性の上書きはできません（' + name + '）')
+        self.__dict__[name] = value
 
-# dict -> String
-def encode(json_dict):
-    return json.dumps(json_dict, ensure_ascii=False)
+# jsonファイルをオブジェクトに変換
+def __dict_to_object(obj):
+    
+    if isinstance(obj, dict):
+        obj_dict = __Element()
+        for k, v in obj.items():
+            obj_dict.__setattr__(k, __dict_to_object(v))
+        return obj_dict
+    elif isinstance(obj, list) or isinstance(obj, tuple):
+        obj_list = []
+        for item in obj:
+            obj_list.append(__dict_to_object(item))
+        return tuple(obj_list)
+    else:
+        return obj
 
+# jsonファイルをオブジェクトに変換
+def json_file_to_object(json_file):
+    
+    # jsonファイルを読み込む
+    with open(json_file) as f:
+        dict_json = json.load(f)
+    
+    # オブジェクトに変換
+    return __dict_to_object(dict_json)
