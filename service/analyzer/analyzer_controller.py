@@ -2,10 +2,9 @@
 # 動画解析のコントロール部品
 # ==================================================
 
-from common.utility import json_utils
+from common.utility import command_utils, json_utils
 from service.analyzer import analyze_command_creater, analyzer_controller_spare
 from service.analyzer.bean.response_bean import AnalyzerResponseBean, AnalyzerVideoStreamBean, AnalyzerAudioStreamBean, AnalyzerFormatBean
-from service.common import command_runner
 
 # 解析実行
 def analize(request_bean):
@@ -14,7 +13,7 @@ def analize(request_bean):
     command = analyze_command_creater.create_command(request_bean)
     
     # 実行
-    proc_stdout = command_runner.run(command, True)
+    proc_stdout = command_utils.run(command, True)
     
     # json文字列から辞書型に変換
     decodeed_video_info = json_utils.decode(''.join(proc_stdout))
