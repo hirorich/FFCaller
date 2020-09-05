@@ -1,9 +1,6 @@
 /* メッセージTBL作成 */
 /*
-if not exist "db" mkdir "db"
-call loadenv.bat env\python.env
-call conda activate %env%
-sqlite3 ./db/cmn_db.sqlite3 < ./sql/create_tb_message.sql
+sqlite3 ./cmn_db.sqlite3 < ./create_tb_message.sql
 */
 
 /* メッセージTBL作成 */

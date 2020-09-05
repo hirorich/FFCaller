@@ -9,9 +9,7 @@ call env\loadenv.bat env\python.env
 call conda activate %env%
 
 rem é¿çs
-if not exist "db" mkdir "db"
-if exist ".\tb_message.txt" del ".\tb_message.txt"
 if exist ".\db\cmn_db.sqlite3" del ".\db\cmn_db.sqlite3"
-sqlite3 ./db/cmn_db.sqlite3 < ./sql/create_tb_message.sql
+sqlite3 ./db/cmn_db.sqlite3 < ./db/create_tb_message.sql
 
 pause
