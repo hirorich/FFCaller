@@ -12,5 +12,5 @@ python icon.py
 
 rem ÉAÉCÉRÉìçÏê¨
 magick ./icon_512x512.png -define icon:auto-resize ./icon.ico
-copy /Y .\icon.ico ..\web\icon
+copy /Y .\icon.ico ..\web
 

@@ -11,7 +11,7 @@ def clear_outdir():
         create_outdir()
     except Exception as e:
         message = log_utils.write_exception(e)
-        eel.get_server_error_msg(message)
+        eel.common_response_error_msg(message)
 
 # javascriptからプロパティ情報を取得する
 @eel.expose
@@ -21,7 +21,7 @@ def get_property():
         eel.set_property(app_property.outdir)
     except Exception as e:
         message = log_utils.write_exception(e)
-        eel.get_server_error_msg(message)
+        eel.common_response_error_msg(message)
 
 # 出力先フォルダ生成
 def create_outdir():

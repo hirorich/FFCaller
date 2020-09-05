@@ -16,7 +16,7 @@ def marge_trim(request):
         eel.response_marge_trim(convert_info)
     except Exception as e:
         message = log_utils.write_exception(e)
-        eel.get_server_error_msg(message)
+        eel.common_response_error_msg(message)
 
 # 動画変換処理実行
 def exec(request_dict):

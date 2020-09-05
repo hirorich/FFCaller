@@ -16,7 +16,7 @@ def analyze(request):
         eel.response_analyzer(analyze_info)
     except Exception as e:
         message = log_utils.write_exception(e)
-        eel.get_server_error_msg(message)
+        eel.common_response_error_msg(message)
 
 # 動画解析処理実行
 def exec(request_dict):
