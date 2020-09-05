@@ -1,1 +1,26 @@
-{"port":9090,"browser":"chrome","outdir":"./_output/"}
+{
+    "app_name": "FFCaller",
+    "system_date": "YYYY/mm/dd",
+    "system_time": "HH:MM:SS",
+    
+    "add_data": {
+        "cmn_db_sqlite3": "./db/cmn_db.sqlite3",
+        "icon_ico": "./icon/icon.ico"
+    },
+    
+    "eel": {
+        "init": "web",
+        "start": "index.html",
+        "mode": "chrome",
+        "port": 0,
+        "position": [400, 100],
+        "size": [800, 600],
+        "cmdline_args": ["--incognito"]
+    },
+    
+    "external_cmd": {
+        "ffmpeg": "ffmpeg"
+    },
+    
+    "outdir":"./_output/"
+}

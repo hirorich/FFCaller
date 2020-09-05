@@ -2,8 +2,21 @@
 # 動画変換ツール
 # ==================================================
 
+import eel
+from common.utility import log_utils
 from service.marger import request_bean_parser
 from service.marger import marger_controller
+
+# javascriptから動画変換ツールを呼び出す
+@eel.expose
+def marge_trim(request):
+    
+    try:
+        convert_info = exec(request)
+        eel.response_marge_trim(convert_info)
+    except Exception as e:
+        message = log_utils.write_exception(e)
+        eel.get_server_error_msg(message)
 
 # 動画変換処理実行
 def exec(request_dict):

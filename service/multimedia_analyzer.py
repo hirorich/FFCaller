@@ -2,8 +2,21 @@
 # 動画解析ツール
 # ==================================================
 
+import eel
+from common.utility import log_utils
 from service.analyzer import request_bean_parser
 from service.analyzer import analyzer_controller
+
+# javascriptから動画解析ツールを呼び出す
+@eel.expose
+def analyze(request):
+    
+    try:
+        analyze_info = exec(request)
+        eel.response_analyzer(analyze_info)
+    except Exception as e:
+        message = log_utils.write_exception(e)
+        eel.get_server_error_msg(message)
 
 # 動画解析処理実行
 def exec(request_dict):
