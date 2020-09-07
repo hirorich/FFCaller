@@ -5,6 +5,7 @@
     
     "add_data": {
         "cmn_db_sqlite3": "./db/cmn_db.sqlite3",
+        "ffc_db_sqlite3": "./db/ffc_db.sqlite3",
         "icon_ico": "./icon/icon.ico"
     },
     
@@ -22,5 +23,6 @@
         "ffmpeg": "ffmpeg"
     },
     
-    "outdir":"./_output/"
+    "workdir":"video",
+    "outdir":"output"
 }
