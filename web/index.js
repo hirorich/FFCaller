@@ -2,6 +2,6 @@
 const vm = new Vue({
     el: '#ffcaller-components',
     components: {
-        'sample': sample
+        'target-component': target_component
     }
 });
