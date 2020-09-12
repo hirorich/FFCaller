@@ -8,7 +8,7 @@ from common import app_property
 from common.utility import file_utils, log_utils, path_utils
 from service.analyzer import analyzer_ffprobe
 from service.ffc.sql import ffc_insert, ffc_searcher
-from service.ffc.entity.ffc_file_entity import FileEntity
+from service.ffc.entity.file_entity import FileEntity
 
 # 実行
 def exec(conn):
