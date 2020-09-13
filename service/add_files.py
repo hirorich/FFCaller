@@ -6,7 +6,7 @@
 import eel, sqlite3
 from common import app_property
 from common.utility import log_utils, path_utils
-from service.ffc import ffc_add_files
+from service.ffc import ffc_add_files, ffc_response_target
 
 @eel.expose
 def select_files():
@@ -21,6 +21,7 @@ def select_files():
             ffc_add_files.exec(conn)
             
             # 追加後情報を返却
+            ffc_response_target.exec(conn)
             
             # 追加情報反映
             conn.commit()
