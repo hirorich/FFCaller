@@ -30,9 +30,9 @@ def get_file_duration_by_id(conn, file_id):
     result = sqlite3_utils.fetchall(conn, ' '.join(query), param)
     entity = FileDurationEntity()
     if len(result) != 0:
-        entity.file_id = result[0]['file_id']
-        entity.duration = result[0]['duration']
-        entity.nb_frames = result[0]['nb_frames']
+        entity.file_id = result[0][0]
+        entity.trim_duration = result[0][1]
+        entity.nb_frames = result[0][2]
     
     return entity
 
@@ -46,9 +46,9 @@ def get_file_duration_by_path(conn, filepath):
     result = sqlite3_utils.fetchall(conn, ' '.join(query), param)
     entity = FileDurationEntity()
     if len(result) != 0:
-        entity.file_id = result[0]['file_id']
-        entity.duration = result[0]['duration']
-        entity.nb_frames = result[0]['nb_frames']
+        entity.file_id = result[0][0]
+        entity.trim_duration = result[0][1]
+        entity.nb_frames = result[0][2]
     
     return entity
 

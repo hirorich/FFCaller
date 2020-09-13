@@ -10,7 +10,7 @@ class TrimEntity():
         self.__trim_duration = 0.0
         self.__start_frame = 0
         self.__end_frame = 0
-        self.__frame_input_flag = false
+        self.__frame_input_flag = False
         self.__video_fade_in = 0.0
         self.__video_fade_out = 0.0
         self.__audio_fade_in = 0.0

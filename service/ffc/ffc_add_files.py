@@ -131,5 +131,5 @@ def __insert_triminfo(conn, file_duration_entity):
     trim_entity = TrimEntity()
     trim_entity.target_id = target_entity.target_id
     trim_entity.trim_duration = file_duration_entity.trim_duration
-    trim_entity.end_frame = file_duration_entity.end_frame
+    trim_entity.end_frame = file_duration_entity.nb_frames
     ffc_insert.insert_trim(conn, trim_entity)
