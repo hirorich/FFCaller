@@ -23,25 +23,25 @@ class FileEntity():
         return self.__filename
     @filename.setter
     def filename(self, filename):
-        self.__filename = filename
+        self.__filename = str(filename)
     
     @property
     def filepath(self):
         return self.__filepath
     @filepath.setter
     def filepath(self, filepath):
-        self.__filepath = filepath
+        self.__filepath = str(filepath)
     
     @property
     def workpath(self):
         return self.__workpath
     @workpath.setter
     def workpath(self, workpath):
-        self.__workpath = workpath
+        self.__workpath = str(workpath)
     
     @property
     def webpath(self):
         return self.__webpath
     @webpath.setter
     def webpath(self, webpath):
-        self.__webpath = webpath
+        self.__webpath = str(webpath)

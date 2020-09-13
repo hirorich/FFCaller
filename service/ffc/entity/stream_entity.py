@@ -32,21 +32,21 @@ class StreamEntity():
         return self.__codec_type
     @codec_type.setter
     def codec_type(self, codec_type):
-        self.__codec_type = codec_type
+        self.__codec_type = str(codec_type)
     
     @property
     def codec_name(self):
         return self.__codec_name
     @codec_name.setter
     def codec_name(self, codec_name):
-        self.__codec_name = codec_name
+        self.__codec_name = str(codec_name)
     
     @property
     def codec_long_name(self):
         return self.__codec_long_name
     @codec_long_name.setter
     def codec_long_name(self, codec_long_name):
-        self.__codec_long_name = codec_long_name
+        self.__codec_long_name = str(codec_long_name)
     
     @property
     def duration(self):

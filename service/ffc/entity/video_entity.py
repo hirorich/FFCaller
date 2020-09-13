@@ -45,7 +45,7 @@ class VideoEntity():
         return self.__r_frame_rate
     @r_frame_rate.setter
     def r_frame_rate(self, r_frame_rate):
-        self.__r_frame_rate = r_frame_rate
+        self.__r_frame_rate = str(r_frame_rate)
     
     @property
     def nb_frames(self):
