@@ -14,18 +14,18 @@ class AudioEntity():
         return self.__file_id
     @file_id.setter
     def file_id(self, file_id):
-        self.__file_id = file_id
+        self.__file_id = int(file_id)
     
     @property
     def stream_index(self):
         return self.__stream_index
     @stream_index.setter
     def stream_index(self, stream_index):
-        self.__stream_index = stream_index
+        self.__stream_index = int(stream_index)
     
     @property
     def sample_rate(self):
         return self.__sample_rate
     @sample_rate.setter
     def sample_rate(self, sample_rate):
-        self.__sample_rate = sample_rate
+        self.__sample_rate = int(sample_rate)

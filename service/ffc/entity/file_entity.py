@@ -16,7 +16,7 @@ class FileEntity():
         return self.__file_id
     @file_id.setter
     def file_id(self, file_id):
-        self.__file_id = file_id
+        self.__file_id = int(file_id)
     
     @property
     def filename(self):

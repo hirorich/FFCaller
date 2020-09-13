@@ -18,14 +18,14 @@ class StreamEntity():
         return self.__file_id
     @file_id.setter
     def file_id(self, file_id):
-        self.__file_id = file_id
+        self.__file_id = int(file_id)
     
     @property
     def stream_index(self):
         return self.__stream_index
     @stream_index.setter
     def stream_index(self, stream_index):
-        self.__stream_index = stream_index
+        self.__stream_index = int(stream_index)
     
     @property
     def codec_type(self):
@@ -53,11 +53,11 @@ class StreamEntity():
         return self.__duration
     @duration.setter
     def duration(self, duration):
-        self.__duration = duration
+        self.__duration = float(duration)
     
     @property
     def bit_rate(self):
         return self.__bit_rate
     @bit_rate.setter
     def bit_rate(self, bit_rate):
-        self.__bit_rate = bit_rate
+        self.__bit_rate = int(bit_rate)
