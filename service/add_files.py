@@ -10,9 +10,10 @@ from service.ffc import ffc_add_files
 
 @eel.expose
 def select_files():
+    
     try:
         
-        # 
+        # DB接続
         db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
         with sqlite3.connect(db_filename) as conn:
             
@@ -21,5 +22,8 @@ def select_files():
             
             # 追加後情報を返却
             
+            # 追加情報反映
+            conn.commit()
+        
     except Exception as e:
         message = log_utils.write_exception(e)

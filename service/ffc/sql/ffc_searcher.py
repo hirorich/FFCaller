@@ -64,7 +64,7 @@ def get_max_file_id(conn):
     if len(result) == 0:
         return 0
     else:
-        return result[0]['max_file_id']
+        return result[0][0]
 
 # ターゲットIDの最大値取得
 def get_max_target_id(conn):
@@ -78,7 +78,7 @@ def get_max_target_id(conn):
     if len(result) == 0:
         return 0
     else:
-        return result[0]['max_file_id']
+        return result[0][0]
 
 # 並び順の最大値取得
 def get_max_item_order(conn):
@@ -92,4 +92,4 @@ def get_max_item_order(conn):
     if len(result) == 0:
         return 0
     else:
-        return result[0]['max_item_order']
+        return result[0][0]
