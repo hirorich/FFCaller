@@ -32,5 +32,10 @@ const target_component = {
                 </tbody>
             </table>
         </div>
-    `
+    `,
+    methods: {
+        set_target_list: function(target_list) {
+            this.target_data = target_list;
+        }
+    }
 }

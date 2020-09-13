@@ -10,4 +10,4 @@ call conda activate %env%
 rem é¿çs
 python main.py
 
-pause
+rem pause
