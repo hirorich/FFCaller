@@ -30,6 +30,7 @@ def read_file_one_line(filename):
 # ファイル選択
 def open_file_dialog():
     root = Tk()
+    root.attributes('-topmost', True)
     root.withdraw()
     file_list = filedialog.askopenfilenames()
     root.destroy()
