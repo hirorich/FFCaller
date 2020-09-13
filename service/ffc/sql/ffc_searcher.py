@@ -79,3 +79,17 @@ def get_max_target_id(conn):
         return 0
     else:
         return result[0]['max_file_id']
+
+# 並び順の最大値取得
+def get_max_item_order(conn):
+    query = []
+    query.append(r'select')
+    query.append(r'max(item_order) as max_item_order')
+    query.append(r'from Target')
+    query.append(r'group by item_order')
+    
+    result = sqlite3_utils.fetchall(conn, ' '.join(query))
+    if len(result) == 0:
+        return 0
+    else:
+        return result[0]['max_item_order']
