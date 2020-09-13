@@ -7,7 +7,7 @@ import pathlib, shutil
 from common import app_property
 from common.utility import file_utils, log_utils, path_utils
 from service.analyzer import analyzer_ffprobe
-from service.ffc.sql import ffc_insert, ffc_searcher
+from service.ffc.sql import ffc_sql_add_files, ffc_insert
 from service.ffc.entity.target_entity import TargetEntity
 from service.ffc.entity.trim_entity import TrimEntity
 from service.ffc.entity.file_entity import FileEntity
@@ -46,12 +46,12 @@ def __add_file(workdir, conn, input_file):
     file_entity.filepath = file.resolve().absolute().as_posix()
     
     # 登録済み情報取得
-    file_duration_entity = ffc_searcher.get_file_duration_by_path(conn, file_entity.filepath)
+    file_duration_entity = ffc_sql_add_files.get_file_duration_by_path(conn, file_entity.filepath)
     if file_duration_entity.file_id is not None:
         return file_duration_entity
     
     # ファイルID発行
-    file_entity.file_id = ffc_searcher.get_max_file_id(conn) + 1
+    file_entity.file_id = ffc_sql_add_files.get_max_file_id(conn) + 1
     
     # ファイルコピー
     copiedfile = str(file_entity.file_id) + file.suffix
@@ -115,16 +115,16 @@ def __insert_fileinfo(conn, file_entity, analized_result):
             ffc_insert.insert_audio(conn, audio_entity)
     
     # 登録情報返却
-    return ffc_searcher.get_file_duration_by_id(conn, file_entity.file_id)
+    return ffc_sql_add_files.get_file_duration_by_id(conn, file_entity.file_id)
 
 # トリム情報DB追加
 def __insert_triminfo(conn, file_duration_entity):
     
     # Targetテーブル登録
     target_entity = TargetEntity()
-    target_entity.target_id = ffc_searcher.get_max_target_id(conn) + 1
+    target_entity.target_id = ffc_sql_add_files.get_max_target_id(conn) + 1
     target_entity.file_id = file_duration_entity.file_id
-    target_entity.item_order = ffc_searcher.get_max_item_order(conn) + 1
+    target_entity.item_order = ffc_sql_add_files.get_max_item_order(conn) + 1
     ffc_insert.insert_target(conn, target_entity)
     
     # Trimテーブル登録
