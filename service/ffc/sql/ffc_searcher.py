@@ -58,10 +58,11 @@ def get_max_file_id(conn):
     query.append(r'select')
     query.append(r'max(file_id) as max_file_id')
     query.append(r'from File')
-    query.append(r'group by file_id')
     
     result = sqlite3_utils.fetchall(conn, ' '.join(query))
     if len(result) == 0:
+        return 0
+    elif result[0][0] is None:
         return 0
     else:
         return result[0][0]
@@ -72,10 +73,11 @@ def get_max_target_id(conn):
     query.append(r'select')
     query.append(r'max(target_id) as max_target_id')
     query.append(r'from Target')
-    query.append(r'group by target_id')
     
     result = sqlite3_utils.fetchall(conn, ' '.join(query))
     if len(result) == 0:
+        return 0
+    elif result[0][0] is None:
         return 0
     else:
         return result[0][0]
@@ -86,10 +88,11 @@ def get_max_item_order(conn):
     query.append(r'select')
     query.append(r'max(item_order) as max_item_order')
     query.append(r'from Target')
-    query.append(r'group by item_order')
     
     result = sqlite3_utils.fetchall(conn, ' '.join(query))
     if len(result) == 0:
+        return 0
+    elif result[0][0] is None:
         return 0
     else:
         return result[0][0]
