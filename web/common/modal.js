@@ -2,7 +2,7 @@
 // slotでtitle, body, buttonを指定
 const modal_component = {
     template: `
-        <div class="modal fade">
+        <div class="modal fade" data-backdrop="static">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
