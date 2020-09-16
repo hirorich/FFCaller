@@ -1,10 +1,15 @@
 // モーダル画面
 // slotでtitle, body, buttonを指定
 const modal_component = {
+    data: function() {
+        return {
+            is_show: false
+        }
+    },
     template: `
         <div class="modal fade" data-backdrop="static">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div v-if="is_show" class="modal-content">
                     <div class="modal-header">
                         <slot name="title"></slot>
                     </div>
@@ -21,10 +26,12 @@ const modal_component = {
     `,
     methods: {
         show_modal: function() {
+            this.is_show = true;
             $(this.$el).modal('show');
         },
         close_modal: function() {
             $(this.$el).modal('hide');
+            this.is_show = false;
         }
     }
 }
