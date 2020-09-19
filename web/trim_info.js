@@ -1,19 +1,3 @@
-// 小数点以下3桁のFloat型に変換
-let convertFloat = function(value) {
-    let work_value = parseFloat(value);
-    if (isNaN(work_value)) {
-        return NaN;
-    } else if (String(work_value) != String(value)) {
-        return NaN;
-    }
-
-    try {
-        return parseInt(work_value * 1000) / 1000;
-    } catch(e) {
-        return NaN;
-    }
-};
-
 // コンポーネント定義
 const trim_info = {
     components: {
@@ -23,51 +7,11 @@ const trim_info = {
         videoSrc: {
             type: String,
             required: true
-        },
-        videoDuration: {
-            type: Number,
-            default: 0
-        },
-        nbFrames: {
-            type: Number,
-            default: 0
-        },
-        startTime: {
-            type: Number,
-            default: 0
-        },
-        endTime: {
-            type: Number,
-            default: 0
-        },
-        startFrame: {
-            type: Number,
-            default: 0
-        },
-        endFrame: {
-            type: Number,
-            default: 0
-        },
-        videoFadeIn: {
-            type: Number,
-            default: 0
-        },
-        videoFadeOut: {
-            type: Number,
-            default: 0
-        },
-        audioFadeIn: {
-            type: Number,
-            default: 0
-        },
-        audioFadeOut: {
-            type: Number,
-            default: 0
         }
     },
     data: function() {
         return {
-            video_src: this.videoSrc,
+            video_src: String(this.videoSrc).trim(),
             frame_specification_flag : false,
             video_duration: 0,
             nb_frames: 0,
@@ -93,91 +37,26 @@ const trim_info = {
             work_audio_fade_out: 0
         }
     },
-    mounted: function() {
-        this.video_duration = convertFloat(this.videoDuration);
-        if (isNaN(this.video_duration) || this.video_duration < 0) {
-            this.video_duration = 0;
-        }
+    computed :{
+        validation: function() {
+            let valid = true;
+            valid = valid && (0 <= this.work_start_time);
+            valid = valid && (this.work_start_time <= this.work_end_time);
+            valid = valid && (this.work_end_time <= this.video_duration);
 
-        this.nb_frames = parseInt(this.nbFrames);
-        if (isNaN(this.nb_frames) || this.nb_frames < 0) {
-            this.nb_frames = 0;
-        }
+            let video_fade_in_time = this.work_start_time + this.work_video_fade_in;
+            let video_fade_out_time = this.work_end_time - this.work_video_fade_out;
+            valid = valid && (this.work_start_time <= video_fade_in_time);
+            valid = valid && (video_fade_in_time <= video_fade_out_time);
+            valid = valid && (video_fade_out_time <= this.work_end_time);
 
-        let start_time = convertFloat(this.startTime);
-        if (isNaN(start_time) || start_time < 0) {
-            this.in_start_time = 0;
-            this.out_start_time = 0;
-            this.work_start_time = 0;
-        } else {
-            this.in_start_time = start_time;
-            this.out_start_time = start_time;
-            this.work_start_time = start_time;
-        }
+            let audio_fade_in_time = this.work_start_time + this.work_audio_fade_in;
+            let audio_fade_out_time = this.work_end_time - this.work_audio_fade_out;
+            valid = valid && (this.work_start_time <= audio_fade_in_time);
+            valid = valid && (audio_fade_in_time <= audio_fade_out_time);
+            valid = valid && (audio_fade_out_time <= this.work_end_time);
 
-        let end_time = convertFloat(this.endTime);
-        if (isNaN(end_time) || end_time < 0 || this.video_duration < end_time) {
-            this.in_end_time = this.video_duration;
-            this.out_end_time = this.video_duration;
-            this.work_end_time = this.video_duration;
-        } else {
-            this.in_end_time = end_time;
-            this.out_end_time = end_time;
-            this.work_end_time = end_time;
-        }
-
-        this.in_start_frame = parseInt(this.startFrame);
-        if (isNaN(this.in_start_frame) || this.in_start_frame < 0) {
-            this.in_start_frame = 0;
-        }
-
-        this.in_end_frame = parseInt(this.endFrame);
-        if (isNaN(this.in_end_frame) || this.in_end_frame < 0 || this.nb_frames < this.in_end_frame) {
-            this.in_end_frame = this.nb_frames;
-        }
-
-        let video_fade_in = convertFloat(this.videoFadeIn);
-        if (isNaN(video_fade_in) || video_fade_in < 0) {
-            this.in_video_fade_in = 0;
-            this.out_video_fade_in = 0;
-            this.work_video_fade_in = 0;
-        } else {
-            this.in_video_fade_in = video_fade_in;
-            this.out_video_fade_in = video_fade_in;
-            this.work_video_fade_in = video_fade_in;
-        }
-
-        let video_fade_out = convertFloat(this.videoFadeOut);
-        if (isNaN(video_fade_out) || video_fade_out < 0) {
-            this.in_video_fade_out = 0;
-            this.out_video_fade_out = 0;
-            this.work_video_fade_out = 0;
-        } else {
-            this.in_video_fade_out = video_fade_out;
-            this.out_video_fade_out = video_fade_out;
-            this.work_video_fade_out = video_fade_out;
-        }
-
-        let audio_fade_in = convertFloat(this.audioFadeIn);
-        if (isNaN(audio_fade_in) || audio_fade_in < 0) {
-            this.in_audio_fade_in = 0;
-            this.out_audio_fade_in = 0;
-            this.work_audio_fade_in = 0;
-        } else {
-            this.in_audio_fade_in = audio_fade_in;
-            this.out_audio_fade_in = audio_fade_in;
-            this.work_audio_fade_in = audio_fade_in;
-        }
-
-        let audio_fade_out = convertFloat(this.audioFadeOut);
-        if (isNaN(audio_fade_out) || audio_fade_out < 0) {
-            this.in_audio_fade_out = 0;
-            this.out_audio_fade_out = 0;
-            this.work_audio_fade_out = 0;
-        } else {
-            this.in_audio_fade_out = audio_fade_out;
-            this.out_audio_fade_out = audio_fade_out;
-            this.work_audio_fade_out = audio_fade_out;
+            return valid;
         }
     },
     template: `
@@ -191,7 +70,7 @@ const trim_info = {
                     v-bind:video-fade-out="out_video_fade_out"
                     v-bind:audio-fade-in="out_audio_fade_in"
                     v-bind:audio-fade-out="out_audio_fade_out"
-                    v-on:load="onLoad"></video-player>
+                    v-on:load="onVideoLoad"></video-player>
             </div>
             <div>
                 <div class="form-group">
@@ -251,9 +130,127 @@ const trim_info = {
         </div>
     `,
     methods: {
-        onLoad: function(value) {
-            this.video_duration = convertFloat(value);
+        set_trim_info: function(info) {
+            let video_src = "";
+            try {
+                video_src = String(info.video_src).trim();
+            } catch(e) {}
+            this.video_src = video_src;
+
+            let frame_specification_flag = false;
+            try {
+                frame_specification_flag = info.frame_specification_flag;
+                if (typeof(frame_specification_flag) != "boolean") {
+                    frame_specification_flag = false;
+                }
+            } catch(e) {}
+            this.frame_specification_flag = frame_specification_flag;
+
+            let video_duration = 0;
+            try {
+                video_duration = convertFloat(info.video_duration);
+                if (isNaN(video_duration) || video_duration < 0) {
+                    video_duration = 0;
+                }
+            } catch(e) {}
+            this.video_duration = video_duration;
+
+            let nb_frames = 0;
+            try {
+                nb_frames = parseInt(info.nb_frames);
+                if (isNaN(nb_frames) || nb_frames < 0) {
+                    nb_frames = 0;
+                }
+            } catch(e) {}
+            this.nb_frames = nb_frames;
+
+            let start_time = 0;
+            try {
+                start_time = convertFloat(info.start_time);
+                if (isNaN(start_time) || start_time < 0) {
+                    start_time = 0;
+                }
+            } catch(e) {}
+            this.in_start_time = start_time;
+            this.out_start_time = start_time;
+            this.work_start_time = start_time;
+
+            let end_time = 0;
+            try {
+                end_time = convertFloat(info.end_time);
+                if (isNaN(end_time) || end_time < 0 || this.video_duration < end_time) {
+                    end_time = this.video_duration;
+                }
+            } catch(e) {}
+            this.in_end_time = end_time;
+            this.out_end_time = end_time;
+            this.work_end_time = end_time;
+
+            let in_start_frame = 0;
+            try {
+                in_start_frame = parseInt(info.start_frame);
+                if (isNaN(in_start_frame) || in_start_frame < 0) {
+                    in_start_frame = 0;
+                }
+            } catch(e) {}
+            this.in_start_frame = in_start_frame;
+
+            let in_end_frame = 0;
+            try {
+                in_end_frame = parseInt(info.end_frame);
+                if (isNaN(in_end_frame) || in_end_frame < 0 || this.nb_frames < in_end_frame) {
+                    in_end_frame = this.nb_frames;
+                }
+            } catch(e) {}
+            this.in_end_frame = in_end_frame;
+
+            let video_fade_in = 0;
+            try {
+                video_fade_in = convertFloat(info.video_fade_in);
+                if (isNaN(video_fade_in) || video_fade_in < 0) {
+                    video_fade_in = 0;
+                }
+            } catch(e) {}
+            this.in_video_fade_in = video_fade_in;
+            this.out_video_fade_in = video_fade_in;
+            this.work_video_fade_in = video_fade_in;
+
+            let video_fade_out = 0;
+            try {
+                video_fade_out = convertFloat(info.video_fade_out);
+                if (isNaN(video_fade_out) || video_fade_out < 0) {
+                    video_fade_out = 0;
+                }
+            } catch(e) {}
+            this.in_video_fade_out = video_fade_out;
+            this.out_video_fade_out = video_fade_out;
+            this.work_video_fade_out = video_fade_out;
+
+            let audio_fade_in = 0;
+            try {
+                audio_fade_in = convertFloat(info.audio_fade_in);
+                if (isNaN(audio_fade_in) || audio_fade_in < 0) {
+                    audio_fade_in = 0;
+                }
+            } catch(e) {}
+            this.in_audio_fade_in = audio_fade_in;
+            this.out_audio_fade_in = audio_fade_in;
+            this.work_audio_fade_in = audio_fade_in;
+
+            let audio_fade_out = 0;
+            try {
+                audio_fade_out = convertFloat(info.audio_fade_out);
+                if (isNaN(audio_fade_out) || audio_fade_out < 0) {
+                    audio_fade_out = 0;
+                }
+            } catch(e) {}
+            this.in_audio_fade_out = audio_fade_out;
+            this.out_audio_fade_out = audio_fade_out;
+            this.work_audio_fade_out = audio_fade_out;
+    },
+        onVideoLoad: function(value) {
             if (this.work_end_time <= 0) {
+                this.video_duration = convertFloat(value);
                 this.in_end_time = this.video_duration;
                 this.out_end_time = this.video_duration;
                 this.work_end_time = this.video_duration;
@@ -261,7 +258,7 @@ const trim_info = {
         },
         onBlurStartTime: function() {
             this.work_start_time = convertFloat(this.in_start_time);
-            if (isNaN(this.work_start_time) || !this.validation()) {
+            if (isNaN(this.work_start_time) || !this.validation) {
                 this.in_start_time = this.out_start_time;
                 this.work_start_time = this.out_start_time;
                 return;
@@ -271,7 +268,7 @@ const trim_info = {
         },
         onBlurEndTime: function() {
             this.work_end_time = convertFloat(this.in_end_time);
-            if (isNaN(this.work_end_time) || !this.validation()) {
+            if (isNaN(this.work_end_time) || !this.validation) {
                 this.in_end_time = this.out_end_time;
                 this.work_end_time = this.out_end_time;
                 return;
@@ -283,7 +280,7 @@ const trim_info = {
         onBlurEndFrame: function() {},
         onBlurVideoFadeIn: function() {
             this.work_video_fade_in = convertFloat(this.in_video_fade_in);
-            if (isNaN(this.work_video_fade_in) || !this.validation()) {
+            if (isNaN(this.work_video_fade_in) || !this.validation) {
                 this.in_video_fade_in = this.out_video_fade_in;
                 this.work_video_fade_in = this.out_video_fade_in;
                 return;
@@ -293,7 +290,7 @@ const trim_info = {
         },
         onBlurVideoFadeOut: function() {
             this.work_video_fade_out = convertFloat(this.in_video_fade_out);
-            if (isNaN(this.work_video_fade_out) || !this.validation()) {
+            if (isNaN(this.work_video_fade_out) || !this.validation) {
                 this.in_video_fade_out = this.out_video_fade_out;
                 this.work_video_fade_out = this.out_video_fade_out;
                 return;
@@ -303,7 +300,7 @@ const trim_info = {
         },
         onBlurAudioFadeIn: function() {
             this.work_audio_fade_in = convertFloat(this.in_audio_fade_in);
-            if (isNaN(this.work_audio_fade_in) || !this.validation()) {
+            if (isNaN(this.work_audio_fade_in) || !this.validation) {
                 this.in_audio_fade_in = this.out_audio_fade_in;
                 this.work_audio_fade_in = this.out_audio_fade_in;
                 return;
@@ -313,33 +310,13 @@ const trim_info = {
         },
         onBlurAudioFadeOut: function() {
             this.work_audio_fade_out = convertFloat(this.in_audio_fade_out);
-            if (isNaN(this.work_audio_fade_out) || !this.validation()) {
+            if (isNaN(this.work_audio_fade_out) || !this.validation) {
                 this.in_audio_fade_out = this.out_audio_fade_out;
                 this.work_audio_fade_out = this.out_audio_fade_out;
                 return;
             }
             this.in_audio_fade_out = this.work_audio_fade_out;
             this.out_audio_fade_out = this.work_audio_fade_out;
-        },
-        validation: function() {
-            let valid = true;
-            valid = valid && (0 <= this.work_start_time);
-            valid = valid && (this.work_start_time <= this.work_end_time);
-            valid = valid && (this.work_end_time <= this.video_duration);
-
-            let video_fade_in_time = this.work_start_time + this.work_video_fade_in;
-            let video_fade_out_time = this.work_end_time - this.work_video_fade_out;
-            valid = valid && (this.work_start_time <= video_fade_in_time);
-            valid = valid && (video_fade_in_time <= video_fade_out_time);
-            valid = valid && (video_fade_out_time <= this.work_end_time);
-
-            let audio_fade_in_time = this.work_start_time + this.work_audio_fade_in;
-            let audio_fade_out_time = this.work_end_time - this.work_audio_fade_out;
-            valid = valid && (this.work_start_time <= audio_fade_in_time);
-            valid = valid && (audio_fade_in_time <= audio_fade_out_time);
-            valid = valid && (audio_fade_out_time <= this.work_end_time);
-
-            return valid;
         }
     }
 }

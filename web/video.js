@@ -1,3 +1,19 @@
+// 小数点以下3桁のFloat型に変換
+let convertFloat = function(value) {
+    let work_value = parseFloat(value);
+    if (isNaN(work_value)) {
+        return NaN;
+    } else if (String(work_value) != String(value)) {
+        return NaN;
+    }
+
+    try {
+        return parseInt(work_value * 1000) / 1000;
+    } catch(e) {
+        return NaN;
+    }
+};
+
 // 定義したコンポーネントを登録
 const vm = new Vue({
     el: '#ffcaller-components',
