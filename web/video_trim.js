@@ -1,5 +1,5 @@
 // コンポーネント定義
-const trim_info = {
+const video_trim = {
     components: {
         'video-player': video_player
     },
