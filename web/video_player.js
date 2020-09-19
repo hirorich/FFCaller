@@ -15,13 +15,13 @@ const video_player = {
         // 再生開始時間
         startTime: {
             type: Number,
-            default: 0
+            required: true
         },
 
         // 再生終了時間
         endTime: {
             type: Number,
-            default: 0
+            required: true
         },
 
         // 映像フェードイン期間
@@ -50,7 +50,6 @@ const video_player = {
     },
     data: function() {
         return {
-            video_src: this.videoSrc,
             time: parseFloat(this.startTime),
             is_playing: false,
             was_playing: false,
@@ -59,6 +58,11 @@ const video_player = {
         }
     },
     computed: {
+
+        // 動画ソース
+        video_src: function() {
+            return String(this.videoSrc).trim();
+        },
 
         // 再生開始時間
         start_time: function() {
@@ -88,6 +92,16 @@ const video_player = {
         // 音声フェードアウト開始時間
         audio_fadeout_start_time: function() {
             return this.end_time - parseFloat(this.audioFadeOut);
+        },
+
+        // 現在時間
+        current_time : function() {
+            return formattime(this.time - this.start_time);
+        },
+
+        // 再生時間
+        duration: function() {
+            return formattime(this.end_time - this.start_time);
         }
     },
     template: `
@@ -120,7 +134,7 @@ const video_player = {
                 <div class="col-12">
                     <button v-if="is_playing" class="btn btn-primary" v-on:click="toggle_play()">停止</button>
                     <button v-else class="btn btn-primary" v-on:click="toggle_play()">再生</button>
-                    <span>{{formattime(time - start_time)}} / {{formattime(end_time - start_time)}}</span>
+                    <span>{{current_time}} / {{duration}}</span>
                 </div>
             </div>
         </div>
@@ -183,16 +197,6 @@ const video_player = {
             } else {
                 this.pause();
             }
-        },
-
-        // 表示形式変換
-        formattime: function(value) {
-            date = new Date(value*1000);
-            HH = date.getUTCHours();
-            mm = ('00' + date.getUTCMinutes()).slice(-2);
-            ss = ('00' + date.getUTCSeconds()).slice(-2);
-            fff = ('000' + date.getUTCMilliseconds()).slice(-3);
-            return HH + ':' + mm + ':' + ss + '.' + fff;
         }
     },
     watch: {
