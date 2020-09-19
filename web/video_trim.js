@@ -130,7 +130,7 @@ const video_trim = {
         </div>
     `,
     methods: {
-        set_trim_info: function(info) {
+        set_video_trim: function(info) {
             let video_src = "";
             try {
                 video_src = String(info.video_src).trim();

@@ -2,39 +2,50 @@
 const video_info = {
     data: function() {
         return {
-            video_stream:{
-                index:0,
-                codec_type:'',
-                codec_name:'',
-                codec_long_name:'',
-                duration:'',
-                bit_rate:'',
-                width:0,
-                height:0,
-                r_frame_rate:'',
-                nb_frames:''
+            video_stream: {
+                index: '-',
+                codec_type: '-',
+                codec_name: '-',
+                codec_long_name: '-',
+                duration: '-',
+                bit_rate: '-',
+                width: 0,
+                height: 0,
+                r_frame_rate: '-',
+                nb_frames: '-'
             },
-            audio_stream:{
-                index:0,
-                codec_type:'',
-                codec_name:'',
-                codec_long_name:'',
-                duration:'',
-                bit_rate:'',
-                sample_rate:''
+            audio_stream: {
+                index: '-',
+                codec_type: '-',
+                codec_name: '-',
+                codec_long_name: '-',
+                duration: '-',
+                bit_rate: '-',
+                sample_rate: '-'
             },
-            format:{
-                filename:'',
-                nb_streams:0,
-                duration:'',
-                size:''
+            format: {
+                filename: '-',
+                nb_streams: 0,
+                duration: '-',
+                size: '-'
             }
+        }
+    },
+    computed: {
+        window_size: function() {
+            let window_size = '-';
+            try {
+                let width = parseInt(this.video_stream.width);
+                let height = parseInt(this.video_stream.height);
+                if (width > 0 && height > 0) {
+                    window_size = String(width) + ' x ' + String(height);
+                }
+            } catch(e) {}
+            return window_size;
         }
     },
     template: `
         <div>
-            
-            <!-- Table Format -->
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -51,8 +62,6 @@ const video_info = {
                     </tr>
                 </tbody>
             </table>
-            
-            <!-- Table Video Stream, Audio Stream -->
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -94,7 +103,7 @@ const video_info = {
                     </tr>
                     <tr>
                         <th>width x height</th>
-                        <td>{{video_stream.width}} x {{video_stream.height}}</td>
+                        <td>{{window_size}}</td>
                         <td>-</td>
                     </tr>
                     <tr>
@@ -115,5 +124,138 @@ const video_info = {
                 </tbody>
             </table>
         </div>
-    `
+    `,
+    methods: {
+        set_video_info: function(info) {
+            this.video_stream = {};
+            this.audio_stream = {};
+            this.format = {};
+
+            try {
+                this.video_stream.index = info.video_stream.index;
+            } catch(e) {
+                this.video_stream.index = '-';
+            }
+
+            try {
+                this.video_stream.codec_type = info.video_stream.codec_type;
+            } catch(e) {
+                this.video_stream.codec_type = '-';
+            }
+
+            try {
+                this.video_stream.codec_name = info.video_stream.codec_name;
+            } catch(e) {
+                this.video_stream.codec_name = '-';
+            }
+
+            try {
+                this.video_stream.codec_long_name = info.video_stream.codec_long_name;
+            } catch(e) {
+                this.video_stream.codec_long_name = '-';
+            }
+
+            try {
+                this.video_stream.duration = info.video_stream.duration;
+            } catch(e) {
+                this.video_stream.duration = '-';
+            }
+
+            try {
+                this.video_stream.bit_rate = info.video_stream.bit_rate;
+            } catch(e) {
+                this.video_stream.bit_rate = '-';
+            }
+
+            try {
+                this.video_stream.width = info.video_stream.width;
+            } catch(e) {
+                this.video_stream.width = 0;
+            }
+
+            try {
+                this.video_stream.height = info.video_stream.height;
+            } catch(e) {
+                this.video_stream.height = 0;
+            }
+
+            try {
+                this.video_stream.r_frame_rate = info.video_stream.r_frame_rate;
+            } catch(e) {
+                this.video_stream.r_frame_rate = '-';
+            }
+
+            try {
+                this.video_stream.nb_frames = info.video_stream.nb_frames;
+            } catch(e) {
+                this.video_stream.nb_frames = '-';
+            }
+
+            try {
+                this.audio_stream.index = info.audio_stream.index;
+            } catch(e) {
+                this.audio_stream.index = '-';
+            }
+
+            try {
+                this.audio_stream.codec_type = info.audio_stream.codec_type;
+            } catch(e) {
+                this.audio_stream.codec_type = '-';
+            }
+
+            try {
+                this.audio_stream.codec_name = info.audio_stream.codec_name;
+            } catch(e) {
+                this.audio_stream.codec_name = '-';
+            }
+
+            try {
+                this.audio_stream.codec_long_name = info.audio_stream.codec_long_name;
+            } catch(e) {
+                this.audio_stream.codec_long_name = '-';
+            }
+
+            try {
+                this.audio_stream.duration = info.audio_stream.duration;
+            } catch(e) {
+                this.audio_stream.duration = '-';
+            }
+
+            try {
+                this.audio_stream.bit_rate = info.audio_stream.bit_rate;
+            } catch(e) {
+                this.audio_stream.bit_rate = '-';
+            }
+
+            try {
+                this.audio_stream.sample_rate = info.audio_stream.sample_rate;
+            } catch(e) {
+                this.audio_stream.sample_rate = '-';
+            }
+
+            try {
+                this.format.filename = info.format.filename;
+            } catch(e) {
+                this.format.filename = '-';
+            }
+
+            try {
+                this.format.nb_streams = info.format.nb_streams;
+            } catch(e) {
+                this.format.nb_streams = 0;
+            }
+
+            try {
+                this.format.duration = info.format.duration;
+            } catch(e) {
+                this.format.duration = '-';
+            }
+
+            try {
+                this.format.size = info.format.size;
+            } catch(e) {
+                this.format.size = '-';
+            }
+        }
+    }
 }
