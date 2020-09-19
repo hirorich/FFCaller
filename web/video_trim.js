@@ -72,7 +72,7 @@ const video_trim = {
                     v-bind:audio-fade-out="out_audio_fade_out"
                     v-on:load="onVideoLoad"></video-player>
             </div>
-            <div>
+            <div v-cloak>
                 <div class="form-group">
                     <div class="form-check">
                         <input type="checkbox" v-model="frame_specification_flag" class="form-check-input position-static">

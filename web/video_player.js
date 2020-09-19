@@ -97,12 +97,12 @@ const video_player = {
 
         // 現在時間
         current_time : function() {
-            return formattime(this.time - this.start_time);
+            return formatTime(this.time - this.start_time);
         },
 
         // 再生時間
         duration: function() {
-            return formattime(this.end_time - this.start_time);
+            return formatTime(this.end_time - this.start_time);
         },
 
         // 再生可能制御
@@ -138,7 +138,7 @@ const video_player = {
                     </input>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" v-cloak>
                 <div class="col-12">
                     <button v-if="!can_play" class="btn btn-secondary">再生</button>
                     <button v-else-if="is_playing" class="btn btn-primary" v-on:click="toggle_play()">停止</button>

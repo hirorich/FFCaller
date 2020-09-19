@@ -19,7 +19,7 @@ const target_component = {
                         <th>ファイルパス</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-cloak>
                     <tr v-for="(item, index) in this.target_data">
                         <th>{{index + 1}}</th>
                         <th>{{item.filename}}</th>
