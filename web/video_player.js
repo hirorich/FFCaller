@@ -51,6 +51,7 @@ const video_player = {
     data: function() {
         return {
             time: parseFloat(this.startTime),
+            is_error: false,
             is_playing: false,
             was_playing: false,
             opacity: 1.00,
@@ -102,6 +103,11 @@ const video_player = {
         // 再生時間
         duration: function() {
             return formattime(this.end_time - this.start_time);
+        },
+
+        // 再生可能制御
+        can_play: function() {
+            return !this.is_error && (this.start_time < this.end_time);
         }
     },
     template: `
@@ -111,6 +117,8 @@ const video_player = {
                     class="col-12"
                     v-bind:style="{padding:0, opacity:opacity}"
                     v-on:loadeddata="onLoad()"
+                    v-on:error="onError()"
+                    v-on:canplay="onCanPlay()"
                     v-on:play="onPlay()"
                     v-on:pause="onPause()"
                     v-on:timeupdate="onTimeUpdate()"
@@ -132,7 +140,8 @@ const video_player = {
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button v-if="is_playing" class="btn btn-primary" v-on:click="toggle_play()">停止</button>
+                    <button v-if="!can_play" class="btn btn-secondary">再生</button>
+                    <button v-else-if="is_playing" class="btn btn-primary" v-on:click="toggle_play()">停止</button>
                     <button v-else class="btn btn-primary" v-on:click="toggle_play()">再生</button>
                     <span>{{current_time}} / {{duration}}</span>
                 </div>
@@ -147,9 +156,23 @@ const video_player = {
             this.$emit('load', this.$refs.video.duration);
         },
 
+        // エラー時ハンドラ
+        onError: function() {
+            this.is_error = true;
+        },
+
+        // 動画可能時ハンドラ
+        onCanPlay: function() {
+            this.is_error = false;
+        },
+
         // 動画再生時ハンドラ
         onPlay: function() {
-            this.is_playing = true;
+            if (this.can_play) {
+                this.is_playing = true;
+            } else {
+                this.pause();
+            }
         },
 
         // 動画停止時ハンドラ
@@ -182,7 +205,9 @@ const video_player = {
 
         // 動画再生
         play: function() {
-            this.$refs.video.play();
+            if (this.can_play) {
+                this.$refs.video.play();
+            }
         },
 
         // 動画停止
@@ -210,6 +235,13 @@ const video_player = {
             if (this.time > value) {
                 this.time = value;
                 this.$refs.video.currentTime = value;
+            }
+        },
+
+        // 再生不可になった場合再生停止
+        can_play: function(value) {
+            if (!value) {
+                this.pause();
             }
         },
 
