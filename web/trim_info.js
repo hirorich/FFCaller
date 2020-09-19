@@ -19,9 +19,9 @@ const trim_info = {
         }
     },
     template: `
-        <div>
+        <form>
             <div class="row">
-                <video-player ref="video" v-cloak class="col-12"
+                <video-player ref="video" class="col-12"
                     v-bind:video-src="video_src"
                     v-bind:start-time="start_time"
                     v-bind:end-time="end_time"
@@ -31,46 +31,60 @@ const trim_info = {
                     v-bind:audio-fade-out="audio_fade_out"
                     v-on:load="onLoad"></video-player>
             </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input type="checkbox" v-model="frame_specification_flag" class="form-check-input position-static" v-cloak>
+            <div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" v-model="frame_specification_flag" class="form-check-input position-static">
+                    </div>
                 </div>
-                <table class="table table-striped table-bordered">
-                    <tbody v-cloak>
-                        <tr>
-                            <th class="text-white bg-dark">start_time</th>
-                            <td><input v-model="start_time" type="number" class="form-control" v-bind:disabled="frame_specification_flag"></td>
-                        </tr>
-                        <tr>
-                            <th class="text-white bg-dark">end_time</th>
-                            <td><input v-model="end_time" type="number" class="form-control" v-bind:disabled="frame_specification_flag"></td>
-                        </tr>
-                        <tr>
-                            <th class="text-white bg-dark">start_frame</th>
-                            <td><input v-model="start_frame" type="number" class="form-control" v-bind:disabled="!frame_specification_flag"></td>
-                        </tr>
-                        <tr>
-                            <th class="text-white bg-dark">end_frame</th>
-                            <td><input v-model="end_frame" type="number" class="form-control" v-bind:disabled="!frame_specification_flag"></td>
-                        </tr>
-                        <tr>
-                            <th class="text-white bg-dark">video_fade_in</th>
-                            <td><input v-model="video_fade_in" type="number" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <th class="text-white bg-dark">video_fade_out</th>
-                            <td><input v-model="video_fade_out" type="number" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <th class="text-white bg-dark">audio_fade_in</th>
-                            <td><input v-model="audio_fade_in" type="number" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <th class="text-white bg-dark">audio_fade_out</th>
-                            <td><input v-model="audio_fade_out" type="number" class="form-control"></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="form-row">
+                    <label class="col-4">start_time</label>
+                    <div class="form-group col-8">
+                        <input v-model="start_time" type="number" class="form-control" v-bind:disabled="frame_specification_flag">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-4">end_time</label>
+                    <div class="form-group col-8">
+                        <input v-model="end_time" type="number" class="form-control" v-bind:disabled="frame_specification_flag">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-4">start_frame</label>
+                    <div class="form-group col-8">
+                        <input v-model="start_frame" type="number" class="form-control" v-bind:disabled="!frame_specification_flag">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-4">end_frame</label>
+                    <div class="form-group col-8"">
+                        <input v-model="end_frame" type="number" class="form-control" v-bind:disabled="!frame_specification_flag">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <lebel class="col-4">video_fade_in</lebel>
+                    <div class="form-group col-8">
+                        <input v-model="video_fade_in" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-4">video_fade_out</label>
+                    <div class="form-group col-8">
+                        <input v-model="video_fade_out" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-4">audio_fade_in</label>
+                    <div class="form-group col-8">
+                        <input v-model="audio_fade_in" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-4">audio_fade_out</label>
+                    <div class="form-group col-8">
+                        <input v-model="audio_fade_out" type="number" class="form-control">
+                    </div>
+                </div>
             </div>
         </div>
     `,
