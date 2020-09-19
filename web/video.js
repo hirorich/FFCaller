@@ -12,7 +12,9 @@ const vm = new Vue({
             <button class="btn btn-primary" v-on:click="show_video_modal()">動画情報を開く</button>
             <modal-component ref="trim_modal">
                 <p slot="title" class="h4 text-primary">範囲選択</p>
-                <trim-info slot="body"></trim-info>
+                <trim-info slot="body"
+                    video-src="video/input.mp4"
+                ></trim-info>
                 <button slot="button" class="btn btn-primary" v-on:click="save_trim()">保存</button>
             </modal-component>
             <modal-component ref="video_modal">
