@@ -206,6 +206,9 @@ const video_player = {
         // 動画再生
         play: function() {
             if (this.can_play) {
+                if (this.end_time <= this.time) {
+                    this.time = this.start_time;
+                }
                 this.$refs.video.play();
             }
         },
@@ -222,6 +225,11 @@ const video_player = {
             } else {
                 this.pause();
             }
+        },
+
+        // 開始位置に戻す
+        back_to_start_time: function() {
+            this.time = this.start_time;
         }
     },
     watch: {
@@ -267,9 +275,17 @@ const video_player = {
 
             // audioフェードイン・フェードアウト
             if (value < this.audio_fadein_end_time) {
-                this.volume = (value - this.start_time) / (this.audio_fadein_end_time - this.start_time);
+                if (value <= this.start_time) {
+                    this.volume = 0;
+                } else {
+                    this.volume = (value - this.start_time) / (this.audio_fadein_end_time - this.start_time);
+                }
             } else if (this.audio_fadeout_start_time < value) {
-                this.volume = (this.end_time - value) / (this.end_time - this.audio_fadeout_start_time);
+                if (this.end_time <= value) {
+                    this.volume = 0;
+                } else {
+                    this.volume = (this.end_time - value) / (this.end_time - this.audio_fadeout_start_time);
+                }
             } else {
                 this.volume = 1.00;
             }

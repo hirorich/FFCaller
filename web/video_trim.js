@@ -6,7 +6,7 @@ const video_trim = {
     props: {
         videoSrc: {
             type: String,
-            required: true
+            default: ''
         }
     },
     data: function() {
@@ -247,7 +247,7 @@ const video_trim = {
             this.in_audio_fade_out = audio_fade_out;
             this.out_audio_fade_out = audio_fade_out;
             this.work_audio_fade_out = audio_fade_out;
-    },
+        },
         onVideoLoad: function(value) {
             if (this.work_end_time <= 0) {
                 this.video_duration = convertFloat(value);

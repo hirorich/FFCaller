@@ -1,17 +1,3 @@
-// 表示形式変換
-const formattime = function(value) {
-    let formatted = '--:--:--.---';
-    try {
-        let date = new Date(value * 1000);
-        let HH = date.getUTCHours();
-        let mm = ('00' + date.getUTCMinutes()).slice(-2);
-        let ss = ('00' + date.getUTCSeconds()).slice(-2);
-        let fff = ('000' + date.getUTCMilliseconds()).slice(-3);
-        formatted = HH + ':' + mm + ':' + ss + '.' + fff;
-    } catch(e) {}
-    return formatted;
-};
-
 // 定義したコンポーネントを登録
 const vm = new Vue({
     el: '#ffcaller-components',
@@ -23,29 +9,44 @@ const vm = new Vue({
     template: `
         <div>
             <button class="btn btn-primary" v-on:click="show_trim_modal()">範囲選択を開く</button>
-            <button class="btn btn-primary" v-on:click="show_video_modal()">動画情報を開く</button>
+            <button class="btn btn-primary" v-on:click="show_info_modal()">動画情報を開く</button>
             <modal-component ref="trim_modal">
                 <p slot="title" class="h4 text-primary">範囲選択</p>
-                <video-trim ref="trim" slot="body"
-                    video-src="video/input.mp4"
-                ></video-trim>
+                <video-trim ref="trim" slot="body"></video-trim>
                 <button slot="button" class="btn btn-primary" v-on:click="save_trim()">保存</button>
+                <button slot="button" class="btn btn-secondary" v-on:click="close_trim_modal()">閉じる</button>
             </modal-component>
-            <modal-component ref="video_modal">
+            <modal-component ref="info_modal">
                 <p slot="title" class="h4 text-primary">動画情報</p>
                 <video-info ref="info" slot="body"></video-info>
+                <button slot="button" class="btn btn-secondary" v-on:click="close_info_modal()">閉じる</button>
             </modal-component>
         <div>
     `,
     methods: {
         show_trim_modal: function() {
+            let info = {};
+            info.video_src = "video/input.mp4";
+            info.video_duration = 300;
+            this.$refs.trim.set_video_trim(info);
+            this.$refs.trim.$refs.video.back_to_start_time();
             this.$refs.trim_modal.show_modal();
         },
         save_trim: function() {
+            this.$refs.trim.$refs.video.pause();
             this.$refs.trim_modal.close_modal();
         },
-        show_video_modal: function() {
-            this.$refs.video_modal.show_modal();
+        close_trim_modal: function() {
+            this.$refs.trim.$refs.video.pause();
+            this.$refs.trim_modal.close_modal();
+        },
+        show_info_modal: function() {
+            let info = {};
+            this.$refs.info.set_video_info(info);
+            this.$refs.info_modal.show_modal();
+        },
+        close_info_modal: function() {
+            this.$refs.info_modal.close_modal();
         }
     }
 });
