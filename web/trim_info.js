@@ -32,7 +32,9 @@ const trim_info = {
                     v-on:load="onLoad"></video-player>
             </div>
             <div class="form-group">
-                <input type="checkbox" v-model="frame_specification_flag" class=".form-check-input position-static" v-cloak>
+                <div class="form-check">
+                    <input type="checkbox" v-model="frame_specification_flag" class="form-check-input position-static" v-cloak>
+                </div>
                 <table class="table table-striped table-bordered">
                     <tbody v-cloak>
                         <tr>
