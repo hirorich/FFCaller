@@ -37,7 +37,13 @@ const trim_info = {
             out_video_fade_in: 0,
             out_video_fade_out: 0,
             out_audio_fade_in: 0,
-            out_audio_fade_out: 0
+            out_audio_fade_out: 0,
+            work_start_time: 0,
+            work_end_time: 0,
+            work_video_fade_in: 0,
+            work_video_fade_out: 0,
+            work_audio_fade_in: 0,
+            work_audio_fade_out: 0
         }
     },
     template: `
@@ -113,66 +119,93 @@ const trim_info = {
     methods: {
         onLoad: function(value) {
             this.video_duration = convertFloat(value);
-            if (this.out_end_time <= 0) {
+            if (this.work_end_time <= 0) {
                 this.in_end_time = this.video_duration;
                 this.out_end_time = this.video_duration;
+                this.work_end_time = this.video_duration;
             }
         },
         onBlurStartTime: function() {
-            let work_start_time = convertFloat(this.in_start_time);
-            if (isNaN(work_start_time)) {
+            this.work_start_time = convertFloat(this.in_start_time);
+            if (isNaN(this.work_start_time) || !this.validation()) {
                 this.in_start_time = this.out_start_time;
+                this.work_start_time = this.out_start_time;
                 return;
             }
-            this.in_start_time = work_start_time;
-            this.out_start_time = work_start_time;
+            this.in_start_time = this.work_start_time;
+            this.out_start_time = this.work_start_time;
         },
         onBlurEndTime: function() {
-            let work_end_time = convertFloat(this.in_end_time);
-            if (isNaN(work_end_time)) {
+            this.work_end_time = convertFloat(this.in_end_time);
+            if (isNaN(this.work_end_time) || !this.validation()) {
                 this.in_end_time = this.out_end_time;
+                this.work_end_time = this.out_end_time;
                 return;
             }
-            this.in_end_time = work_end_time;
-            this.out_end_time = work_end_time;
+            this.in_end_time = this.work_end_time;
+            this.out_end_time = this.work_end_time;
         },
         onBlurStartFrame: function() {},
         onBlurEndFrame: function() {},
         onBlurVideoFadeIn: function() {
-            let work_video_fade_in = convertFloat(this.in_video_fade_in);
-            if (isNaN(work_video_fade_in)) {
+            this.work_video_fade_in = convertFloat(this.in_video_fade_in);
+            if (isNaN(this.work_video_fade_in) || !this.validation()) {
                 this.in_video_fade_in = this.out_video_fade_in;
+                this.work_video_fade_in = this.out_video_fade_in;
                 return;
             }
-            this.in_video_fade_in = work_video_fade_in;
-            this.out_video_fade_in = work_video_fade_in;
+            this.in_video_fade_in = this.work_video_fade_in;
+            this.out_video_fade_in = this.work_video_fade_in;
         },
         onBlurVideoFadeOut: function() {
-            let work_video_fade_out = convertFloat(this.in_video_fade_out);
-            if (isNaN(work_video_fade_out)) {
+            this.work_video_fade_out = convertFloat(this.in_video_fade_out);
+            if (isNaN(this.work_video_fade_out) || !this.validation()) {
                 this.in_video_fade_out = this.out_video_fade_out;
+                this.work_video_fade_out = this.out_video_fade_out;
                 return;
             }
-            this.in_video_fade_out = work_video_fade_out;
-            this.out_video_fade_out = work_video_fade_out;
+            this.in_video_fade_out = this.work_video_fade_out;
+            this.out_video_fade_out = this.work_video_fade_out;
         },
         onBlurAudioFadeIn: function() {
-            let work_audio_fade_in = convertFloat(this.in_audio_fade_in);
-            if (isNaN(work_audio_fade_in)) {
+            this.work_audio_fade_in = convertFloat(this.in_audio_fade_in);
+            if (isNaN(this.work_audio_fade_in) || !this.validation()) {
                 this.in_audio_fade_in = this.out_audio_fade_in;
+                this.work_audio_fade_in = this.out_audio_fade_in;
                 return;
             }
-            this.in_audio_fade_in = work_audio_fade_in;
-            this.out_audio_fade_in = work_audio_fade_in;
+            this.in_audio_fade_in = this.work_audio_fade_in;
+            this.out_audio_fade_in = this.work_audio_fade_in;
         },
         onBlurAudioFadeOut: function() {
-            let work_audio_fade_out = convertFloat(this.in_audio_fade_out);
-            if (isNaN(work_audio_fade_out)) {
+            this.work_audio_fade_out = convertFloat(this.in_audio_fade_out);
+            if (isNaN(this.work_audio_fade_out) || !this.validation()) {
                 this.in_audio_fade_out = this.out_audio_fade_out;
+                this.work_audio_fade_out = this.out_audio_fade_out;
                 return;
             }
-            this.in_audio_fade_out = work_audio_fade_out;
-            this.out_audio_fade_out = work_audio_fade_out;
+            this.in_audio_fade_out = this.work_audio_fade_out;
+            this.out_audio_fade_out = this.work_audio_fade_out;
+        },
+        validation: function() {
+            let valid = true;
+            valid = valid && (0 <= this.work_start_time);
+            valid = valid && (this.work_start_time <= this.work_end_time);
+            valid = valid && (this.work_end_time <= this.video_duration);
+
+            let video_fade_in_time = this.work_start_time + this.work_video_fade_in;
+            let video_fade_out_time = this.work_end_time - this.work_video_fade_out;
+            valid = valid && (this.work_start_time <= video_fade_in_time);
+            valid = valid && (video_fade_in_time <= video_fade_out_time);
+            valid = valid && (video_fade_out_time <= this.work_end_time);
+
+            let audio_fade_in_time = this.work_start_time + this.work_audio_fade_in;
+            let audio_fade_out_time = this.work_end_time - this.work_audio_fade_out;
+            valid = valid && (this.work_start_time <= audio_fade_in_time);
+            valid = valid && (audio_fade_in_time <= audio_fade_out_time);
+            valid = valid && (audio_fade_out_time <= this.work_end_time);
+
+            return valid;
         }
     }
 }
