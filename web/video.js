@@ -1,5 +1,5 @@
 // 小数点以下3桁のFloat型に変換
-let convertFloat = function(value) {
+const convertFloat = function(value) {
     let work_value = parseFloat(value);
     if (isNaN(work_value)) {
         return NaN;
@@ -15,7 +15,7 @@ let convertFloat = function(value) {
 };
 
 // 表示形式変換
-formattime = function(value) {
+const formattime = function(value) {
     let formatted = '--:--:--.---';
     try {
         let date = new Date(value * 1000);
