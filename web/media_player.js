@@ -287,6 +287,48 @@ const media_player = {
             }
         },
 
+        // videoフェードイン・フェードアウト
+        video_fade: function(value) {
+            if (!this.with_video) {
+                this.opacity = 0;
+            } else if (value < this.video_fadein_end_time) {
+                if (value <= this.start_time) {
+                    this.opacity = 0;
+                } else {
+                    this.opacity = (value - this.start_time) / (this.video_fadein_end_time - this.start_time);
+                }
+            } else if (this.video_fadeout_start_time < value) {
+                if (this.end_time <= value) {
+                    this.opacity = 0;
+                } else {
+                    this.opacity = (this.end_time - value) / (this.end_time - this.video_fadeout_start_time);
+                }
+            } else {
+                this.opacity = 1.00;
+            }
+        },
+
+        // audioフェードイン・フェードアウト
+        audio_fade: function(value) {
+            if (!this.with_audio) {
+                this.volume = 0;
+            } else if (value < this.audio_fadein_end_time) {
+                if (value <= this.start_time) {
+                    this.volume = 0;
+                } else {
+                    this.volume = (value - this.start_time) / (this.audio_fadein_end_time - this.start_time);
+                }
+            } else if (this.audio_fadeout_start_time < value) {
+                if (this.end_time <= value) {
+                    this.volume = 0;
+                } else {
+                    this.volume = (this.end_time - value) / (this.end_time - this.audio_fadeout_start_time);
+                }
+            } else {
+                this.volume = 1.00;
+            }
+        },
+
         // 開始位置に戻す
         back_to_start_time: function() {
             this.time = this.start_time;
@@ -298,12 +340,40 @@ const media_player = {
                 this.time = value;
                 this.$refs.media.currentTime = value;
             }
+
+            // video・audioフェードイン・フェードアウト
+            this.video_fade(this.time);
+            this.audio_fade(this.time);
         },
         end_time: function(value) {
             if (this.time > value) {
                 this.time = value;
                 this.$refs.media.currentTime = value;
             }
+
+            // video・audioフェードイン・フェードアウト
+            this.video_fade(this.time);
+            this.audio_fade(this.time);
+        },
+        video_fadein_end_time: function(value) {
+            // video・audioフェードイン・フェードアウト
+            this.video_fade(this.time);
+            this.audio_fade(this.time);
+        },
+        video_fadeout_start_time: function(value) {
+            // video・audioフェードイン・フェードアウト
+            this.video_fade(this.time);
+            this.audio_fade(this.time);
+        },
+        audio_fadein_end_time: function(value) {
+            // video・audioフェードイン・フェードアウト
+            this.video_fade(this.time);
+            this.audio_fade(this.time);
+        },
+        audio_fadeout_start_time: function(value) {
+            // video・audioフェードイン・フェードアウト
+            this.video_fade(this.time);
+            this.audio_fade(this.time);
         },
 
         // 再生不可になった場合再生停止
@@ -324,43 +394,9 @@ const media_player = {
                 this.$refs.media.currentTime = value;
             }
 
-            // videoフェードイン・フェードアウト
-            if (!this.with_video) {
-                this.opacity = 0;
-            } else if (value < this.video_fadein_end_time) {
-                if (value <= this.start_time) {
-                    this.opacity = 0;
-                } else {
-                    this.opacity = (value - this.start_time) / (this.video_fadein_end_time - this.start_time);
-                }
-            } else if (this.video_fadeout_start_time < value) {
-                if (this.end_time <= value) {
-                    this.opacity = 0;
-                } else {
-                    this.opacity = (this.end_time - value) / (this.end_time - this.video_fadeout_start_time);
-                }
-            } else {
-                this.opacity = 1.00;
-            }
-
-            // audioフェードイン・フェードアウト
-            if (!this.with_audio) {
-                this.volume = 0;
-            } else if (value < this.audio_fadein_end_time) {
-                if (value <= this.start_time) {
-                    this.volume = 0;
-                } else {
-                    this.volume = (value - this.start_time) / (this.audio_fadein_end_time - this.start_time);
-                }
-            } else if (this.audio_fadeout_start_time < value) {
-                if (this.end_time <= value) {
-                    this.volume = 0;
-                } else {
-                    this.volume = (this.end_time - value) / (this.end_time - this.audio_fadeout_start_time);
-                }
-            } else {
-                this.volume = 1.00;
-            }
+            // video・audioフェードイン・フェードアウト
+            this.video_fade(value);
+            this.audio_fade(value);
         },
 
         // 音量制御
