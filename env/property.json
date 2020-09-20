@@ -23,6 +23,6 @@
         "ffmpeg": "ffmpeg"
     },
     
-    "workdir":"video",
+    "workdir":"media",
     "outdir":"output"
 }
