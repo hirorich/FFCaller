@@ -28,6 +28,8 @@ const vm = new Vue({
             let info = {};
             info.media_src = "media/input.mp4";
             info.media_duration = 300;
+            info.with_video = true;
+            info.with_audio = true;
             this.$refs.trim.set_media_trim(info);
             this.$refs.trim.$refs.media.back_to_start_time();
             this.$refs.trim_modal.show_modal();

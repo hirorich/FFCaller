@@ -7,11 +7,21 @@ const media_trim = {
         mediaSrc: {
             type: String,
             default: ''
+        },
+        withVideo: {
+            type: Boolean,
+            default: true
+        },
+        withAudio: {
+            type: Boolean,
+            default: true
         }
     },
     data: function() {
         return {
             media_src: String(this.mediaSrc).trim(),
+            with_video: Boolean(this.withVideo),
+            with_audio: Boolean(this.withAudio),
             frame_specification_flag : false,
             media_duration: 0,
             nb_frames: 0,
@@ -44,17 +54,21 @@ const media_trim = {
             valid = valid && (this.work_start_time <= this.work_end_time);
             valid = valid && (this.work_end_time <= this.media_duration);
 
-            let video_fade_in_time = this.work_start_time + this.work_video_fade_in;
-            let video_fade_out_time = this.work_end_time - this.work_video_fade_out;
-            valid = valid && (this.work_start_time <= video_fade_in_time);
-            valid = valid && (video_fade_in_time <= video_fade_out_time);
-            valid = valid && (video_fade_out_time <= this.work_end_time);
+            if (this.with_video) {
+                let video_fade_in_time = this.work_start_time + this.work_video_fade_in;
+                let video_fade_out_time = this.work_end_time - this.work_video_fade_out;
+                valid = valid && (this.work_start_time <= video_fade_in_time);
+                valid = valid && (video_fade_in_time <= video_fade_out_time);
+                valid = valid && (video_fade_out_time <= this.work_end_time);
+            }
 
-            let audio_fade_in_time = this.work_start_time + this.work_audio_fade_in;
-            let audio_fade_out_time = this.work_end_time - this.work_audio_fade_out;
-            valid = valid && (this.work_start_time <= audio_fade_in_time);
-            valid = valid && (audio_fade_in_time <= audio_fade_out_time);
-            valid = valid && (audio_fade_out_time <= this.work_end_time);
+            if (this.with_audio) {
+                let audio_fade_in_time = this.work_start_time + this.work_audio_fade_in;
+                let audio_fade_out_time = this.work_end_time - this.work_audio_fade_out;
+                valid = valid && (this.work_start_time <= audio_fade_in_time);
+                valid = valid && (audio_fade_in_time <= audio_fade_out_time);
+                valid = valid && (audio_fade_out_time <= this.work_end_time);
+            }
 
             return valid;
         }
@@ -64,6 +78,8 @@ const media_trim = {
             <div class="row">
                 <media-player ref="media" class="col-12"
                     v-bind:media-src="media_src"
+                    v-bind:with-video="with_video"
+                    v-bind:with-audio="with_audio"
                     v-bind:start-time="out_start_time"
                     v-bind:end-time="out_end_time"
                     v-bind:video-fade-in="out_video_fade_in"
@@ -73,7 +89,7 @@ const media_trim = {
                     v-on:load="onMediaLoad"></media-player>
             </div>
             <div v-cloak>
-                <div class="form-group">
+                <div v-if="with_video" class="form-group">
                     <div class="form-check">
                         <input type="checkbox" v-model="frame_specification_flag" class="form-check-input position-static">
                     </div>
@@ -90,37 +106,37 @@ const media_trim = {
                         <input v-model="in_end_time" v-on:blur="onBlurEndTime()" type="number" step=0.001 class="form-control" v-bind:disabled="frame_specification_flag">
                     </div>
                 </div>
-                <div class="form-row">
+                <div v-if="with_video" class="form-row">
                     <label class="col-4">start_frame</label>
                     <div class="form-group col-8">
                         <input v-model="in_start_frame" v-on:blur="onBlurStartFrame()" type="number" step=1 class="form-control" v-bind:disabled="!frame_specification_flag">
                     </div>
                 </div>
-                <div class="form-row">
+                <div v-if="with_video" class="form-row">
                     <label class="col-4">end_frame</label>
                     <div class="form-group col-8"">
                         <input v-model="in_end_frame" v-on:blur="onBlurEndFrame()" type="number" step=1 class="form-control" v-bind:disabled="!frame_specification_flag">
                     </div>
                 </div>
-                <div class="form-row">
+                <div v-if="with_video" class="form-row">
                     <lebel class="col-4">video_fade_in</lebel>
                     <div class="form-group col-8">
                         <input v-model="in_video_fade_in" v-on:blur="onBlurVideoFadeIn()" type="number" step=0.001 class="form-control">
                     </div>
                 </div>
-                <div class="form-row">
+                <div v-if="with_video" class="form-row">
                     <label class="col-4">video_fade_out</label>
                     <div class="form-group col-8">
                         <input v-model="in_video_fade_out" v-on:blur="onBlurVideoFadeOut()" type="number" step=0.001 class="form-control">
                     </div>
                 </div>
-                <div class="form-row">
+                <div v-if="with_audio" class="form-row">
                     <label class="col-4">audio_fade_in</label>
                     <div class="form-group col-8">
                         <input v-model="in_audio_fade_in" v-on:blur="onBlurAudioFadeIn()" type="number" step=0.001 class="form-control">
                     </div>
                 </div>
-                <div class="form-row">
+                <div v-if="with_audio" class="form-row">
                     <label class="col-4">audio_fade_out</label>
                     <div class="form-group col-8">
                         <input v-model="in_audio_fade_out" v-on:blur="onBlurAudioFadeOut()" type="number" step=0.001 class="form-control">
@@ -137,40 +153,58 @@ const media_trim = {
             } catch(e) {}
             this.media_src = media_src;
 
+            let with_video = true;
+            try {
+                with_video = info.with_video;
+            } catch(e) {}
+            if (typeof(with_video) != "boolean") {
+                with_video = true;
+            }
+            this.with_video = with_video;
+
+            let with_audio = true;
+            try {
+                with_audio = info.with_audio;
+            } catch(e) {}
+            if (typeof(with_audio) != "boolean") {
+                with_audio = true;
+            }
+            this.with_audio = with_audio;
+
             let frame_specification_flag = false;
             try {
                 frame_specification_flag = info.frame_specification_flag;
-                if (typeof(frame_specification_flag) != "boolean") {
-                    frame_specification_flag = false;
-                }
             } catch(e) {}
+            if (typeof(frame_specification_flag) != "boolean") {
+                frame_specification_flag = false;
+            }
             this.frame_specification_flag = frame_specification_flag;
 
             let media_duration = 0;
             try {
                 media_duration = convertFloat(info.media_duration);
-                if (isNaN(media_duration) || media_duration < 0) {
-                    media_duration = 0;
-                }
             } catch(e) {}
+            if (isNaN(media_duration) || media_duration < 0) {
+                media_duration = 0;
+            }
             this.media_duration = media_duration;
 
             let nb_frames = 0;
             try {
                 nb_frames = parseInt(info.nb_frames);
-                if (isNaN(nb_frames) || nb_frames < 0) {
-                    nb_frames = 0;
-                }
             } catch(e) {}
+            if (isNaN(nb_frames) || nb_frames < 0) {
+                nb_frames = 0;
+            }
             this.nb_frames = nb_frames;
 
             let start_time = 0;
             try {
                 start_time = convertFloat(info.start_time);
-                if (isNaN(start_time) || start_time < 0) {
-                    start_time = 0;
-                }
             } catch(e) {}
+            if (isNaN(start_time) || start_time < 0) {
+                start_time = 0;
+            }
             this.in_start_time = start_time;
             this.out_start_time = start_time;
             this.work_start_time = start_time;
@@ -178,10 +212,10 @@ const media_trim = {
             let end_time = 0;
             try {
                 end_time = convertFloat(info.end_time);
-                if (isNaN(end_time) || end_time < 0 || this.media_duration < end_time) {
-                    end_time = this.media_duration;
-                }
             } catch(e) {}
+            if (isNaN(end_time) || end_time < 0 || this.media_duration < end_time) {
+                end_time = this.media_duration;
+            }
             this.in_end_time = end_time;
             this.out_end_time = end_time;
             this.work_end_time = end_time;
@@ -189,28 +223,28 @@ const media_trim = {
             let in_start_frame = 0;
             try {
                 in_start_frame = parseInt(info.start_frame);
-                if (isNaN(in_start_frame) || in_start_frame < 0) {
-                    in_start_frame = 0;
-                }
             } catch(e) {}
+            if (isNaN(in_start_frame) || in_start_frame < 0) {
+                in_start_frame = 0;
+            }
             this.in_start_frame = in_start_frame;
 
             let in_end_frame = 0;
             try {
                 in_end_frame = parseInt(info.end_frame);
-                if (isNaN(in_end_frame) || in_end_frame < 0 || this.nb_frames < in_end_frame) {
-                    in_end_frame = this.nb_frames;
-                }
             } catch(e) {}
+            if (isNaN(in_end_frame) || in_end_frame < 0 || this.nb_frames < in_end_frame) {
+                in_end_frame = this.nb_frames;
+            }
             this.in_end_frame = in_end_frame;
 
             let video_fade_in = 0;
             try {
                 video_fade_in = convertFloat(info.video_fade_in);
-                if (isNaN(video_fade_in) || video_fade_in < 0) {
-                    video_fade_in = 0;
-                }
             } catch(e) {}
+            if (isNaN(video_fade_in) || video_fade_in < 0) {
+                video_fade_in = 0;
+            }
             this.in_video_fade_in = video_fade_in;
             this.out_video_fade_in = video_fade_in;
             this.work_video_fade_in = video_fade_in;
@@ -218,10 +252,10 @@ const media_trim = {
             let video_fade_out = 0;
             try {
                 video_fade_out = convertFloat(info.video_fade_out);
-                if (isNaN(video_fade_out) || video_fade_out < 0) {
-                    video_fade_out = 0;
-                }
             } catch(e) {}
+            if (isNaN(video_fade_out) || video_fade_out < 0) {
+                video_fade_out = 0;
+            }
             this.in_video_fade_out = video_fade_out;
             this.out_video_fade_out = video_fade_out;
             this.work_video_fade_out = video_fade_out;
@@ -229,10 +263,10 @@ const media_trim = {
             let audio_fade_in = 0;
             try {
                 audio_fade_in = convertFloat(info.audio_fade_in);
-                if (isNaN(audio_fade_in) || audio_fade_in < 0) {
-                    audio_fade_in = 0;
-                }
             } catch(e) {}
+            if (isNaN(audio_fade_in) || audio_fade_in < 0) {
+                audio_fade_in = 0;
+            }
             this.in_audio_fade_in = audio_fade_in;
             this.out_audio_fade_in = audio_fade_in;
             this.work_audio_fade_in = audio_fade_in;
@@ -240,10 +274,10 @@ const media_trim = {
             let audio_fade_out = 0;
             try {
                 audio_fade_out = convertFloat(info.audio_fade_out);
-                if (isNaN(audio_fade_out) || audio_fade_out < 0) {
-                    audio_fade_out = 0;
-                }
             } catch(e) {}
+            if (isNaN(audio_fade_out) || audio_fade_out < 0) {
+                audio_fade_out = 0;
+            }
             this.in_audio_fade_out = audio_fade_out;
             this.out_audio_fade_out = audio_fade_out;
             this.work_audio_fade_out = audio_fade_out;

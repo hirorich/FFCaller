@@ -12,6 +12,18 @@ const media_player = {
             required: true
         },
 
+        // 映像有無
+        withVideo: {
+            type: Boolean,
+            default: true
+        },
+
+        // 音声有無
+        withAudio: {
+            type: Boolean,
+            default: true
+        },
+
         // 再生開始時間
         startTime: {
             type: Number,
@@ -65,6 +77,16 @@ const media_player = {
             return String(this.mediaSrc).trim();
         },
 
+        // 映像有無
+        with_video: function() {
+            return Boolean(this.withVideo);
+        },
+
+        // 音声有無
+        with_audio: function() {
+            return Boolean(this.withAudio);
+        },
+
         // 再生開始時間
         start_time: function() {
             return parseFloat(this.startTime);
@@ -77,22 +99,38 @@ const media_player = {
 
         // 映像フェードイン終了時間
         video_fadein_end_time: function() {
-            return this.start_time + parseFloat(this.videoFadeIn);
+            if (this.with_video) {
+                return this.start_time + parseFloat(this.videoFadeIn);
+            } else {
+                return this.start_time;
+            }
         },
 
         // 映像フェードアウト開始時間
         video_fadeout_start_time: function() {
-            return this.end_time - parseFloat(this.videoFadeOut);
+            if (this.with_video) {
+                return this.end_time - parseFloat(this.videoFadeOut);
+            } else {
+                return this.end_time;
+            }
         },
 
         // 音声フェードイン終了時間
         audio_fadein_end_time: function() {
-            return this.start_time + parseFloat(this.audioFadeIn);
+            if (this.with_audio) {
+                return this.start_time + parseFloat(this.audioFadeIn);
+            } else {
+                return this.start_time;
+            }
         },
 
         // 音声フェードアウト開始時間
         audio_fadeout_start_time: function() {
-            return this.end_time - parseFloat(this.audioFadeOut);
+            if (this.with_audio) {
+                return this.end_time - parseFloat(this.audioFadeOut);
+            } else {
+                return this.end_time;
+            }
         },
 
         // 現在時間
@@ -107,12 +145,25 @@ const media_player = {
 
         // 再生可能制御
         can_play: function() {
-            return !this.is_error && (this.start_time < this.end_time);
+            return (this.with_video || this.with_audio) && !this.is_error && (this.start_time < this.end_time);
+        }
+    },
+    mounted: function() {
+        if (this.with_video) {
+            this.opacity = 1.00;
+        } else {
+            this.opacity = 0;
+        }
+
+        if (this.with_audio) {
+            this.volume = 1.00;
+        } else {
+            this.volume = 0;
         }
     },
     template: `
         <div>
-            <div class="row" style="margin:0;background-color:black;">
+            <div v-if="with_video" class="row" style="margin:0;background-color:black;">
                 <video ref="media"
                     class="col-12"
                     v-bind:style="{padding:0, opacity:opacity}"
@@ -125,6 +176,15 @@ const media_player = {
                     v-bind:src="media_src">
                 </video>
             </div>
+            <audio v-else-if="with_audio" ref="media"
+                v-on:loadeddata="onLoad()"
+                v-on:error="onError()"
+                v-on:canplay="onCanPlay()"
+                v-on:play="onPlay()"
+                v-on:pause="onPause()"
+                v-on:timeupdate="onTimeUpdate()"
+                v-bind:src="media_src">
+            </audio>
             <div class="row">
                 <div class="col-12">
                     <input type="range"
@@ -265,7 +325,9 @@ const media_player = {
             }
 
             // videoフェードイン・フェードアウト
-            if (value < this.video_fadein_end_time) {
+            if (!this.with_video) {
+                this.opacity = 0;
+            } else if (value < this.video_fadein_end_time) {
                 if (value <= this.start_time) {
                     this.opacity = 0;
                 } else {
@@ -282,7 +344,9 @@ const media_player = {
             }
 
             // audioフェードイン・フェードアウト
-            if (value < this.audio_fadein_end_time) {
+            if (!this.with_audio) {
+                this.volume = 0;
+            } else if (value < this.audio_fadein_end_time) {
                 if (value <= this.start_time) {
                     this.volume = 0;
                 } else {
