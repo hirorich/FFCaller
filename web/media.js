@@ -1,5 +1,5 @@
 // 定義したコンポーネントを登録
-const vm = new Vue({
+const media = new Vue({
     el: '#ffcaller-components',
     components: {
         'modal-component': modal_component,
@@ -31,7 +31,6 @@ const vm = new Vue({
             info.with_video = true;
             info.with_audio = true;
             this.$refs.trim.set_media_trim(info);
-            this.$refs.trim.$refs.media.back_to_start_time();
             this.$refs.trim_modal.show_modal();
         },
         save_trim: function() {

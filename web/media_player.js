@@ -148,19 +148,6 @@ const media_player = {
             return (this.with_video || this.with_audio) && !this.is_error && (this.start_time < this.end_time);
         }
     },
-    mounted: function() {
-        if (this.with_video) {
-            this.opacity = 1.00;
-        } else {
-            this.opacity = 0;
-        }
-
-        if (this.with_audio) {
-            this.volume = 1.00;
-        } else {
-            this.volume = 0;
-        }
-    },
     template: `
         <div>
             <div v-if="with_video" class="row" style="margin:0;background-color:black;">
@@ -210,9 +197,17 @@ const media_player = {
     `,
     methods:{
 
+        // 再生位置の初期化
+        initTime: function(time) {
+            this.time = time;
+            this.$refs.media.currentTime = time;
+            this.video_fade(time);
+            this.audio_fade(time);
+        },
+
         // 動画読み込み時ハンドラ
         onLoad: function() {
-            this.$refs.media.currentTime = this.start_time;
+            this.initTime(this.start_time);
             this.$emit('load', this.$refs.media.duration);
         },
 
@@ -327,11 +322,6 @@ const media_player = {
             } else {
                 this.volume = 1.00;
             }
-        },
-
-        // 開始位置に戻す
-        back_to_start_time: function() {
-            this.time = this.start_time;
         }
     },
     watch: {
