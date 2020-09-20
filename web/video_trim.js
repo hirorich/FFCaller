@@ -1,19 +1,19 @@
 // コンポーネント定義
-const video_trim = {
+const media_trim = {
     components: {
-        'video-player': video_player
+        'media-player': media_player
     },
     props: {
-        videoSrc: {
+        mediaSrc: {
             type: String,
             default: ''
         }
     },
     data: function() {
         return {
-            video_src: String(this.videoSrc).trim(),
+            media_src: String(this.mediaSrc).trim(),
             frame_specification_flag : false,
-            video_duration: 0,
+            media_duration: 0,
             nb_frames: 0,
             in_start_time: 0,
             in_end_time: 0,
@@ -42,7 +42,7 @@ const video_trim = {
             let valid = true;
             valid = valid && (0 <= this.work_start_time);
             valid = valid && (this.work_start_time <= this.work_end_time);
-            valid = valid && (this.work_end_time <= this.video_duration);
+            valid = valid && (this.work_end_time <= this.media_duration);
 
             let video_fade_in_time = this.work_start_time + this.work_video_fade_in;
             let video_fade_out_time = this.work_end_time - this.work_video_fade_out;
@@ -62,15 +62,15 @@ const video_trim = {
     template: `
         <div>
             <div class="row">
-                <video-player ref="video" class="col-12"
-                    v-bind:video-src="video_src"
+                <media-player ref="media" class="col-12"
+                    v-bind:media-src="media_src"
                     v-bind:start-time="out_start_time"
                     v-bind:end-time="out_end_time"
                     v-bind:video-fade-in="out_video_fade_in"
                     v-bind:video-fade-out="out_video_fade_out"
                     v-bind:audio-fade-in="out_audio_fade_in"
                     v-bind:audio-fade-out="out_audio_fade_out"
-                    v-on:load="onVideoLoad"></video-player>
+                    v-on:load="onMediaLoad"></media-player>
             </div>
             <div v-cloak>
                 <div class="form-group">
@@ -130,12 +130,12 @@ const video_trim = {
         </div>
     `,
     methods: {
-        set_video_trim: function(info) {
-            let video_src = "";
+        set_media_trim: function(info) {
+            let media_src = "";
             try {
-                video_src = String(info.video_src).trim();
+                media_src = String(info.media_src).trim();
             } catch(e) {}
-            this.video_src = video_src;
+            this.media_src = media_src;
 
             let frame_specification_flag = false;
             try {
@@ -146,14 +146,14 @@ const video_trim = {
             } catch(e) {}
             this.frame_specification_flag = frame_specification_flag;
 
-            let video_duration = 0;
+            let media_duration = 0;
             try {
-                video_duration = convertFloat(info.video_duration);
-                if (isNaN(video_duration) || video_duration < 0) {
-                    video_duration = 0;
+                media_duration = convertFloat(info.media_duration);
+                if (isNaN(media_duration) || media_duration < 0) {
+                    media_duration = 0;
                 }
             } catch(e) {}
-            this.video_duration = video_duration;
+            this.media_duration = media_duration;
 
             let nb_frames = 0;
             try {
@@ -178,8 +178,8 @@ const video_trim = {
             let end_time = 0;
             try {
                 end_time = convertFloat(info.end_time);
-                if (isNaN(end_time) || end_time < 0 || this.video_duration < end_time) {
-                    end_time = this.video_duration;
+                if (isNaN(end_time) || end_time < 0 || this.media_duration < end_time) {
+                    end_time = this.media_duration;
                 }
             } catch(e) {}
             this.in_end_time = end_time;
@@ -248,12 +248,12 @@ const video_trim = {
             this.out_audio_fade_out = audio_fade_out;
             this.work_audio_fade_out = audio_fade_out;
         },
-        onVideoLoad: function(value) {
+        onMediaLoad: function(value) {
             if (this.work_end_time <= 0) {
-                this.video_duration = convertFloat(value);
-                this.in_end_time = this.video_duration;
-                this.out_end_time = this.video_duration;
-                this.work_end_time = this.video_duration;
+                this.media_duration = convertFloat(value);
+                this.in_end_time = this.media_duration;
+                this.out_end_time = this.media_duration;
+                this.work_end_time = this.media_duration;
             }
         },
         onBlurStartTime: function() {

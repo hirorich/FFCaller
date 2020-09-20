@@ -3,11 +3,11 @@
 // https://phpjavascriptroom.com/?t=js&p=event
 
 // コンポーネント定義
-const video_player = {
+const media_player = {
     props: {
 
         // 動画ファイルパス
-        videoSrc: {
+        mediaSrc: {
             type: String,
             required: true
         },
@@ -61,8 +61,8 @@ const video_player = {
     computed: {
 
         // 動画ソース
-        video_src: function() {
-            return String(this.videoSrc).trim();
+        media_src: function() {
+            return String(this.mediaSrc).trim();
         },
 
         // 再生開始時間
@@ -113,7 +113,7 @@ const video_player = {
     template: `
         <div>
             <div class="row" style="margin:0;background-color:black;">
-                <video ref="video"
+                <video ref="media"
                     class="col-12"
                     v-bind:style="{padding:0, opacity:opacity}"
                     v-on:loadeddata="onLoad()"
@@ -122,7 +122,7 @@ const video_player = {
                     v-on:play="onPlay()"
                     v-on:pause="onPause()"
                     v-on:timeupdate="onTimeUpdate()"
-                    v-bind:src="video_src">
+                    v-bind:src="media_src">
                 </video>
             </div>
             <div class="row">
@@ -152,8 +152,8 @@ const video_player = {
 
         // 動画読み込み時ハンドラ
         onLoad: function() {
-            this.$refs.video.currentTime = this.start_time;
-            this.$emit('load', this.$refs.video.duration);
+            this.$refs.media.currentTime = this.start_time;
+            this.$emit('load', this.$refs.media.duration);
         },
 
         // エラー時ハンドラ
@@ -183,7 +183,7 @@ const video_player = {
         // 再生中動画位置ハンドラ
         onTimeUpdate: function() {
             if (this.is_playing) {
-                this.time = this.$refs.video.currentTime;
+                this.time = this.$refs.media.currentTime;
             }
         },
 
@@ -209,13 +209,13 @@ const video_player = {
                 if (this.end_time <= this.time) {
                     this.time = this.start_time;
                 }
-                this.$refs.video.play();
+                this.$refs.media.play();
             }
         },
 
         // 動画停止
         pause: function() {
-            this.$refs.video.pause();
+            this.$refs.media.pause();
         },
 
         // 動画再生・停止切り替え
@@ -236,13 +236,13 @@ const video_player = {
         start_time: function(value) {
             if (this.time < value) {
                 this.time = value;
-                this.$refs.video.currentTime = value;
+                this.$refs.media.currentTime = value;
             }
         },
         end_time: function(value) {
             if (this.time > value) {
                 this.time = value;
-                this.$refs.video.currentTime = value;
+                this.$refs.media.currentTime = value;
             }
         },
 
@@ -256,12 +256,12 @@ const video_player = {
         // 再生位置制御
         time: function(value) {
             if (value < this.start_time) {
-                this.$refs.video.currentTime = this.start_time;
+                this.$refs.media.currentTime = this.start_time;
             } else if (value >= this.end_time) {
                 this.pause();
-                this.$refs.video.currentTime = this.end_time;
+                this.$refs.media.currentTime = this.end_time;
             } else if (!this.is_playing) {
-                this.$refs.video.currentTime = value;
+                this.$refs.media.currentTime = value;
             }
 
             // videoフェードイン・フェードアウト
@@ -301,7 +301,7 @@ const video_player = {
 
         // 音量制御
         volume: function(value) {
-            this.$refs.video.volume = value;
+            this.$refs.media.volume = value;
         }
     }
 }

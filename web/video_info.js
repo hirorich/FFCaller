@@ -1,5 +1,5 @@
 // コンポーネント定義
-const video_info = {
+const media_info = {
     data: function() {
         return {
             video_stream: {
@@ -126,7 +126,7 @@ const video_info = {
         </div>
     `,
     methods: {
-        set_video_info: function(info) {
+        set_media_info: function(info) {
             this.video_stream = {};
             this.audio_stream = {};
             this.format = {};
