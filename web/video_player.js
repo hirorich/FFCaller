@@ -140,7 +140,7 @@ const video_player = {
             </div>
             <div class="row" v-cloak>
                 <div class="col-12">
-                    <button v-if="!can_play" class="btn btn-secondary">再生</button>
+                    <button v-if="!can_play" class="btn btn-secondary" disabled>再生</button>
                     <button v-else-if="is_playing" class="btn btn-primary" v-on:click="toggle_play()">停止</button>
                     <button v-else class="btn btn-primary" v-on:click="toggle_play()">再生</button>
                     <span>{{current_time}} / {{duration}}</span>
@@ -266,9 +266,17 @@ const video_player = {
 
             // videoフェードイン・フェードアウト
             if (value < this.video_fadein_end_time) {
-                this.opacity = (value - this.start_time) / (this.video_fadein_end_time - this.start_time);
+                if (value <= this.start_time) {
+                    this.opacity = 0;
+                } else {
+                    this.opacity = (value - this.start_time) / (this.video_fadein_end_time - this.start_time);
+                }
             } else if (this.video_fadeout_start_time < value) {
-                this.opacity = (this.end_time - value) / (this.end_time - this.video_fadeout_start_time);
+                if (this.end_time <= value) {
+                    this.opacity = 0;
+                } else {
+                    this.opacity = (this.end_time - value) / (this.end_time - this.video_fadeout_start_time);
+                }
             } else {
                 this.opacity = 1.00;
             }
