@@ -1,43 +1,12 @@
-import eel, pathlib, shutil
+import eel
 from common import app_property
 from common.utility import log_utils
-from service import multimedia_analyzer, multimedia_marger, multimedia_segmenter
-
-# javascriptから出力先フォルダクリアを呼び出す
-@eel.expose
-def clear_outdir():
-    
-    try:
-        create_outdir()
-    except Exception as e:
-        message = log_utils.write_exception(e)
-        eel.common_response_error_msg(message)
-
-# javascriptからプロパティ情報を取得する
-@eel.expose
-def get_property():
-    
-    try:
-        eel.set_property(app_property.outdir)
-    except Exception as e:
-        message = log_utils.write_exception(e)
-        eel.common_response_error_msg(message)
-
-# 出力先フォルダ生成
-def create_outdir():
-    # 既存フォルダを削除
-    shutil.rmtree(app_property.outdir, ignore_errors=True)
-    
-    # 新規フォルダ作成
-    pathlib.Path(app_property.outdir + 'frame/').mkdir(parents=True, exist_ok=True)
+from service import add_files
 
 # main
 if __name__ == "__main__":
     
     try:
-        # 出力先フォルダ生成
-        create_outdir()
-        
         # ウェブコンテンツを持つフォルダ
         eel.init(app_property.eel.init)
         

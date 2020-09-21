@@ -3,6 +3,7 @@
 # ==================================================
 
 import os
+from tkinter import filedialog, Tk
 from common.utility.type import str_utils
 
 # ファイルの存在チェック
@@ -25,3 +26,13 @@ def read_file_one_line(filename):
             stdout += line.strip()
     
     return stdout
+
+# ファイル選択
+def open_file_dialog():
+    root = Tk()
+    root.attributes('-topmost', True)
+    root.withdraw()
+    file_list = filedialog.askopenfilenames()
+    root.destroy()
+    
+    return file_list
