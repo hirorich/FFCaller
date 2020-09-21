@@ -3,6 +3,10 @@
 # ==================================================
 
 from common.utility import sqlite3_utils
+from service.ffc.entity.audio_entity import AudioEntity
+from service.ffc.entity.format_entity import FormatEntity
+from service.ffc.entity.stream_entity import StreamEntity
+from service.ffc.entity.video_entity import VideoEntity
 from service.ffc.entity.work_input_target_entity import InputTargetEntity
 
 # 入力ターゲットリスト取得

@@ -53,3 +53,13 @@ class VideoEntity():
     @nb_frames.setter
     def nb_frames(self, nb_frames):
         self.__nb_frames = int(nb_frames)
+    
+    def to_dict(self):
+        result = dict()
+        result['file_id'] = self.__file_id
+        result['stream_index'] = self.__stream_index
+        result['width'] = self.__width
+        result['height'] = self.__height
+        result['r_frame_rate'] = self.__r_frame_rate
+        result['nb_frames'] = self.__nb_frames
+        return result
