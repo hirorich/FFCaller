@@ -7,7 +7,6 @@ const vm_media_trim = new Vue({
     },
     template: `
         <div>
-            <button class="btn btn-primary" v-on:click="show_modal()">範囲選択を開く</button>
             <modal-component ref="modal">
                 <p slot="title" class="h4 text-primary">範囲選択</p>
                 <media-trim-component ref="trim" slot="body"></media-trim-component>
@@ -17,13 +16,7 @@ const vm_media_trim = new Vue({
         <div>
     `,
     methods: {
-        show_modal: function() {
-            let info = {};
-            info.media_src = "media/input.mp4";
-            info.start_time = 250;
-            info.media_duration = 300;
-            info.with_video = true;
-            info.with_audio = true;
+        show_modal: function(info) {
             this.$refs.trim.set_media_trim(info);
             this.$refs.modal.show_modal();
         },

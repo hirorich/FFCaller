@@ -7,7 +7,6 @@ const vm_media_info = new Vue({
     },
     template: `
         <div>
-            <button class="btn btn-primary" v-on:click="show_modal()">動画情報を開く</button>
             <modal-component ref="modal">
                 <p slot="title" class="h4 text-primary">動画情報</p>
                 <media-info-component ref="info" slot="body"></media-info-component>
@@ -16,8 +15,7 @@ const vm_media_info = new Vue({
         <div>
     `,
     methods: {
-        show_modal: function() {
-            let info = {};
+        show_modal: function(info) {
             this.$refs.info.set_media_info(info);
             this.$refs.modal.show_modal();
         },
