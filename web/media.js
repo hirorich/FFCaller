@@ -3,8 +3,8 @@ const media = new Vue({
     el: '#ffcaller-components',
     components: {
         'modal-component': modal_component,
-        'media-trim': media_trim,
-        'media-info': media_info
+        'media-trim-component': media_trim_component,
+        'media-info-component': media_info_component
     },
     template: `
         <div>
@@ -12,13 +12,13 @@ const media = new Vue({
             <button class="btn btn-primary" v-on:click="show_info_modal()">動画情報を開く</button>
             <modal-component ref="trim_modal">
                 <p slot="title" class="h4 text-primary">範囲選択</p>
-                <media-trim ref="trim" slot="body"></media-trim>
+                <media-trim-component ref="trim" slot="body"></media-trim-component>
                 <button slot="button" class="btn btn-primary" v-on:click="save_trim()">保存</button>
                 <button slot="button" class="btn btn-secondary" v-on:click="close_trim_modal()">閉じる</button>
             </modal-component>
             <modal-component ref="info_modal">
                 <p slot="title" class="h4 text-primary">動画情報</p>
-                <media-info ref="info" slot="body"></media-info>
+                <media-info-component ref="info" slot="body"></media-info-component>
                 <button slot="button" class="btn btn-secondary" v-on:click="close_info_modal()">閉じる</button>
             </modal-component>
         <div>

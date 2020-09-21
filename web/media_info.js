@@ -1,5 +1,5 @@
 // コンポーネント定義
-const media_info = {
+const media_info_component = {
     data: function() {
         return {
             video_stream: {
