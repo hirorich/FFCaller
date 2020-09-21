@@ -22,7 +22,7 @@ const modal_component = {
         show_modal: function() {
             $(this.$el).modal('show');
         },
-        close_modal: function() {
+        hide_modal: function() {
             $(this.$el).modal('hide');
         }
     }
