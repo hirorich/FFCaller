@@ -27,6 +27,7 @@ const media = new Vue({
         show_trim_modal: function() {
             let info = {};
             info.media_src = "media/input.mp4";
+            info.start_time = 250;
             info.media_duration = 300;
             info.with_video = true;
             info.with_audio = true;

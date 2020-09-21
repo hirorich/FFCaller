@@ -3,38 +3,19 @@ const media_trim = {
     components: {
         'media-player': media_player
     },
-    props: {
-
-        // 動画ファイルパス
-        mediaSrc: {
-            type: String,
-            default: ''
-        },
-
-        // 映像有無
-        withVideo: {
-            type: Boolean,
-            default: true
-        },
-
-        // 音声有無
-        withAudio: {
-            type: Boolean,
-            default: true
-        }
-    },
     data: function() {
         return {
-            media_src: String(this.mediaSrc).trim(),
-            with_video: Boolean(this.withVideo),
-            with_audio: Boolean(this.withAudio),
+            guid: String($.guid),
+            media_src: '',
+            with_video: true,
+            with_audio: true,
             frame_specification_flag : false,
             media_duration: 0,
-            nb_frames: 1,
+            nb_frames: 0,
             in_start_time: 0,
             in_end_time: 0,
-            in_start_frame: 1,
-            in_end_frame: 1,
+            in_start_frame: 0,
+            in_end_frame: 0,
             in_video_fade_in: 0,
             in_video_fade_out: 0,
             in_audio_fade_in: 0,
@@ -101,7 +82,8 @@ const media_trim = {
             <div v-cloak>
                 <div v-if="with_video" class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" v-model="frame_specification_flag" class="form-check-input position-static">
+                        <input type="checkbox" v-bind:id="[guid + '-check']" v-model="frame_specification_flag" class="form-check-input">
+                        <label v-bind:for="[guid + '-check']">フレーム指定</label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -208,12 +190,12 @@ const media_trim = {
             this.media_duration = media_duration;
 
             // フレーム数
-            let nb_frames = 1;
+            let nb_frames = 0;
             try {
                 nb_frames = parseInt(info.nb_frames);
             } catch(e) {}
-            if (isNaN(nb_frames) || nb_frames < 1) {
-                nb_frames = 1;
+            if (isNaN(nb_frames) || nb_frames < 0) {
+                nb_frames = 0;
             }
             this.nb_frames = nb_frames;
 
@@ -242,21 +224,21 @@ const media_trim = {
             this.work_end_time = end_time;
 
             // 再生開始フレーム
-            let in_start_frame = 1;
+            let in_start_frame = 0;
             try {
                 in_start_frame = parseInt(info.start_frame);
             } catch(e) {}
-            if (isNaN(in_start_frame) || in_start_frame < 1) {
-                in_start_frame = 1;
+            if (isNaN(in_start_frame) || in_start_frame < 0) {
+                in_start_frame = 0;
             }
             this.in_start_frame = in_start_frame;
 
             // 再生終了フレーム
-            let in_end_frame = 1;
+            let in_end_frame = 0;
             try {
                 in_end_frame = parseInt(info.end_frame);
             } catch(e) {}
-            if (isNaN(in_end_frame) || in_end_frame < 1 || this.nb_frames < in_end_frame) {
+            if (isNaN(in_end_frame) || in_end_frame < 0 || this.nb_frames < in_end_frame) {
                 in_end_frame = this.nb_frames;
             }
             this.in_end_frame = in_end_frame;
