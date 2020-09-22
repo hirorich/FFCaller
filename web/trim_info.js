@@ -9,7 +9,7 @@ const trim_info_component = {
             media_src: '',
             with_video: true,
             with_audio: true,
-            frame_specification_flag : false,
+            frame_input_flag : false,
             media_duration: 0,
             nb_frames: 0,
             in_start_time: 0,
@@ -82,32 +82,32 @@ const trim_info_component = {
             <div v-cloak>
                 <div v-if="with_video" class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" v-bind:id="[guid + '-check']" v-model="frame_specification_flag" class="form-check-input">
+                        <input type="checkbox" v-bind:id="[guid + '-check']" v-model="frame_input_flag" class="form-check-input">
                         <label v-bind:for="[guid + '-check']">フレーム指定</label>
                     </div>
                 </div>
                 <div class="form-row">
                     <label class="col-4">start_time</label>
                     <div class="form-group col-8">
-                        <input v-model="in_start_time" v-on:blur="onBlurStartTime()" type="number" step=0.001 class="form-control" v-bind:disabled="frame_specification_flag">
+                        <input v-model="in_start_time" v-on:blur="onBlurStartTime()" type="number" step=0.001 class="form-control" v-bind:disabled="frame_input_flag">
                     </div>
                 </div>
                 <div class="form-row">
                     <label class="col-4">end_time</label>
                     <div class="form-group col-8">
-                        <input v-model="in_end_time" v-on:blur="onBlurEndTime()" type="number" step=0.001 class="form-control" v-bind:disabled="frame_specification_flag">
+                        <input v-model="in_end_time" v-on:blur="onBlurEndTime()" type="number" step=0.001 class="form-control" v-bind:disabled="frame_input_flag">
                     </div>
                 </div>
                 <div v-if="with_video" class="form-row">
                     <label class="col-4">start_frame</label>
                     <div class="form-group col-8">
-                        <input v-model="in_start_frame" v-on:blur="onBlurStartFrame()" type="number" step=1 class="form-control" v-bind:disabled="!frame_specification_flag">
+                        <input v-model="in_start_frame" v-on:blur="onBlurStartFrame()" type="number" step=1 class="form-control" v-bind:disabled="!frame_input_flag">
                     </div>
                 </div>
                 <div v-if="with_video" class="form-row">
                     <label class="col-4">end_frame</label>
                     <div class="form-group col-8"">
-                        <input v-model="in_end_frame" v-on:blur="onBlurEndFrame()" type="number" step=1 class="form-control" v-bind:disabled="!frame_specification_flag">
+                        <input v-model="in_end_frame" v-on:blur="onBlurEndFrame()" type="number" step=1 class="form-control" v-bind:disabled="!frame_input_flag">
                     </div>
                 </div>
                 <div v-if="with_video" class="form-row">
@@ -177,7 +177,7 @@ const trim_info_component = {
             if (typeof(frame_input_flag) != "boolean") {
                 frame_input_flag = false;
             }
-            this.frame_specification_flag = frame_input_flag;
+            this.frame_input_flag = frame_input_flag;
 
             // 再生時間
             let media_duration = 0;
