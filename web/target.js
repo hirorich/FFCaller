@@ -36,8 +36,9 @@ const target_component = {
         set_target_list: function(target_list) {
             this.target_data = target_list;
         },
-        show_trim_info: function(file_id) {
-            alert(file_id);
+        show_trim_info: function(target_id) {
+            let request = {target_id: target_id};
+            eel.ffc_request_get_trim_info(request);
         },
         show_media_info: function(file_id) {
             let request = {file_id: file_id};

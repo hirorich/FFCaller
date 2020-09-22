@@ -6,7 +6,7 @@
 class FileDurationEntity():
     def __init__(self):
         self.__file_id = None
-        self.__trim_duration = 0.0
+        self.__duration = 0.0
         self.__nb_frames = 0
     
     @property
@@ -17,11 +17,11 @@ class FileDurationEntity():
         self.__file_id = int(file_id)
     
     @property
-    def trim_duration(self):
-        return self.__trim_duration
-    @trim_duration.setter
-    def trim_duration(self, trim_duration):
-        self.__trim_duration = float(trim_duration)
+    def duration(self):
+        return self.__duration
+    @duration.setter
+    def duration(self, duration):
+        self.__duration = float(duration)
     
     @property
     def nb_frames(self):

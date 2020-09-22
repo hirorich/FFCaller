@@ -17,7 +17,7 @@ const vm_media_trim = new Vue({
     `,
     methods: {
         show_modal: function(info) {
-            this.$refs.trim.set_media_trim(info);
+            this.$refs.trim.set_trim_info(info);
             this.$refs.modal.show_modal();
         },
         hide_modal: function() {
@@ -30,3 +30,9 @@ const vm_media_trim = new Vue({
         }
     }
 });
+
+// トリム情報取得
+eel.expose(ffc_response_trim_info)
+function ffc_response_trim_info(response) {
+    vm_media_trim.show_modal(response);
+}

@@ -140,12 +140,12 @@ const media_trim_component = {
     methods: {
 
         // 切り取り情報設定
-        set_media_trim: function(info) {
+        set_trim_info: function(info) {
 
             // 動画ファイルパス
             let media_src = "";
             try {
-                media_src = String(info.media_src).trim();
+                media_src = String(info.webpath).trim();
             } catch(e) {}
             this.media_src = media_src;
 
@@ -170,19 +170,19 @@ const media_trim_component = {
             this.with_audio = with_audio;
 
             // フレーム指定有無
-            let frame_specification_flag = false;
+            let frame_input_flag = false;
             try {
-                frame_specification_flag = info.frame_specification_flag;
+                frame_input_flag = info.trim.frame_input_flag;
             } catch(e) {}
-            if (typeof(frame_specification_flag) != "boolean") {
-                frame_specification_flag = false;
+            if (typeof(frame_input_flag) != "boolean") {
+                frame_input_flag = false;
             }
-            this.frame_specification_flag = frame_specification_flag;
+            this.frame_specification_flag = frame_input_flag;
 
             // 再生時間
             let media_duration = 0;
             try {
-                media_duration = convertFloat(info.media_duration);
+                media_duration = convertFloat(info.duration);
             } catch(e) {}
             if (isNaN(media_duration) || media_duration < 0) {
                 media_duration = 0;
@@ -202,7 +202,7 @@ const media_trim_component = {
             // 再生開始時間
             let start_time = 0;
             try {
-                start_time = convertFloat(info.start_time);
+                start_time = convertFloat(info.trim.start_time);
             } catch(e) {}
             if (isNaN(start_time) || start_time < 0) {
                 start_time = 0;
@@ -214,7 +214,7 @@ const media_trim_component = {
             // 再生終了時間
             let end_time = 0;
             try {
-                end_time = convertFloat(info.end_time);
+                end_time = convertFloat(info.trim.end_time);
             } catch(e) {}
             if (isNaN(end_time) || end_time < 0 || this.media_duration < end_time) {
                 end_time = this.media_duration;
@@ -226,7 +226,7 @@ const media_trim_component = {
             // 再生開始フレーム
             let in_start_frame = 0;
             try {
-                in_start_frame = parseInt(info.start_frame);
+                in_start_frame = parseInt(info.trim.start_frame);
             } catch(e) {}
             if (isNaN(in_start_frame) || in_start_frame < 0) {
                 in_start_frame = 0;
@@ -236,7 +236,7 @@ const media_trim_component = {
             // 再生終了フレーム
             let in_end_frame = 0;
             try {
-                in_end_frame = parseInt(info.end_frame);
+                in_end_frame = parseInt(info.trim.end_frame);
             } catch(e) {}
             if (isNaN(in_end_frame) || in_end_frame < 0 || this.nb_frames < in_end_frame) {
                 in_end_frame = this.nb_frames;
@@ -246,7 +246,7 @@ const media_trim_component = {
             // 映像フェードイン期間
             let video_fade_in = 0;
             try {
-                video_fade_in = convertFloat(info.video_fade_in);
+                video_fade_in = convertFloat(info.trim.video_fade_in);
             } catch(e) {}
             if (isNaN(video_fade_in) || video_fade_in < 0) {
                 video_fade_in = 0;
@@ -258,7 +258,7 @@ const media_trim_component = {
             // 映像フェードアウト期間
             let video_fade_out = 0;
             try {
-                video_fade_out = convertFloat(info.video_fade_out);
+                video_fade_out = convertFloat(info.trim.video_fade_out);
             } catch(e) {}
             if (isNaN(video_fade_out) || video_fade_out < 0) {
                 video_fade_out = 0;
@@ -270,7 +270,7 @@ const media_trim_component = {
             // 音声フェードイン期間
             let audio_fade_in = 0;
             try {
-                audio_fade_in = convertFloat(info.audio_fade_in);
+                audio_fade_in = convertFloat(info.trim.audio_fade_in);
             } catch(e) {}
             if (isNaN(audio_fade_in) || audio_fade_in < 0) {
                 audio_fade_in = 0;
@@ -282,7 +282,7 @@ const media_trim_component = {
             // 音声フェードアウト期間
             let audio_fade_out = 0;
             try {
-                audio_fade_out = convertFloat(info.audio_fade_out);
+                audio_fade_out = convertFloat(info.trim.audio_fade_out);
             } catch(e) {}
             if (isNaN(audio_fade_out) || audio_fade_out < 0) {
                 audio_fade_out = 0;

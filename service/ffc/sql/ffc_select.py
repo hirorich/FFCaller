@@ -8,6 +8,7 @@ from service.ffc.entity.file_entity import FileEntity
 from service.ffc.entity.format_entity import FormatEntity
 from service.ffc.entity.stream_entity import StreamEntity
 from service.ffc.entity.target_entity import TargetEntity
+from service.ffc.entity.trim_entity import TrimEntity
 from service.ffc.entity.video_entity import VideoEntity
 from service.ffc.entity.work_input_target_entity import InputTargetEntity
 from service.ffc.entity.work_audio_stream_entity import AudioStreamEntity

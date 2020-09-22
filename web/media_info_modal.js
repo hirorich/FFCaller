@@ -25,7 +25,7 @@ const vm_media_info = new Vue({
     }
 });
 
-// ターゲット一覧取得
+// ファイル情報取得
 eel.expose(ffc_response_media_info)
 function ffc_response_media_info(response) {
     vm_media_info.show_modal(response);
