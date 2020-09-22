@@ -2,6 +2,7 @@
 # メッセージ取得部品
 # ==================================================
 
+import sqlite3
 from common import app_property
 from common.utility import path_utils, sqlite3_utils
 from common.utility.type import str_utils
@@ -59,10 +60,12 @@ def select_tb_message(message_id):
     param = (message_id,)
     
     # クエリ実行
-    fetchone_result = sqlite3_utils.fetchone(db_filename, query, param)
+    result = None
+    with sqlite3.connect(db_filename) as conn:
+        result = sqlite3_utils.fetchone(conn, query, param)
     
     # 取得したメッセージを返却
-    if fetchone_result is None:
+    if result is None:
         return False, None
     else:
-        return True, fetchone_result[1]
+        return True, result[1]
