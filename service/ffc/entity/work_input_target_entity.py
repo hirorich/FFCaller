@@ -10,7 +10,7 @@ class InputTargetEntity():
         self.__filename = None
         self.__filepath = None
         self.__start_time = 0.0
-        self.__trim_duration = 0.0
+        self.__end_time = 0.0
         self.__item_order = None
     
     @property
@@ -49,11 +49,11 @@ class InputTargetEntity():
         self.__start_time = float(start_time)
     
     @property
-    def trim_duration(self):
-        return self.__trim_duration
-    @trim_duration.setter
-    def trim_duration(self, trim_duration):
-        self.__trim_duration = float(trim_duration)
+    def end_time(self):
+        return self.__end_time
+    @end_time.setter
+    def end_time(self, end_time):
+        self.__end_time = float(end_time)
     
     @property
     def item_order(self):
@@ -69,6 +69,6 @@ class InputTargetEntity():
         result['filename'] = self.__filename
         result['filepath'] = self.__filepath
         result['start_time'] = self.__start_time
-        result['trim_duration'] = self.__trim_duration
+        result['end_time'] = self.__end_time
         result['item_order'] = self.__item_order
         return result

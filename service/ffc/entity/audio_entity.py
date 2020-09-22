@@ -29,3 +29,10 @@ class AudioEntity():
     @sample_rate.setter
     def sample_rate(self, sample_rate):
         self.__sample_rate = int(sample_rate)
+    
+    def to_dict(self):
+        result = dict()
+        result['file_id'] = self.__file_id
+        result['stream_index'] = self.__stream_index
+        result['sample_rate'] = self.__sample_rate
+        return result

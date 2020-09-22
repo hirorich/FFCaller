@@ -1,7 +1,7 @@
 // コンポーネント定義
-const media_trim = {
+const media_trim_component = {
     components: {
-        'media-player': media_player
+        'media-player-component': media_player_component
     },
     data: function() {
         return {
@@ -67,7 +67,7 @@ const media_trim = {
     template: `
         <div>
             <div class="row">
-                <media-player ref="media" class="col-12"
+                <media-player-component ref="media" class="col-12"
                     v-bind:media-src="media_src"
                     v-bind:with-video="with_video"
                     v-bind:with-audio="with_audio"
@@ -77,7 +77,7 @@ const media_trim = {
                     v-bind:video-fade-out="out_video_fade_out"
                     v-bind:audio-fade-in="out_audio_fade_in"
                     v-bind:audio-fade-out="out_audio_fade_out"
-                    v-on:load="onMediaLoad"></media-player>
+                    v-on:load="onMediaLoad"></media-player-component>
             </div>
             <div v-cloak>
                 <div v-if="with_video" class="form-group">

@@ -3,7 +3,7 @@
 // https://phpjavascriptroom.com/?t=js&p=event
 
 // コンポーネント定義
-const media_player = {
+const media_player_component = {
     props: {
 
         // 動画ファイルパス

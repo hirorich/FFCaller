@@ -37,3 +37,11 @@ class FormatEntity():
     @size.setter
     def size(self, size):
         self.__size = int(size)
+    
+    def to_dict(self):
+        result = dict()
+        result['file_id'] = self.__file_id
+        result['nb_streams'] = self.__nb_streams
+        result['duration'] = self.__duration
+        result['size'] = self.__size
+        return result

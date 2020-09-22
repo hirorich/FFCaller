@@ -61,3 +61,14 @@ class StreamEntity():
     @bit_rate.setter
     def bit_rate(self, bit_rate):
         self.__bit_rate = int(bit_rate)
+    
+    def to_dict(self):
+        result = dict()
+        result['file_id'] = self.__file_id
+        result['stream_index'] = self.__stream_index
+        result['codec_type'] = self.__codec_type
+        result['codec_name'] = self.__codec_name
+        result['codec_long_name'] = self.__codec_long_name
+        result['duration'] = self.__duration
+        result['bit_rate'] = self.__bit_rate
+        return result

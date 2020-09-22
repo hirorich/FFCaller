@@ -18,7 +18,7 @@ const app = new Vue({
     methods: {
         execute: function() {
             alert('Sample');
-            this.$refs.modal.close_modal();
+            this.$refs.modal.hide_modal();
         }
     }
 })

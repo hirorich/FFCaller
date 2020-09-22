@@ -9,7 +9,7 @@ from common.utility import log_utils, path_utils
 from service.ffc import ffc_add_files, ffc_response_target
 
 @eel.expose
-def select_files():
+def ffc_request_choose_files():
     
     try:
         

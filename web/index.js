@@ -12,13 +12,13 @@ const vm = new Vue({
     `,
     methods: {
         add_target: function() {
-            eel.select_files();
+            eel.ffc_request_choose_files();
         }
     }
 });
 
 // ターゲット一覧取得
 eel.expose(ffc_response_target_list)
-function ffc_response_target_list(target_list) {
-    vm.$refs.target.set_target_list(target_list);
+function ffc_response_target_list(response) {
+    vm.$refs.target.set_target_list(response);
 }
