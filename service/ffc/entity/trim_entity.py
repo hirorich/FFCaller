@@ -85,3 +85,17 @@ class TrimEntity():
     @audio_fade_out.setter
     def audio_fade_out(self, audio_fade_out):
         self.__audio_fade_out = float(audio_fade_out)
+    
+    def to_dict(self):
+        result = dict()
+        result['target_id'] = self.__target_id
+        result['start_time'] = self.__start_time
+        result['end_time'] = self.__end_time
+        result['start_frame'] = self.__start_frame
+        result['end_frame'] = self.__end_frame
+        result['frame_input_flag'] = self.__frame_input_flag
+        result['video_fade_in'] = self.__video_fade_in
+        result['video_fade_out'] = self.__video_fade_out
+        result['audio_fade_in'] = self.__audio_fade_in
+        result['audio_fade_out'] = self.__audio_fade_out
+        return result

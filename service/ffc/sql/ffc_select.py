@@ -4,8 +4,11 @@
 
 from common.utility import sqlite3_utils
 from service.ffc.entity.audio_entity import AudioEntity
+from service.ffc.entity.file_entity import FileEntity
 from service.ffc.entity.format_entity import FormatEntity
 from service.ffc.entity.stream_entity import StreamEntity
+from service.ffc.entity.target_entity import TargetEntity
+from service.ffc.entity.trim_entity import TrimEntity
 from service.ffc.entity.video_entity import VideoEntity
 from service.ffc.entity.work_input_target_entity import InputTargetEntity
 from service.ffc.entity.work_audio_stream_entity import AudioStreamEntity
@@ -15,7 +18,7 @@ from service.ffc.entity.work_video_stream_entity import VideoStreamEntity
 def get_input_target_list(conn):
     query = []
     query.append(r'select')
-    query.append(r'Target.target_id, File.file_id, File.filename, File.filepath, Trim.start_time, Trim.end_time, Target.item_order')
+    query.append(r'Target.target_id, File.filename, File.filepath, Trim.start_time, Trim.end_time, Target.item_order')
     query.append(r'from Target')
     query.append(r'inner join Trim')
     query.append(r'on Target.target_id = Trim.target_id')
@@ -28,15 +31,92 @@ def get_input_target_list(conn):
     for input_target in sqlite3_utils.fetchall(conn, ' '.join(query)):
         entity = InputTargetEntity()
         entity.target_id = input_target[0]
-        entity.file_id = input_target[1]
-        entity.filename = input_target[2]
-        entity.filepath = input_target[3]
-        entity.start_time = input_target[4]
-        entity.end_time = input_target[5]
-        entity.item_order = input_target[6]
+        entity.filename = input_target[1]
+        entity.filepath = input_target[2]
+        entity.start_time = input_target[3]
+        entity.end_time = input_target[4]
+        entity.item_order = input_target[5]
         result.append(entity)
     
     return result
+
+# ターゲット取得
+def get_target(conn, target_id):
+    query = []
+    query.append(r'select')
+    query.append(r'target_id, file_id, item_order')
+    query.append(r'from Target')
+    query.append(r'where')
+    query.append(r'target_id = ?')
+    query.append(r'order by')
+    query.append(r'target_id')
+    param = (target_id,)
+    
+    target = sqlite3_utils.fetchone(conn, ' '.join(query), param)
+    if target is None:
+        return None
+    
+    target_entity = TargetEntity()
+    target_entity.target_id = target[0]
+    target_entity.file_id = target[1]
+    target_entity.item_order = target[2]
+    
+    return target_entity
+
+# トリム取得
+def get_trim(conn, target_id):
+    query = []
+    query.append(r'select')
+    query.append(r'target_id, start_time, end_time, start_frame, end_frame, frame_input_flag, video_fade_in, video_fade_out, audio_fade_in, audio_fade_out')
+    query.append(r'from Trim')
+    query.append(r'where')
+    query.append(r'target_id = ?')
+    query.append(r'order by')
+    query.append(r'target_id')
+    param = (target_id,)
+    
+    trim = sqlite3_utils.fetchone(conn, ' '.join(query), param)
+    if trim is None:
+        return None
+    
+    trim_entity = TrimEntity()
+    trim_entity.target_id = trim[0]
+    trim_entity.start_time = trim[1]
+    trim_entity.end_time = trim[2]
+    trim_entity.start_frame = trim[3]
+    trim_entity.end_frame = trim[4]
+    trim_entity.frame_input_flag = trim[5]
+    trim_entity.video_fade_in = trim[6]
+    trim_entity.video_fade_out = trim[7]
+    trim_entity.audio_fade_in = trim[8]
+    trim_entity.audio_fade_out = trim[9]
+    
+    return trim_entity
+
+# ファイル取得
+def get_file(conn, file_id):
+    query = []
+    query.append(r'select')
+    query.append(r'file_id, filename, filepath, workpath, webpath')
+    query.append(r'from File')
+    query.append(r'where')
+    query.append(r'file_id = ?')
+    query.append(r'order by')
+    query.append(r'file_id')
+    param = (file_id,)
+    
+    file = sqlite3_utils.fetchone(conn, ' '.join(query), param)
+    if file is None:
+        return None
+    
+    file_entity = FileEntity()
+    file_entity.file_id = file[0]
+    file_entity.filename = file[1]
+    file_entity.filepath = file[2]
+    file_entity.workpath = file[3]
+    file_entity.webpath = file[4]
+    
+    return file_entity
 
 # フォーマット取得
 def get_format(conn, file_id):

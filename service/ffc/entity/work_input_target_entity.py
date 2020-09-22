@@ -6,7 +6,6 @@
 class InputTargetEntity():
     def __init__(self):
         self.__target_id = None
-        self.__file_id = None
         self.__filename = None
         self.__filepath = None
         self.__start_time = 0.0
@@ -19,13 +18,6 @@ class InputTargetEntity():
     @target_id.setter
     def target_id(self, target_id):
         self.__target_id = int(target_id)
-    
-    @property
-    def file_id(self):
-        return self.__file_id
-    @file_id.setter
-    def file_id(self, file_id):
-        self.__file_id = int(file_id)
     
     @property
     def filename(self):
@@ -65,7 +57,6 @@ class InputTargetEntity():
     def to_dict(self):
         result = dict()
         result['target_id'] = self.__target_id
-        result['file_id'] = self.__file_id
         result['filename'] = self.__filename
         result['filepath'] = self.__filepath
         result['start_time'] = self.__start_time
