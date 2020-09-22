@@ -141,7 +141,7 @@ def get_audio_streams(conn, file_id):
         
         audio_stream_entity = AudioStreamEntity()
         audio_stream_entity.stream = stream_entity
-        audio_stream_entity.video = audio_entity
+        audio_stream_entity.audio = audio_entity
         
         result.append(audio_stream_entity)
     

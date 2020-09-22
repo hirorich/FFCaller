@@ -10,9 +10,9 @@ from service.ffc.sql import ffc_select
 def exec(conn, file_id):
     try:
         # 動画情報取得
-        format = get_format(conn, file_id)
-        video_stream = get_video_stream(conn, file_id)
-        audio_streams = get_audio_streams(conn, file_id)
+        format = ffc_select.get_format(conn, file_id)
+        video_stream = ffc_select.get_video_stream(conn, file_id)
+        audio_streams = ffc_select.get_audio_streams(conn, file_id)
         
         # 動画情報設定
         response = dict()

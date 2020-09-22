@@ -15,8 +15,8 @@ const vm_media_info = new Vue({
         <div>
     `,
     methods: {
-        show_modal: function(info) {
-            this.$refs.info.set_media_info(info);
+        show_modal: function(media_info) {
+            this.$refs.info.set_media_info(media_info);
             this.$refs.modal.show_modal();
         },
         hide_modal: function() {
@@ -24,3 +24,9 @@ const vm_media_info = new Vue({
         }
     }
 });
+
+// ターゲット一覧取得
+eel.expose(ffc_response_media_info)
+function ffc_response_media_info(response) {
+    vm_media_info.show_modal(response);
+}
