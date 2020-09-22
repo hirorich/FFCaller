@@ -13,8 +13,7 @@ const target_component = {
                         <th>No.</th>
                         <th>ファイル名</th>
                         <th>時間</th>
-                        <th>時間指定</th>
-                        <th>ファイル情報</th>
+                        <th>編集</th>
                         <th>ファイルパス</th>
                     </tr>
                 </thead>
@@ -24,10 +23,8 @@ const target_component = {
                         <th>{{item.filename}}</th>
                         <th>{{formatTime(item.start_time)}} - {{formatTime(item.end_time)}}</th>
                         <th>
-                            <button class="btn btn-primary" v-on:click="show_trim_info(item.target_id)">表示</button>
-                        </th>
-                        <th>
-                            <button class="btn btn-primary" v-on:click="show_media_info(item.file_id)">表示</button>
+                            <button class="btn btn-primary" v-on:click="show_trim_info(item.target_id)">時間指定</button>
+                            <button class="btn btn-primary" v-on:click="show_media_info(item.file_id)">ファイル情報</button>
                         </th>
                         <th>{{item.filepath}}</th>
                     </tr>

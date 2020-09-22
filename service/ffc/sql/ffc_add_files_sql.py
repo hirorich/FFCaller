@@ -32,7 +32,8 @@ def get_file_duration_by_id(conn, file_id):
     if len(result) != 0:
         entity.file_id = result[0][0]
         entity.trim_duration = result[0][1]
-        entity.nb_frames = result[0][2]
+        if result[0][2] is not None:
+            entity.nb_frames = result[0][2]
     
     return entity
 
@@ -48,7 +49,8 @@ def get_file_duration_by_path(conn, filepath):
     if len(result) != 0:
         entity.file_id = result[0][0]
         entity.trim_duration = result[0][1]
-        entity.nb_frames = result[0][2]
+        if result[0][2] is not None:
+            entity.nb_frames = result[0][2]
     
     return entity
 
