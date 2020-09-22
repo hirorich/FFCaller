@@ -24,7 +24,7 @@ const target_component = {
                         <th>{{formatTime(item.start_time)}} - {{formatTime(item.end_time)}}</th>
                         <th>
                             <button class="btn btn-primary" v-on:click="show_trim_info(item.target_id)">時間指定</button>
-                            <button class="btn btn-primary" v-on:click="show_media_info(item.file_id)">ファイル情報</button>
+                            <button class="btn btn-primary" v-on:click="show_media_info(item.target_id)">ファイル情報</button>
                         </th>
                         <th>{{item.filepath}}</th>
                     </tr>
@@ -40,8 +40,8 @@ const target_component = {
             let request = {target_id: target_id};
             eel.ffc_request_get_trim_info(request);
         },
-        show_media_info: function(file_id) {
-            let request = {file_id: file_id};
+        show_media_info: function(target_id) {
+            let request = {target_id: target_id};
             eel.ffc_request_get_media_info(request);
         }
     }

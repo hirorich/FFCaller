@@ -13,14 +13,14 @@ def ffc_request_get_media_info(request):
     
     try:
         
-        file_id = request['file_id']
+        target_id = request['target_id']
         
         # DB接続
         db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
         with sqlite3.connect(db_filename) as conn:
             
             # 動画情報を返却
-            ffc_response_media_info.exec(conn, file_id)
+            ffc_response_media_info.exec(conn, target_id)
         
     except Exception as e:
         message = log_utils.write_exception(e)

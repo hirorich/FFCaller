@@ -7,9 +7,11 @@ from common.utility import log_utils
 from service.ffc.sql import ffc_select
 
 # 実行
-def exec(conn, file_id):
+def exec(conn, target_id):
     try:
         # 動画情報取得
+        target = ffc_select.get_target(conn, target_id)
+        file_id = target.file_id
         format = ffc_select.get_format(conn, file_id)
         video_stream = ffc_select.get_video_stream(conn, file_id)
         audio_streams = ffc_select.get_audio_streams(conn, file_id)

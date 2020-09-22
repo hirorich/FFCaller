@@ -1,5 +1,5 @@
 // コンポーネント定義
-const media_trim_component = {
+const trim_info_component = {
     components: {
         'media-player-component': media_player_component
     },
