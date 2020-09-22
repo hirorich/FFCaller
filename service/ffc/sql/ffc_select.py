@@ -15,7 +15,7 @@ from service.ffc.entity.work_video_stream_entity import VideoStreamEntity
 def get_input_target_list(conn):
     query = []
     query.append(r'select')
-    query.append(r'Target.target_id, File.file_id, File.filename, File.filepath, Trim.start_time, Trim.trim_duration, Target.item_order')
+    query.append(r'Target.target_id, File.file_id, File.filename, File.filepath, Trim.start_time, Trim.end_time, Target.item_order')
     query.append(r'from Target')
     query.append(r'inner join Trim')
     query.append(r'on Target.target_id = Trim.target_id')
@@ -32,7 +32,7 @@ def get_input_target_list(conn):
         entity.filename = input_target[2]
         entity.filepath = input_target[3]
         entity.start_time = input_target[4]
-        entity.trim_duration = input_target[5]
+        entity.end_time = input_target[5]
         entity.item_order = input_target[6]
         result.append(entity)
     

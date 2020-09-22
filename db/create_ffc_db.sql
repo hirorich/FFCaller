@@ -17,7 +17,7 @@ create table Target (
 create table Trim (
 	target_id integer,
 	start_time real,
-	trim_duration real,
+	end_time real,
 	start_frame integer,
 	end_frame integer,
 	frame_input_flag boolean,

@@ -7,7 +7,7 @@ class TrimEntity():
     def __init__(self):
         self.__target_id = None
         self.__start_time = 0.0
-        self.__trim_duration = 0.0
+        self.__end_time = 0.0
         self.__start_frame = 0
         self.__end_frame = 0
         self.__frame_input_flag = False
@@ -31,11 +31,11 @@ class TrimEntity():
         self.__start_time = float(start_time)
     
     @property
-    def trim_duration(self):
-        return self.__trim_duration
-    @trim_duration.setter
-    def trim_duration(self, trim_duration):
-        self.__trim_duration = float(trim_duration)
+    def end_time(self):
+        return self.__end_time
+    @end_time.setter
+    def end_time(self, end_time):
+        self.__end_time = float(end_time)
     
     @property
     def start_frame(self):
