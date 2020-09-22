@@ -1,7 +1,7 @@
 import eel
 from common import app_property
 from common.utility import log_utils
-from service import add_files
+from service import add_files, get_target_info
 
 # main
 if __name__ == "__main__":
