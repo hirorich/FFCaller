@@ -132,4 +132,6 @@ def __insert_triminfo(conn, file_duration_entity):
     trim_entity.target_id = target_entity.target_id
     trim_entity.end_time = file_duration_entity.duration
     trim_entity.end_frame = file_duration_entity.nb_frames
+    if trim_entity.end_frame > 0:
+        trim_entity.start_frame = 1
     ffc_insert.insert_trim(conn, trim_entity)
