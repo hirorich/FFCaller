@@ -69,6 +69,6 @@ class InputTargetEntity():
         result['filename'] = self.__filename
         result['filepath'] = self.__filepath
         result['start_time'] = self.__start_time
-        result['trim_duration'] = self.__trim_duration
+        result['end_time'] = self.__end_time
         result['item_order'] = self.__item_order
         return result
