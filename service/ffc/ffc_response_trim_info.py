@@ -16,7 +16,7 @@ def exec(conn, target_id):
         file = ffc_select.get_file(conn, file_id)
         video_stream = ffc_select.get_video_stream(conn, file_id)
         audio_streams = ffc_select.get_audio_streams(conn, file_id)
-        file_duration_entity = ffc_add_files_sql.get_file_duration_by_id(conn, file_id)
+        file_duration_entity = ffc_add_files_sql.get_file_duration(conn, file_id)
         
         # 動画情報設定
         response = dict()

@@ -7,7 +7,7 @@ import pathlib, shutil
 from common import app_property
 from common.utility import file_utils, log_utils, path_utils
 from service.analyzer import analyzer_ffprobe
-from service.ffc.sql import ffc_add_files_sql, ffc_insert
+from service.ffc.sql import ffc_add_files_sql, ffc_insert, ffc_select
 from service.ffc.entity.target_entity import TargetEntity
 from service.ffc.entity.trim_entity import TrimEntity
 from service.ffc.entity.file_entity import FileEntity
@@ -38,20 +38,20 @@ def exec(conn):
 # 対象ファイル追加
 def __add_file(workdir, conn, input_file):
     
-    file_entity = FileEntity()
-    
     # ファイル情報取得
     file = pathlib.Path(input_file)
-    file_entity.filename = file.name
-    file_entity.filepath = file.resolve().absolute().as_posix()
+    filepath = file.resolve().absolute().as_posix()
     
     # 登録済み情報取得
-    file_duration_entity = ffc_add_files_sql.get_file_duration_by_path(conn, file_entity.filepath)
-    if file_duration_entity.file_id is not None:
-        return file_duration_entity
+    file_entity = ffc_select.get_file_by_filepath(conn, filepath)
+    if file_entity is not None:
+        return ffc_add_files_sql.get_file_duration(conn, file_entity.file_id)
     
     # ファイルID発行
+    file_entity = FileEntity()
     file_entity.file_id = ffc_add_files_sql.get_max_file_id(conn) + 1
+    file_entity.filename = file.name
+    file_entity.filepath = filepath
     
     # ファイルコピー
     copiedfile = str(file_entity.file_id) + file.suffix
@@ -115,7 +115,7 @@ def __insert_fileinfo(conn, file_entity, analized_result):
             ffc_insert.insert_audio(conn, audio_entity)
     
     # 登録情報返却
-    return ffc_add_files_sql.get_file_duration_by_id(conn, file_entity.file_id)
+    return ffc_add_files_sql.get_file_duration(conn, file_entity.file_id)
 
 # トリム情報DB追加
 def __insert_triminfo(conn, file_duration_entity):

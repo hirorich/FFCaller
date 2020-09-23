@@ -5,7 +5,7 @@
 from common.utility import sqlite3_utils
 from service.ffc.entity.work_file_duration_entity import FileDurationEntity
 
-# ファイルの長さ取得クエリ作成
+# ファイルの長さ取得クエリ作成(Video)
 def __create_query_get_video_duration():
     query = []
     query.append(r'select')
@@ -18,7 +18,7 @@ def __create_query_get_video_duration():
     
     return query
 
-# ファイルの長さ取得クエリ作成
+# ファイルの長さ取得クエリ作成(Audio)
 def __create_query_get_audio_duration():
     query = []
     query.append(r'select')
@@ -31,8 +31,8 @@ def __create_query_get_audio_duration():
     
     return query
 
-# ファイルIDよりファイルの長さ取得
-def get_file_duration_by_id(conn, file_id):
+# ファイルの長さ取得
+def get_file_duration(conn, file_id):
     query = __create_query_get_video_duration()
     query.append(r'where')
     query.append(r'File.file_id = ?')
@@ -43,31 +43,6 @@ def get_file_duration_by_id(conn, file_id):
     query.append(r'where')
     query.append(r'File.file_id = ?')
     param = (file_id,)
-    result_audio = sqlite3_utils.fetchall(conn, ' '.join(query), param)
-    
-    entity = FileDurationEntity()
-    if len(result_video) != 0:
-        entity.file_id = result_video[0][0]
-        entity.duration = result_video[0][1]
-        entity.nb_frames = result_video[0][2]
-    elif len(result_audio) != 0:
-        entity.file_id = result_audio[0][0]
-        entity.duration = result_audio[0][1]
-    
-    return entity
-
-# ファイルパスよりファイルの長さ取得
-def get_file_duration_by_path(conn, filepath):
-    query = __create_query_get_video_duration()
-    query.append(r'where')
-    query.append(r'File.filepath = ?')
-    param = (filepath,)
-    result_video = sqlite3_utils.fetchall(conn, ' '.join(query), param)
-    
-    query = __create_query_get_audio_duration()
-    query.append(r'where')
-    query.append(r'File.filepath = ?')
-    param = (filepath,)
     result_audio = sqlite3_utils.fetchall(conn, ' '.join(query), param)
     
     entity = FileDurationEntity()

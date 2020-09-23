@@ -118,6 +118,31 @@ def get_file(conn, file_id):
     
     return file_entity
 
+# ファイル取得(ファイルパスより)
+def get_file_by_filepath(conn, filepath):
+    query = []
+    query.append(r'select')
+    query.append(r'file_id, filename, filepath, workpath, webpath')
+    query.append(r'from File')
+    query.append(r'where')
+    query.append(r'filepath = ?')
+    query.append(r'order by')
+    query.append(r'file_id')
+    param = (filepath,)
+    
+    file = sqlite3_utils.fetchone(conn, ' '.join(query), param)
+    if file is None:
+        return None
+    
+    file_entity = FileEntity()
+    file_entity.file_id = file[0]
+    file_entity.filename = file[1]
+    file_entity.filepath = file[2]
+    file_entity.workpath = file[3]
+    file_entity.webpath = file[4]
+    
+    return file_entity
+
 # フォーマット取得
 def get_format(conn, file_id):
     query = []
