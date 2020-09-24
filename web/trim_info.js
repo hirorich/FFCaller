@@ -442,5 +442,16 @@ const trim_info_component = {
             this.in_audio_fade_out = this.work_audio_fade_out;
             this.out_audio_fade_out = this.work_audio_fade_out;
         }
+    },
+    watch: {
+        frame_input_flag: function(value) {
+            if (value) {
+                this.onBlurStartFrame();
+                this.onBlurEndFrame();
+            } else {
+                this.onBlurStartTime();
+                this.onBlurEndTime();
+            }
+        }
     }
 }
