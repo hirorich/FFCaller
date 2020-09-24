@@ -10,6 +10,8 @@ const trim_info_component = {
             with_video: true,
             with_audio: true,
             frame_input_flag : false,
+            r_frame_rate_numer: 0,
+            r_frame_rate_denom: 1,
             media_duration: 0,
             nb_frames: 0,
             in_start_time: 0,
@@ -178,6 +180,20 @@ const trim_info_component = {
                 frame_input_flag = false;
             }
             this.frame_input_flag = frame_input_flag;
+
+            // フレームレート(分子)
+            let r_frame_rate_numer = 0;
+            try {
+                r_frame_rate_numer = info.r_frame_rate_numer;
+            } catch(e) {}
+            this.r_frame_rate_numer = r_frame_rate_numer;
+
+            // フレームレート(分母)
+            let r_frame_rate_denom = 1;
+            try {
+                r_frame_rate_denom = info.r_frame_rate_denom;
+            } catch(e) {}
+            this.r_frame_rate_denom = r_frame_rate_denom;
 
             // 再生時間
             let media_duration = 0;

@@ -26,6 +26,13 @@ def exec(conn, target_id):
         response['nb_frames'] = file_duration_entity.nb_frames
         response['with_video'] = (video_stream is not None)
         response['with_audio'] = (len(audio_streams) > 0)
+        if response['with_video']:
+            r_frame_rate = video_stream.video.r_frame_rate.split('/')
+            response['r_frame_rate_numer'] = int(r_frame_rate[0])
+            response['r_frame_rate_denom'] = int(r_frame_rate[1])
+        elif response['with_audio']:
+            response['r_frame_rate_numer'] = 0
+            response['r_frame_rate_denom'] = 1
         
         eel.ffc_response_trim_info(response)
         
