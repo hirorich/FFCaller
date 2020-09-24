@@ -336,10 +336,11 @@ const trim_info_component = {
 
         // 再生開始時間
         onBlurStartTime: function() {
+            let prev_start_time = this.work_start_time;
             this.work_start_time = convertFloat(this.in_start_time);
             if (isNaN(this.work_start_time) || !this.validation) {
-                this.in_start_time = this.out_start_time;
-                this.work_start_time = this.out_start_time;
+                this.in_start_time = prev_start_time;
+                this.work_start_time = prev_start_time;
                 return;
             }
             this.in_start_time = this.work_start_time;
@@ -348,10 +349,11 @@ const trim_info_component = {
 
         // 再生終了時間
         onBlurEndTime: function() {
+            let prev_end_time = this.work_end_time;
             this.work_end_time = convertFloat(this.in_end_time);
             if (isNaN(this.work_end_time) || !this.validation) {
-                this.in_end_time = this.out_end_time;
-                this.work_end_time = this.out_end_time;
+                this.in_end_time = prev_end_time;
+                this.work_end_time = prev_end_time;
                 return;
             }
             this.in_end_time = this.work_end_time;
@@ -360,7 +362,7 @@ const trim_info_component = {
 
         // 再生開始フレーム
         onBlurStartFrame: function() {
-            let prev_start_frame = this.work_start_frame
+            let prev_start_frame = this.work_start_frame;
             this.work_start_frame = parseInt(this.in_start_frame);
             if (isNaN(this.work_start_frame) || !this.validation) {
                 this.in_start_frame = prev_start_frame;
@@ -373,7 +375,7 @@ const trim_info_component = {
 
         // 再生終了フレーム
         onBlurEndFrame: function() {
-            let prev_end_frame = this.work_end_frame
+            let prev_end_frame = this.work_end_frame;
             this.work_end_frame = parseInt(this.in_end_frame);
             if (isNaN(this.work_end_frame) || !this.validation) {
                 this.in_end_frame = prev_end_frame;
@@ -386,10 +388,11 @@ const trim_info_component = {
 
         // 映像フェードイン期間
         onBlurVideoFadeIn: function() {
+            let prev_video_fade_in = this.work_video_fade_in;
             this.work_video_fade_in = convertFloat(this.in_video_fade_in);
             if (isNaN(this.work_video_fade_in) || !this.validation) {
-                this.in_video_fade_in = this.out_video_fade_in;
-                this.work_video_fade_in = this.out_video_fade_in;
+                this.in_video_fade_in = prev_video_fade_in;
+                this.work_video_fade_in = prev_video_fade_in;
                 return;
             }
             this.in_video_fade_in = this.work_video_fade_in;
@@ -398,10 +401,11 @@ const trim_info_component = {
 
         // 映像フェードアウト期間
         onBlurVideoFadeOut: function() {
+            let prev_video_fade_out = this.work_video_fade_out;
             this.work_video_fade_out = convertFloat(this.in_video_fade_out);
             if (isNaN(this.work_video_fade_out) || !this.validation) {
-                this.in_video_fade_out = this.out_video_fade_out;
-                this.work_video_fade_out = this.out_video_fade_out;
+                this.in_video_fade_out = prev_video_fade_out;
+                this.work_video_fade_out = prev_video_fade_out;
                 return;
             }
             this.in_video_fade_out = this.work_video_fade_out;
@@ -410,10 +414,11 @@ const trim_info_component = {
 
         // 音声フェードイン期間
         onBlurAudioFadeIn: function() {
+            let prev_audio_fade_in = this.work_audio_fade_in;
             this.work_audio_fade_in = convertFloat(this.in_audio_fade_in);
             if (isNaN(this.work_audio_fade_in) || !this.validation) {
-                this.in_audio_fade_in = this.out_audio_fade_in;
-                this.work_audio_fade_in = this.out_audio_fade_in;
+                this.in_audio_fade_in = prev_audio_fade_in;
+                this.work_audio_fade_in = prev_audio_fade_in;
                 return;
             }
             this.in_audio_fade_in = this.work_audio_fade_in;
@@ -422,10 +427,11 @@ const trim_info_component = {
 
         // 音声フェードアウト期間
         onBlurAudioFadeOut: function() {
+            let prev_audio_fade_out = this.work_audio_fade_out;
             this.work_audio_fade_out = convertFloat(this.in_audio_fade_out);
             if (isNaN(this.work_audio_fade_out) || !this.validation) {
-                this.in_audio_fade_out = this.out_audio_fade_out;
-                this.work_audio_fade_out = this.out_audio_fade_out;
+                this.in_audio_fade_out = prev_audio_fade_out;
+                this.work_audio_fade_out = prev_audio_fade_out;
                 return;
             }
             this.in_audio_fade_out = this.work_audio_fade_out;
