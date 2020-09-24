@@ -51,6 +51,9 @@ const trim_info_component = {
             let start_time = this.work_start_time;
             let end_time = this.work_end_time;
             if (this.frame_input_flag) {
+                if (this.r_frame_rate_numer < 1) {
+                    return false;
+                }
                 valid = valid && (1 <= this.work_start_frame);
                 valid = valid && (this.work_start_frame <= this.work_end_frame);
                 valid = valid && (this.work_end_frame <= this.nb_frames);
@@ -261,6 +264,7 @@ const trim_info_component = {
                 in_start_frame = 0;
             }
             this.in_start_frame = in_start_frame;
+            this.work_start_frame = in_start_frame;
 
             // 再生終了フレーム
             let in_end_frame = 0;
@@ -271,6 +275,7 @@ const trim_info_component = {
                 in_end_frame = this.nb_frames;
             }
             this.in_end_frame = in_end_frame;
+            this.work_end_frame = in_end_frame;
 
             // 映像フェードイン期間
             let video_fade_in = 0;
@@ -364,7 +369,7 @@ const trim_info_component = {
         onBlurStartFrame: function() {
             let prev_start_frame = this.work_start_frame;
             this.work_start_frame = parseInt(this.in_start_frame);
-            if (isNaN(this.work_start_frame) || !this.validation) {
+            if ((this.r_frame_rate_numer < 1) || isNaN(this.work_start_frame) || !this.validation) {
                 this.in_start_frame = prev_start_frame;
                 this.work_start_frame = prev_start_frame;
                 return;
@@ -377,7 +382,7 @@ const trim_info_component = {
         onBlurEndFrame: function() {
             let prev_end_frame = this.work_end_frame;
             this.work_end_frame = parseInt(this.in_end_frame);
-            if (isNaN(this.work_end_frame) || !this.validation) {
+            if ((this.r_frame_rate_numer < 1) || isNaN(this.work_end_frame) || !this.validation) {
                 this.in_end_frame = prev_end_frame;
                 this.work_end_frame = prev_end_frame;
                 return;
