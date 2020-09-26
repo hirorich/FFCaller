@@ -10,6 +10,8 @@ const trim_info_component = {
             with_video: true,
             with_audio: true,
             frame_input_flag : false,
+            r_frame_rate_numer: 1,
+            r_frame_rate_denom: 0,
             media_duration: 0,
             nb_frames: 0,
             in_start_time: 0,
@@ -28,6 +30,8 @@ const trim_info_component = {
             out_audio_fade_out: 0,
             work_start_time: 0,
             work_end_time: 0,
+            work_start_frame: 0,
+            work_end_frame: 0,
             work_video_fade_in: 0,
             work_video_fade_out: 0,
             work_audio_fade_in: 0,
@@ -40,25 +44,39 @@ const trim_info_component = {
         validation: function() {
             let valid = true;
             valid = valid && (0 <= this.work_start_time);
-            valid = valid && (this.work_start_time <= this.work_end_time);
+            valid = valid && (this.work_start_time < this.work_end_time);
             valid = valid && (this.work_end_time <= this.media_duration);
+
+            // フラグにより時間算出
+            let start_time = this.work_start_time;
+            let end_time = this.work_end_time;
+            if (this.frame_input_flag) {
+                if (this.r_frame_rate_numer < 1) {
+                    return false;
+                }
+                valid = valid && (1 <= this.work_start_frame);
+                valid = valid && (this.work_start_frame < this.work_end_frame);
+                valid = valid && (this.work_end_frame <= this.nb_frames);
+                start_time = convertFloat(this.frame_to_time(this.work_start_frame));
+                end_time = convertFloat(this.frame_to_time(this.work_end_frame));
+            }
 
             // 映像ありの場合
             if (this.with_video) {
-                let video_fade_in_time = this.work_start_time + this.work_video_fade_in;
-                let video_fade_out_time = this.work_end_time - this.work_video_fade_out;
-                valid = valid && (this.work_start_time <= video_fade_in_time);
+                let video_fade_in_time = start_time + this.work_video_fade_in;
+                let video_fade_out_time = end_time - this.work_video_fade_out;
+                valid = valid && (start_time <= video_fade_in_time);
                 valid = valid && (video_fade_in_time <= video_fade_out_time);
-                valid = valid && (video_fade_out_time <= this.work_end_time);
+                valid = valid && (video_fade_out_time <= end_time);
             }
 
             // 音声ありの場合
             if (this.with_audio) {
-                let audio_fade_in_time = this.work_start_time + this.work_audio_fade_in;
-                let audio_fade_out_time = this.work_end_time - this.work_audio_fade_out;
-                valid = valid && (this.work_start_time <= audio_fade_in_time);
+                let audio_fade_in_time = start_time + this.work_audio_fade_in;
+                let audio_fade_out_time = end_time - this.work_audio_fade_out;
+                valid = valid && (start_time <= audio_fade_in_time);
                 valid = valid && (audio_fade_in_time <= audio_fade_out_time);
-                valid = valid && (audio_fade_out_time <= this.work_end_time);
+                valid = valid && (audio_fade_out_time <= end_time);
             }
 
             return valid;
@@ -179,6 +197,20 @@ const trim_info_component = {
             }
             this.frame_input_flag = frame_input_flag;
 
+            // フレームレート(分子)
+            let r_frame_rate_numer = 1;
+            try {
+                r_frame_rate_numer = info.r_frame_rate_numer;
+            } catch(e) {}
+            this.r_frame_rate_numer = r_frame_rate_numer;
+
+            // フレームレート(分母)
+            let r_frame_rate_denom = 0;
+            try {
+                r_frame_rate_denom = info.r_frame_rate_denom;
+            } catch(e) {}
+            this.r_frame_rate_denom = r_frame_rate_denom;
+
             // 再生時間
             let media_duration = 0;
             try {
@@ -232,6 +264,7 @@ const trim_info_component = {
                 in_start_frame = 0;
             }
             this.in_start_frame = in_start_frame;
+            this.work_start_frame = in_start_frame;
 
             // 再生終了フレーム
             let in_end_frame = 0;
@@ -242,6 +275,7 @@ const trim_info_component = {
                 in_end_frame = this.nb_frames;
             }
             this.in_end_frame = in_end_frame;
+            this.work_end_frame = in_end_frame;
 
             // 映像フェードイン期間
             let video_fade_in = 0;
@@ -295,6 +329,26 @@ const trim_info_component = {
             this.$refs.media.initTime(this.out_start_time);
         },
 
+        // 切り取り情報取得
+        get_trim_info: function() {
+            return {
+                frame_input_flag: this.frame_input_flag,
+                start_time: this.work_start_time,
+                end_time: this.work_end_time,
+                start_frame: this.work_start_frame,
+                end_frame: this.work_end_frame,
+                video_fade_in: this.work_video_fade_in,
+                video_fade_out: this.work_video_fade_out,
+                audio_fade_in: this.work_audio_fade_in,
+                audio_fade_out: this.work_audio_fade_out
+            }
+        },
+
+        // フレームから時間を算出
+        frame_to_time: function(frame) {
+            return convertFloat(convertFrameToTime(frame, this.r_frame_rate_denom, this.r_frame_rate_numer));
+        },
+
         // 動画読み込み時ハンドラ
         onMediaLoad: function(value) {
             if (this.work_end_time <= 0) {
@@ -307,10 +361,11 @@ const trim_info_component = {
 
         // 再生開始時間
         onBlurStartTime: function() {
+            let prev_start_time = this.work_start_time;
             this.work_start_time = convertFloat(this.in_start_time);
             if (isNaN(this.work_start_time) || !this.validation) {
-                this.in_start_time = this.out_start_time;
-                this.work_start_time = this.out_start_time;
+                this.in_start_time = prev_start_time;
+                this.work_start_time = prev_start_time;
                 return;
             }
             this.in_start_time = this.work_start_time;
@@ -319,10 +374,11 @@ const trim_info_component = {
 
         // 再生終了時間
         onBlurEndTime: function() {
+            let prev_end_time = this.work_end_time;
             this.work_end_time = convertFloat(this.in_end_time);
             if (isNaN(this.work_end_time) || !this.validation) {
-                this.in_end_time = this.out_end_time;
-                this.work_end_time = this.out_end_time;
+                this.in_end_time = prev_end_time;
+                this.work_end_time = prev_end_time;
                 return;
             }
             this.in_end_time = this.work_end_time;
@@ -330,17 +386,38 @@ const trim_info_component = {
         },
 
         // 再生開始フレーム
-        onBlurStartFrame: function() {},
+        onBlurStartFrame: function() {
+            let prev_start_frame = this.work_start_frame;
+            this.work_start_frame = parseInt(this.in_start_frame);
+            if ((this.r_frame_rate_numer < 1) || isNaN(this.work_start_frame) || !this.validation) {
+                this.in_start_frame = prev_start_frame;
+                this.work_start_frame = prev_start_frame;
+                return;
+            }
+            this.in_start_frame = this.work_start_frame;
+            this.out_start_time = convertFloat(this.frame_to_time(this.work_start_frame));
+        },
 
         // 再生終了フレーム
-        onBlurEndFrame: function() {},
+        onBlurEndFrame: function() {
+            let prev_end_frame = this.work_end_frame;
+            this.work_end_frame = parseInt(this.in_end_frame);
+            if ((this.r_frame_rate_numer < 1) || isNaN(this.work_end_frame) || !this.validation) {
+                this.in_end_frame = prev_end_frame;
+                this.work_end_frame = prev_end_frame;
+                return;
+            }
+            this.in_end_frame = this.work_end_frame;
+            this.out_end_time = convertFloat(this.frame_to_time(this.work_end_frame));
+        },
 
         // 映像フェードイン期間
         onBlurVideoFadeIn: function() {
+            let prev_video_fade_in = this.work_video_fade_in;
             this.work_video_fade_in = convertFloat(this.in_video_fade_in);
             if (isNaN(this.work_video_fade_in) || !this.validation) {
-                this.in_video_fade_in = this.out_video_fade_in;
-                this.work_video_fade_in = this.out_video_fade_in;
+                this.in_video_fade_in = prev_video_fade_in;
+                this.work_video_fade_in = prev_video_fade_in;
                 return;
             }
             this.in_video_fade_in = this.work_video_fade_in;
@@ -349,10 +426,11 @@ const trim_info_component = {
 
         // 映像フェードアウト期間
         onBlurVideoFadeOut: function() {
+            let prev_video_fade_out = this.work_video_fade_out;
             this.work_video_fade_out = convertFloat(this.in_video_fade_out);
             if (isNaN(this.work_video_fade_out) || !this.validation) {
-                this.in_video_fade_out = this.out_video_fade_out;
-                this.work_video_fade_out = this.out_video_fade_out;
+                this.in_video_fade_out = prev_video_fade_out;
+                this.work_video_fade_out = prev_video_fade_out;
                 return;
             }
             this.in_video_fade_out = this.work_video_fade_out;
@@ -361,10 +439,11 @@ const trim_info_component = {
 
         // 音声フェードイン期間
         onBlurAudioFadeIn: function() {
+            let prev_audio_fade_in = this.work_audio_fade_in;
             this.work_audio_fade_in = convertFloat(this.in_audio_fade_in);
             if (isNaN(this.work_audio_fade_in) || !this.validation) {
-                this.in_audio_fade_in = this.out_audio_fade_in;
-                this.work_audio_fade_in = this.out_audio_fade_in;
+                this.in_audio_fade_in = prev_audio_fade_in;
+                this.work_audio_fade_in = prev_audio_fade_in;
                 return;
             }
             this.in_audio_fade_in = this.work_audio_fade_in;
@@ -373,14 +452,26 @@ const trim_info_component = {
 
         // 音声フェードアウト期間
         onBlurAudioFadeOut: function() {
+            let prev_audio_fade_out = this.work_audio_fade_out;
             this.work_audio_fade_out = convertFloat(this.in_audio_fade_out);
             if (isNaN(this.work_audio_fade_out) || !this.validation) {
-                this.in_audio_fade_out = this.out_audio_fade_out;
-                this.work_audio_fade_out = this.out_audio_fade_out;
+                this.in_audio_fade_out = prev_audio_fade_out;
+                this.work_audio_fade_out = prev_audio_fade_out;
                 return;
             }
             this.in_audio_fade_out = this.work_audio_fade_out;
             this.out_audio_fade_out = this.work_audio_fade_out;
+        }
+    },
+    watch: {
+        frame_input_flag: function(value) {
+            if (value) {
+                this.onBlurStartFrame();
+                this.onBlurEndFrame();
+            } else {
+                this.onBlurStartTime();
+                this.onBlurEndTime();
+            }
         }
     }
 }

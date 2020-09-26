@@ -5,6 +5,11 @@ const vm_trim_info = new Vue({
         'modal-component': modal_component,
         'trim-info-component': trim_info_component
     },
+    data: {
+        return: {
+            target_id: 0
+        }
+    },
     template: `
         <div>
             <modal-component ref="modal">
@@ -17,6 +22,7 @@ const vm_trim_info = new Vue({
     `,
     methods: {
         show_modal: function(info) {
+            this.target_id = info.target_id;
             this.$refs.trim.set_trim_info(info);
             this.$refs.modal.show_modal();
         },
@@ -26,6 +32,11 @@ const vm_trim_info = new Vue({
         },
         save: function() {
             this.$refs.trim.$refs.media.pause();
+            let request = {
+                target_id: this.target_id,
+                trim: this.$refs.trim.get_trim_info()
+            };
+            eel.ffc_request_update_trim_info(request);
             this.$refs.modal.hide_modal();
         }
     }

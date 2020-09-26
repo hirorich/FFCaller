@@ -56,7 +56,7 @@ class TrimEntity():
         return self.__frame_input_flag
     @frame_input_flag.setter
     def frame_input_flag(self, frame_input_flag):
-        self.__frame_input_flag = frame_input_flag
+        self.__frame_input_flag = bool(frame_input_flag)
     
     @property
     def video_fade_in(self):
