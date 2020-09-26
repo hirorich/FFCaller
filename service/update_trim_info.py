@@ -6,7 +6,7 @@
 import eel, sqlite3
 from common import app_property
 from common.utility import log_utils, path_utils
-from service.ffc import ffc_response_target
+from service.ffc import ffc_response_target, ffc_update_trim
 from service.ffc.entity.trim_entity import TrimEntity
 
 @eel.expose
@@ -29,6 +29,9 @@ def ffc_request_update_trim_info(request):
         # DB接続
         db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
         with sqlite3.connect(db_filename) as conn:
+            
+            # トリム情報更新
+            ffc_update_trim.exec(conn, trim_entity)
             
             # 動画情報を返却
             ffc_response_target.exec(conn)
