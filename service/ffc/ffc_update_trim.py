@@ -5,6 +5,7 @@
 
 from common import app_property
 from common.utility import log_utils
+from service.ffc import ffc_convert
 from service.ffc.sql import ffc_add_files_sql, ffc_select, ffc_update
 
 # 実行
@@ -31,6 +32,21 @@ def _check(conn, trim_entity):
     file_duration_entity = ffc_add_files_sql.get_file_duration(conn, target_entity.file_id)
     video_stream = ffc_select.get_video_stream(conn, target_entity.file_id)
     
+    # フレーム指定フラグチェック
+    if (trim_entity.frame_input_flag and (video_stream is None)):
+        return False
+    
+    # 時間・フレームを算出
+    if (trim_entity.frame_input_flag):
+        start_time, end_time = ffc_convert.frame_to_time(trim_entity.start_frame, trim_entity.end_frame, video_stream.video.r_frame_rate)
+        trim_entity.start_time = start_time
+        trim_entity.end_time = end_time
+    else:
+        if (video_stream is not None):
+            start_frame, end_frame = ffc_convert.time_to_frame(trim_entity.start_time, trim_entity.end_time, video_stream.video.r_frame_rate)
+            trim_entity.start_frame = start_frame
+            trim_entity.end_frame = end_frame
+    
     # トリム時間チェック
     if (0 > trim_entity.start_time):
         return False
@@ -48,23 +64,8 @@ def _check(conn, trim_entity):
         elif (trim_entity.end_frame > file_duration_entity.nb_frames):
             return False
     
-    # フレーム指定フラグチェック
-    if (trim_entity.frame_input_flag and (video_stream is None)):
-        return False
-    
-    # フェードイン・アウトチェック準備
-    trim_time = 0
-    if (trim_entity.frame_input_flag):
-        r_frame_rate = video_stream.video.r_frame_rate.split('/')
-        r_frame_rate_numer = int(r_frame_rate[0])
-        r_frame_rate_denom = int(r_frame_rate[1])
-        start_time = (trim_entity.start_frame - 1) * r_frame_rate_denom / r_frame_rate_numer
-        end_time = trim_entity.end_frame * r_frame_rate_denom / r_frame_rate_numer
-        trim_time = end_time - start_time
-    else:
-        trim_time = trim_entity.end_time - trim_entity.start_time
-    
     # 映像フェードイン・アウトチェック
+    trim_time = trim_entity.end_time - trim_entity.start_time
     if (trim_entity.video_fade_in < 0):
         return False
     elif (trim_entity.video_fade_out < 0):
