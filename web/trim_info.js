@@ -44,7 +44,7 @@ const trim_info_component = {
         validation: function() {
             let valid = true;
             valid = valid && (0 <= this.work_start_time);
-            valid = valid && (this.work_start_time <= this.work_end_time);
+            valid = valid && (this.work_start_time < this.work_end_time);
             valid = valid && (this.work_end_time <= this.media_duration);
 
             // フラグにより時間算出
@@ -55,7 +55,7 @@ const trim_info_component = {
                     return false;
                 }
                 valid = valid && (1 <= this.work_start_frame);
-                valid = valid && (this.work_start_frame <= this.work_end_frame);
+                valid = valid && (this.work_start_frame < this.work_end_frame);
                 valid = valid && (this.work_end_frame <= this.nb_frames);
                 start_time = convertFloat(this.frame_to_time(this.work_start_frame));
                 end_time = convertFloat(this.frame_to_time(this.work_end_frame));
