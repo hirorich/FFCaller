@@ -27,30 +27,30 @@ def _check(conn, trim_entity):
     # ファイルの長さ取得
     target_entity = ffc_select.get_target(conn, trim_entity.target_id)
     if (target_entity is None):
-        return false
+        return False
     file_duration_entity = ffc_add_files_sql.get_file_duration(conn, target_entity.file_id)
     video_stream = ffc_select.get_video_stream(conn, target_entity.file_id)
     
     # トリム時間チェック
     if (0 > trim_entity.start_time):
-        return false
+        return False
     elif (trim_entity.start_time > trim_entity.end_time):
-        return false
+        return False
     elif (trim_entity.end_time > file_duration_entity.duration):
-        return false
+        return False
     
     # トリムフレームチェック
     if (video_stream is not None):
         if (0 >= trim_entity.start_frame):
-            return false
+            return False
         elif (trim_entity.start_frame > trim_entity.end_frame):
-            return false
+            return False
         elif (trim_entity.end_frame > file_duration_entity.nb_frames):
-            return false
+            return False
     
     # フレーム指定フラグチェック
     if (trim_entity.frame_input_flag and (video_stream is None)):
-        return false
+        return False
     
     # フェードイン・アウトチェック準備
     trim_time = 0
@@ -66,19 +66,19 @@ def _check(conn, trim_entity):
     
     # 映像フェードイン・アウトチェック
     if (trim_entity.video_fade_in < 0):
-        return false
+        return False
     elif (trim_entity.video_fade_out < 0):
-        return false
+        return False
     elif ((trim_entity.video_fade_in + trim_entity.video_fade_out) > trim_time):
-        return false
+        return False
     
     # 音声フェードイン・アウトチェック
     if (trim_entity.audio_fade_in < 0):
-        return false
+        return False
     elif (trim_entity.audio_fade_out < 0):
-        return false
+        return False
     elif ((trim_entity.audio_fade_in + trim_entity.audio_fade_out) > trim_time):
-        return false
+        return False
     
-    return true
+    return True
 
