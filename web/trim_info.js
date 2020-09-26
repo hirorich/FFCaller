@@ -329,6 +329,21 @@ const trim_info_component = {
             this.$refs.media.initTime(this.out_start_time);
         },
 
+        // 切り取り情報取得
+        get_trim_info: function() {
+            return {
+                frame_input_flag: this.frame_input_flag,
+                start_time: this.work_start_time,
+                end_time: this.work_end_time,
+                start_frame: this.work_start_frame,
+                end_frame: this.work_end_frame,
+                video_fade_in: this.work_video_fade_in,
+                video_fade_out: this.work_video_fade_out,
+                audio_fade_in: this.work_audio_fade_in,
+                audio_fade_out: this.work_audio_fade_out
+            }
+        },
+
         // 動画読み込み時ハンドラ
         onMediaLoad: function(value) {
             if (this.work_end_time <= 0) {

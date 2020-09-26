@@ -20,6 +20,7 @@ def exec(conn, target_id):
         
         # 動画情報設定
         response = dict()
+        response['target_id'] = target_id
         response['trim'] = trim.to_dict()
         response['webpath'] = file.webpath
         response['duration'] = file_duration_entity.duration
