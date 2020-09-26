@@ -57,8 +57,8 @@ const trim_info_component = {
                 valid = valid && (1 <= this.work_start_frame);
                 valid = valid && (this.work_start_frame <= this.work_end_frame);
                 valid = valid && (this.work_end_frame <= this.nb_frames);
-                start_time = convertFloat((this.work_start_frame - 1) * this.r_frame_rate_denom / this.r_frame_rate_numer);
-                end_time = convertFloat(this.work_end_frame * this.r_frame_rate_denom / this.r_frame_rate_numer);
+                start_time = convertFloat(this.frame_to_time(this.work_start_frame));
+                end_time = convertFloat(this.frame_to_time(this.work_end_frame));
             }
 
             // 映像ありの場合
@@ -344,6 +344,11 @@ const trim_info_component = {
             }
         },
 
+        // フレームから時間を算出
+        frame_to_time: function(frame) {
+            return convertFloat(convertFrameToTime(frame, this.r_frame_rate_denom, this.r_frame_rate_numer));
+        },
+
         // 動画読み込み時ハンドラ
         onMediaLoad: function(value) {
             if (this.work_end_time <= 0) {
@@ -390,7 +395,7 @@ const trim_info_component = {
                 return;
             }
             this.in_start_frame = this.work_start_frame;
-            this.out_start_time = convertFloat((this.work_start_frame - 1) * this.r_frame_rate_denom / this.r_frame_rate_numer);
+            this.out_start_time = convertFloat(this.frame_to_time(this.work_start_frame));
         },
 
         // 再生終了フレーム
@@ -403,7 +408,7 @@ const trim_info_component = {
                 return;
             }
             this.in_end_frame = this.work_end_frame;
-            this.out_end_time = convertFloat(this.work_end_frame * this.r_frame_rate_denom / this.r_frame_rate_numer);
+            this.out_end_time = convertFloat(this.frame_to_time(this.work_end_frame));
         },
 
         // 映像フェードイン期間

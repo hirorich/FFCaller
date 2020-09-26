@@ -13,3 +13,8 @@ const convertFloat = function(value) {
         return NaN;
     }
 };
+
+// フレームから時間を算出
+const convertFrameToTime = function(frame, frame_rate_denom, frame_rate_numer) {
+    return (frame - 1) * frame_rate_denom / frame_rate_numer;
+};
