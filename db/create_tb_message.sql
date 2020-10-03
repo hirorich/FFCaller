@@ -15,7 +15,7 @@ create table tb_message (
 /* メッセージ追加 */
 insert into tb_message (id, message) values ('E0000000', 'エラーメッセージ');
 insert into tb_message (id, message) values ('E0000001', '入力ファイルが指定されていません');
-insert into tb_message (id, message) values ('E0000002', '指定した入力ファイルが存在しません(%0)');
+insert into tb_message (id, message) values ('E0000002', '指定したファイルが存在しません(%0)');
 insert into tb_message (id, message) values ('E0000003', '%0は%1以上を入力してください(%2)');
 insert into tb_message (id, message) values ('E0000004', '%0は%1以下を入力してください(%2)');
 insert into tb_message (id, message) values ('E0000005', '%0は%1以上%2以下を入力してください(%3)');
