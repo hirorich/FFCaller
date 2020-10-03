@@ -10,35 +10,8 @@ from service.ffc.entity.stream_entity import StreamEntity
 from service.ffc.entity.target_entity import TargetEntity
 from service.ffc.entity.trim_entity import TrimEntity
 from service.ffc.entity.video_entity import VideoEntity
-from service.ffc.entity.work_input_target_entity import InputTargetEntity
 from service.ffc.entity.work_audio_stream_entity import AudioStreamEntity
 from service.ffc.entity.work_video_stream_entity import VideoStreamEntity
-
-# 入力ターゲットリスト取得
-def get_input_target_list(conn):
-    query = []
-    query.append(r'select')
-    query.append(r'Target.target_id, File.filename, File.filepath, Trim.start_time, Trim.end_time, Target.item_order')
-    query.append(r'from Target')
-    query.append(r'inner join Trim')
-    query.append(r'on Target.target_id = Trim.target_id')
-    query.append(r'inner join File')
-    query.append(r'on Target.file_id = File.file_id')
-    query.append(r'order by')
-    query.append(r'Target.item_order, Target.target_id')
-    
-    result = []
-    for input_target in sqlite3_utils.fetchall(conn, ' '.join(query)):
-        entity = InputTargetEntity()
-        entity.target_id = input_target[0]
-        entity.filename = input_target[1]
-        entity.filepath = input_target[2]
-        entity.start_time = input_target[3]
-        entity.end_time = input_target[4]
-        entity.item_order = input_target[5]
-        result.append(entity)
-    
-    return result
 
 # ターゲット取得
 def get_target(conn, target_id):
@@ -62,6 +35,25 @@ def get_target(conn, target_id):
     target_entity.item_order = target[2]
     
     return target_entity
+
+# ターゲット一覧取得
+def get_targets(conn):
+    query = []
+    query.append(r'select')
+    query.append(r'target_id, file_id, item_order')
+    query.append(r'from Target')
+    query.append(r'order by')
+    query.append(r'item_order')
+    
+    result = []
+    for target in sqlite3_utils.fetchall(conn, ' '.join(query)):
+        target_entity = TargetEntity()
+        target_entity.target_id = target[0]
+        target_entity.file_id = target[1]
+        target_entity.item_order = target[2]
+        result.append(target_entity)
+    
+    return result
 
 # トリム取得
 def get_trim(conn, target_id):
