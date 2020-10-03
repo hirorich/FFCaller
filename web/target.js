@@ -30,6 +30,7 @@ const target_component = {
                     </tr>
                 </tbody>
             </table>
+            <button v-if="target_data.length > 0" class="btn btn-primary" v-on:click="marge()">マージ</button>
         </div>
     `,
     methods: {
@@ -43,6 +44,9 @@ const target_component = {
         show_media_info: function(target_id) {
             let request = {target_id: target_id};
             eel.ffc_request_get_media_info(request);
+        },
+        marge: function() {
+            eel.ffc_request_marge();
         }
     }
 }
