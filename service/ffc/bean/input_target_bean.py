@@ -1,9 +1,9 @@
 # ==================================================
-# 作業用のエンティティ
+# 作業用のビーン
 # ==================================================
 
-# 入力ターゲットエンティティ
-class InputTargetEntity():
+# 入力ターゲットビーン
+class InputTargetBean():
     def __init__(self):
         self.__target_id = None
         self.__filename = None

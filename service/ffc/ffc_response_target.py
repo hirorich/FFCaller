@@ -4,7 +4,7 @@
 
 import eel
 from common.utility import log_utils
-from service.ffc.entity.work_input_target_entity import InputTargetEntity
+from service.ffc.bean.input_target_bean import InputTargetBean
 from service.ffc.sql import ffc_select
 
 # 実行
@@ -17,7 +17,7 @@ def exec(conn):
             trim = ffc_select.get_trim(conn, target.target_id)
             file = ffc_select.get_file(conn, target.file_id)
             
-            input_target = InputTargetEntity()
+            input_target = InputTargetBean()
             input_target.target_id = target.target_id
             input_target.filename = file.filename
             input_target.filepath = file.filepath
