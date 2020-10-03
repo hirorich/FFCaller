@@ -7,7 +7,7 @@ import subprocess
 
 # 外部コマンドを実行し、標準出力をリスト形式で返却
 def run(cmd, strip_flg=False):
-    stdout = list()
+    stdout = []
     proc = subprocess.Popen(args=cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW)
     for line in proc.stdout:
         try:

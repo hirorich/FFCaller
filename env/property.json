@@ -20,7 +20,8 @@
     },
     
     "external_cmd": {
-        "ffmpeg": "ffmpeg"
+        "ffmpeg": "ffmpeg",
+        "ffprobe": "ffprobe"
     },
     
     "workdir":"media",

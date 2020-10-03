@@ -34,6 +34,14 @@
     conda activate FFCaller
     pip install eel
     ```
+- [plyer](https://github.com/kivy/plyer)
+  - MIT License
+  - デスクトップ通知に使用
+  - Anacondaからターミナルを開き以下を実行することでインストール
+    ```
+    conda activate FFCaller
+    pip install plyer
+    ```
 
 ### HTML, CSS, Javascript
 - [Bootstrap](https://github.com/twbs/bootstrap/releases) v.4.4.1

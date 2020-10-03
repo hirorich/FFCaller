@@ -5,7 +5,7 @@
 
 from common import app_property
 from common.utility import log_utils
-from service.ffc import ffc_convert
+from service.common import frame_time_converter
 from service.ffc.sql import ffc_add_files_sql, ffc_select, ffc_update
 
 # 実行
@@ -38,12 +38,12 @@ def _check(conn, trim_entity):
     
     # 時間・フレームを算出
     if (trim_entity.frame_input_flag):
-        start_time, end_time = ffc_convert.frame_to_time(trim_entity.start_frame, trim_entity.end_frame, video_stream.video.r_frame_rate)
+        start_time, end_time = frame_time_converter.frame_to_time(trim_entity.start_frame, trim_entity.end_frame, video_stream.video.r_frame_rate)
         trim_entity.start_time = start_time
         trim_entity.end_time = end_time
     else:
         if (video_stream is not None):
-            start_frame, end_frame = ffc_convert.time_to_frame(trim_entity.start_time, trim_entity.end_time, video_stream.video.r_frame_rate)
+            start_frame, end_frame = frame_time_converter.time_to_frame(trim_entity.start_time, trim_entity.end_time, video_stream.video.r_frame_rate)
             trim_entity.start_frame = start_frame
             trim_entity.end_frame = end_frame
     
