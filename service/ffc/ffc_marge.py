@@ -7,7 +7,7 @@ from common import app_property
 from common.utility import log_utils
 from service.common import frame_time_converter
 from service.ffc.sql import ffc_select
-from service.marger import marger_marge
+from service.marger import marge_ffmpeg
 from service.marger.bean.marger_input_bean import MargerInputBean
 from service.marger.bean.marger_output_bean import MargerOutputBean
 
@@ -15,7 +15,7 @@ from service.marger.bean.marger_output_bean import MargerOutputBean
 def exec(conn):
     try:
         # マージ実行
-        marger_marge.exec(__create_output_bean(conn))
+        marge_ffmpeg.marge(__create_output_bean(conn))
         
     except Exception as e:
         message = log_utils.write_exception(e)
