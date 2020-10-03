@@ -2,6 +2,7 @@
 # ffprobeを用いた動画解析コマンド生成
 # ==================================================
 
+from common import app_property
 from common.error import error_id
 from common.error.business_error import BusinessError
 from common.utility import file_utils
@@ -22,7 +23,7 @@ def create(filename):
     # ====================
     
     # コマンド生成
-    command = [r'ffprobe', r'-v', r'quiet', r'-show_format', r'-show_streams', r'-print_format', r'json']
+    command = [app_property.external_cmd.ffprobe, '-v', 'quiet', '-show_format', '-show_streams', '-print_format', 'json']
     command.append(filename)
     
     return command
