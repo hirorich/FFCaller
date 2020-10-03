@@ -23,6 +23,8 @@ def exec(conn):
 # 出力ビーン作成
 def __create_output_bean(conn):
     output_bean = MargerOutputBean()
+    with_video = True
+    with_audio = True
     for target in ffc_select.get_targets(conn):
         
         # ターゲット情報取得取得
@@ -30,6 +32,10 @@ def __create_output_bean(conn):
         file = ffc_select.get_file(conn, target.file_id)
         video_stream = ffc_select.get_video_stream(conn, target.file_id)
         audio_streams = ffc_select.get_audio_streams(conn, target.file_id)
+        
+        # 映像・音声有無
+        with_video = with_video and (video_stream is not None)
+        with_audio = with_audio and (len(audio_streams) > 0)
         
         # 入力ビーン設定
         input_bean = MargerInputBean()
@@ -45,18 +51,11 @@ def __create_output_bean(conn):
         input_bean.video_fade_out = trim.video_fade_out
         input_bean.audio_fade_in = trim.audio_fade_in
         input_bean.audio_fade_out = trim.audio_fade_out
-        input_bean.with_video = (video_stream is not None)
-        input_bean.with_audio = (len(audio_streams) > 0)
         
         # 出力ビーンに格納
         output_bean.append_input_bean(input_bean)
     
     # 出力ストリーム指定
-    with_video = True
-    with_audio = True
-    for input_bean in output_bean.get_input_bean_list():
-        with_video = with_video and input_bean.with_video
-        with_audio = with_audio and input_bean.with_audio
     output_bean.with_video = with_video
     output_bean.with_audio = with_audio
     

@@ -12,8 +12,6 @@ class MargerInputBean():
         self.__video_fade_out = 0.0
         self.__audio_fade_in = 0.0
         self.__audio_fade_out = 0.0
-        self.__with_video = False
-        self.__with_audio = False
     
     @property
     def workpath(self):
@@ -64,68 +62,53 @@ class MargerInputBean():
     def audio_fade_out(self, audio_fade_out):
         self.__audio_fade_out = float(audio_fade_out)
     
-    @property
-    def with_video(self):
-        return self.__with_video
-    @with_video.setter
-    def with_video(self, with_video):
-        self.__with_video = bool(with_video)
-    
-    @property
-    def with_audio(self):
-        return self.__with_audio
-    @with_audio.setter
-    def with_audio(self, with_audio):
-        self.__with_audio = bool(with_audio)
-    
     def trim_duration(self):
         return self.__end_time - self.__start_time
     
     def create_input_list(self):
         command = []
-        command.append("-ss")
+        command.append('-ss')
         command.append(str(self.__start_time))
-        command.append("-t")
+        command.append('-t')
         command.append(str(self.trim_duration()))
-        command.append("-i")
+        command.append('-i')
         command.append(self.__workpath)
         return command
     
-    def create_filter_list(self, file_index):
+    def create_video_filter_list(self, file_index):
         index = str(file_index)
         video_filter = []
+        video_id = '[' + index + ':v]'
+        
+        id_count = 0
+        if self.__video_fade_in > 0:
+            work_id = '[' + index + 'v' + str(id_count) + ']'
+            video_filter.append(video_id + 'fade=t=in:st=0:d=' + str(self.__video_fade_in) + work_id)
+            video_id = work_id
+            id_count += 1
+        if self.__video_fade_out > 0:
+            work_id = '[' + index + 'v' + str(id_count) + ']'
+            video_filter.append(video_id + 'fade=t=out:st=' + str(self.trim_duration() - self.__video_fade_out) + ':d=' + str(self.__video_fade_out) + work_id)
+            video_id = work_id
+            id_count += 1
+        
+        return video_filter, video_id
+    
+    def create_audio_filter_list(self, file_index):
+        index = str(file_index)
         audio_filter = []
-        video_id = r'[' + index + r':v]'
-        audio_id = r'[' + index + r':a]'
+        audio_id = '[' + index + ':a]'
         
-        if self.__with_video:
-            id_count = 0
-            if self.__video_fade_in > 0:
-                work_id = index + 'v' + str(id_count)
-                video_filter.append(video_id + 'fade=t=in:st=0:d=' + str(self.__video_fade_in) + work_id)
-                video_id = work_id
-                id_count += 1
-            if self.__video_fade_out > 0:
-                work_id = index + 'v' + str(id_count)
-                video_filter.append(video_id + 'fade=t=out:st=' + str(self.trim_duration() - self.__video_fade_out) + ':d=' + str(self.__video_fade_out) + work_id)
-                video_id = work_id
-                id_count += 1
+        id_count = 0
+        if self.__audio_fade_in > 0:
+            work_id = '[' + index + 'a' + str(id_count) + ']'
+            audio_filter.append(audio_id + 'afade=t=in:st=0:d=' + str(self.__audio_fade_in) + work_id)
+            audio_id = work_id
+            id_count += 1
+        if self.__audio_fade_out > 0:
+            work_id = '[' + index + 'a' + str(id_count) + ']'
+            audio_filter.append(audio_id + 'afade=t=out:st=' + str(self.trim_duration() - self.__audio_fade_out) + ':d=' + str(self.__audio_fade_out) + work_id)
+            audio_id = work_id
+            id_count += 1
         
-        if self.__with_audio:
-            id_count = 0
-            if self.__audio_fade_in > 0:
-                work_id = index + 'a' + str(id_count)
-                audio_filter.append(audio_id + 'afade=t=in:st=0:d=' + str(self.__audio_fade_in) + work_id)
-                audio_id = work_id
-                id_count += 1
-            if self.__audio_fade_out > 0:
-                work_id = index + 'a' + str(id_count)
-                audio_filter.append(audio_id + 'afade=t=out:st=' + str(self.trim_duration() - self.__audio_fade_out) + ':d=' + str(self.__audio_fade_out) + work_id)
-                audio_id = work_id
-                id_count += 1
-        
-        filter = []
-        filter.extend(video_filter)
-        filter.extend(audio_filter)
-        
-        return filter, video_id, audio_id
+        return audio_filter, audio_id
