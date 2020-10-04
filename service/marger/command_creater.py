@@ -12,8 +12,10 @@ def create(output_bean):
     input_list = []
     filter = []
     concat_id = []
+    trim_duration = 0
     for input_bean in output_bean.get_input_bean_list():
         input_list.extend(input_bean.create_input_list())
+        trim_duration += input_bean.trim_duration()
         if output_bean.with_video:
             video_filter, video_id = input_bean.create_video_filter_list(index)
             filter.extend(video_filter)
@@ -38,10 +40,10 @@ def create(output_bean):
     filter.append(':'.join(concat))
     
     # コマンド設定
-    command = [app_property.external_cmd.ffmpeg, '-y']
+    command = [app_property.external_cmd.ffmpeg, '-y', '-v', 'quiet', '-progress', '-']
     command.extend(input_list)
     command.append('-filter_complex')
     command.append(';'.join(filter))
     command.append(output_bean.filepath)
     
-    return command
+    return command, trim_duration
