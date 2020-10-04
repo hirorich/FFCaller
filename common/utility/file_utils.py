@@ -28,11 +28,13 @@ def read_file_one_line(filename):
     return stdout
 
 # ファイル選択
-def open_file_dialog():
+def open_file_dialog(filetypes=None):
+    if filetypes is None:
+        filetypes = [('all files', '*.*')]
     root = Tk()
     root.attributes('-topmost', True)
     root.withdraw()
-    file_list = filedialog.askopenfilenames()
+    file_list = filedialog.askopenfilenames(filetypes=filetypes)
     root.destroy()
     
     return file_list
