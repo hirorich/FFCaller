@@ -4,6 +4,7 @@
 
 import os
 from tkinter import filedialog, Tk
+from common.utility import log_utils
 from common.utility.type import str_utils
 
 # ファイルの存在チェック
@@ -26,6 +27,15 @@ def read_file_one_line(filename):
             stdout += line.strip()
     
     return stdout
+
+# ファイル削除
+def delete_file(filename):
+    try:
+        os.remove(filename)
+        return True
+    except Exception as e:
+        log_utils.write_exception(e)
+        return False
 
 # ファイル選択
 def open_file_dialog(filetypes=None):
