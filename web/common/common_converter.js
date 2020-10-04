@@ -1,5 +1,5 @@
 // 小数点以下3桁のFloat型に変換
-const convertFloat = function(value) {
+const convertFloat = function(value, digit=3) {
     let work_value = parseFloat(value);
     if (isNaN(work_value)) {
         return NaN;
@@ -8,7 +8,8 @@ const convertFloat = function(value) {
     }
 
     try {
-        return parseInt(work_value * 1000) / 1000;
+        let base = Math.pow(10, digit);
+        return parseInt(work_value * base) / base;
     } catch(e) {
         return NaN;
     }
