@@ -24,7 +24,7 @@ def exec(conn):
         workdir.mkdir(exist_ok=True)
         
         # 対象ファイル選択
-        for input_file in file_utils.open_file_dialog(filetypes=[('media files','*.mp4;*.mp3')]):
+        for input_file in file_utils.open_file_dialog(filetypes=[('media files', '*.'+';*.'.join(app_property.target_extension))]):
             
             # 対象ファイル追加
             file_duration_entity = __add_file(workdir, conn, input_file)
