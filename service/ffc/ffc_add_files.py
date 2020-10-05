@@ -6,7 +6,7 @@
 import pathlib, shutil
 from common import app_property
 from common.utility import file_utils, log_utils, path_utils
-from service.analyzer import analyzer_ffprobe
+from service.analyzer import analyzer_cv2, analyzer_ffprobe
 from service.ffc.sql import ffc_add_files_sql, ffc_insert, ffc_select
 from service.ffc.entity.target_entity import TargetEntity
 from service.ffc.entity.trim_entity import TrimEntity
@@ -102,7 +102,10 @@ def __insert_fileinfo(conn, file_entity, analized_result):
             video_entity.width = stream['width']
             video_entity.height = stream['height']
             video_entity.r_frame_rate = stream['r_frame_rate']
-            video_entity.nb_frames = stream['nb_frames']
+            if 'nb_frames' in stream:
+                video_entity.nb_frames = stream['nb_frames']
+            else:
+                video_entity.nb_frames = analyzer_cv2.get_nb_frames(file_entity.workpath)
             ffc_insert.insert_video(conn, video_entity)
             
         elif (stream_entity.codec_type == 'audio'):
