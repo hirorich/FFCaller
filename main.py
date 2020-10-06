@@ -1,7 +1,17 @@
-import eel
+import eel, sys
 from common import app_property
 from common.utility import log_utils
-from service import choose_files, get_target_info, marge, update_trim_info
+from service import choose_files, delete, get_target_info, marge, update_trim_info
+
+def close_callback(route, websockets):
+    if not websockets:
+        try:
+            delete.ffc_delete_all()
+        except Exception as e:
+            message = log_utils.write_exception(e)
+            log_utils.writeline_fatal('予期せぬエラーが発生しました')
+        finally:
+            sys.exit()
 
 # main
 if __name__ == "__main__":
@@ -18,8 +28,10 @@ if __name__ == "__main__":
             port = app_property.eel.port,
             position = app_property.eel.position,
             size = app_property.eel.size,
-            cmdline_args = list(app_property.eel.cmdline_args)
+            cmdline_args = list(app_property.eel.cmdline_args),
+            close_callback = close_callback
         )
+        
     except Exception as e:
         message = log_utils.write_exception(e)
         log_utils.writeline_fatal('予期せぬエラーが発生しました')

@@ -55,6 +55,28 @@ def get_targets(conn):
     
     return result
 
+# ターゲット一覧取得(ファイルIDより)
+def get_targets_by_file_id(conn, file_id):
+    query = []
+    query.append(r'select')
+    query.append(r'target_id, file_id, item_order')
+    query.append(r'from Target')
+    query.append(r'where')
+    query.append(r'file_id = ?')
+    query.append(r'order by')
+    query.append(r'item_order')
+    param = (file_id,)
+    
+    result = []
+    for target in sqlite3_utils.fetchall(conn, ' '.join(query), param):
+        target_entity = TargetEntity()
+        target_entity.target_id = target[0]
+        target_entity.file_id = target[1]
+        target_entity.item_order = target[2]
+        result.append(target_entity)
+    
+    return result
+
 # トリム取得
 def get_trim(conn, target_id):
     query = []
@@ -109,6 +131,27 @@ def get_file(conn, file_id):
     file_entity.webpath = file[4]
     
     return file_entity
+
+# ファイル全取得
+def get_file_all(conn):
+    query = []
+    query.append(r'select')
+    query.append(r'file_id, filename, filepath, workpath, webpath')
+    query.append(r'from File')
+    query.append(r'order by')
+    query.append(r'file_id')
+    
+    result = []
+    for file in sqlite3_utils.fetchall(conn, ' '.join(query)):
+        file_entity = FileEntity()
+        file_entity.file_id = file[0]
+        file_entity.filename = file[1]
+        file_entity.filepath = file[2]
+        file_entity.workpath = file[3]
+        file_entity.webpath = file[4]
+        result.append(file_entity)
+    
+    return result
 
 # ファイル取得(ファイルパスより)
 def get_file_by_filepath(conn, filepath):
