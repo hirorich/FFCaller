@@ -25,6 +25,7 @@ const target_component = {
                         <th>
                             <button class="btn btn-primary" v-on:click="show_trim_info(item.target_id)">時間指定</button>
                             <button class="btn btn-primary" v-on:click="show_media_info(item.target_id)">ファイル情報</button>
+                            <button class="btn btn-secondary" v-on:click="delete_target(item.target_id)">削除</button>
                         </th>
                         <th>{{item.filepath}}</th>
                     </tr>
@@ -44,6 +45,10 @@ const target_component = {
         show_media_info: function(target_id) {
             let request = {target_id: target_id};
             eel.ffc_request_get_media_info(request);
+        },
+        delete_target: function(target_id) {
+            let request = {target_id: target_id};
+            eel.ffc_request_delete_target(request);
         },
         marge: function() {
             eel.ffc_request_marge();
