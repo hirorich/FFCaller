@@ -28,8 +28,7 @@ def ffc_request_delete_target(request):
     except Exception as e:
         message = log_utils.write_exception(e)
 
-@eel.expose
-def ffc_request_delete_all():
+def ffc_delete_all():
     
     try:
         
@@ -39,9 +38,6 @@ def ffc_request_delete_all():
             
             # 全ファイル削除
             ffc_delete.delete_all(conn)
-            
-            # 動画情報を返却
-            ffc_response_target.exec(conn)
         
     except Exception as e:
         message = log_utils.write_exception(e)
