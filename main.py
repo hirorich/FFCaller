@@ -1,7 +1,7 @@
 import eel
 from common import app_property
 from common.utility import log_utils
-from service import choose_files, get_target_info, marge, update_trim_info
+from service import choose_files, delete, get_target_info, marge, update_trim_info
 
 # main
 if __name__ == "__main__":
