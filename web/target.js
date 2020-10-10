@@ -22,7 +22,7 @@ const target_component = {
                         <th>ファイルパス</th>
                     </tr>
                 </thead>
-                <draggable tag="tbody" v-cloak :options="{animation:300}">
+                <draggable tag="tbody" v-cloak v-model="target_data" v-bind:options="{animation:300}" v-on:sort="onSort()">
                     <tr v-for="(item, index) in this.target_data" :key="item.target_id">
                         <th>{{index + 1}}</th>
                         <th>{{item.filename}}</th>
@@ -54,6 +54,9 @@ const target_component = {
         delete_target: function(target_id) {
             let request = {target_id: target_id};
             eel.ffc_request_delete_target(request);
+        },
+        onSort: function() {
+            eel.ffc_request_sort_target(this.target_data);
         },
         marge: function() {
             eel.ffc_request_marge();
