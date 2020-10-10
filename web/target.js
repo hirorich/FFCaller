@@ -22,7 +22,7 @@ const target_component = {
                         <th>ファイルパス</th>
                     </tr>
                 </thead>
-                <draggable tag="tbody" v-cloak>
+                <draggable tag="tbody" v-cloak :options="{animation:300}">
                     <tr v-for="(item, index) in this.target_data" :key="item.target_id">
                         <th>{{index + 1}}</th>
                         <th>{{item.filename}}</th>
