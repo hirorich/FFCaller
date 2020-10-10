@@ -1,5 +1,10 @@
+const draggable = window['vuedraggable'];
+
 // コンポーネント定義
 const target_component = {
+    components: {
+        'draggable': draggable
+    },
     data: function() {
         return {
             target_data: []
@@ -17,8 +22,8 @@ const target_component = {
                         <th>ファイルパス</th>
                     </tr>
                 </thead>
-                <tbody v-cloak>
-                    <tr v-for="(item, index) in this.target_data">
+                <draggable tag="tbody" v-cloak v-model="target_data" v-bind:options="{animation:300}" v-on:sort="onSort()">
+                    <tr v-for="(item, index) in this.target_data" :key="item.target_id">
                         <th>{{index + 1}}</th>
                         <th>{{item.filename}}</th>
                         <th>{{formatTime(item.start_time)}} - {{formatTime(item.end_time)}}</th>
@@ -29,7 +34,7 @@ const target_component = {
                         </th>
                         <th>{{item.filepath}}</th>
                     </tr>
-                </tbody>
+                </draggable>
             </table>
             <button v-if="target_data.length > 0" class="btn btn-primary" v-on:click="marge()">マージ</button>
         </div>
@@ -49,6 +54,9 @@ const target_component = {
         delete_target: function(target_id) {
             let request = {target_id: target_id};
             eel.ffc_request_delete_target(request);
+        },
+        onSort: function() {
+            eel.ffc_request_sort_target(this.target_data);
         },
         marge: function() {
             eel.ffc_request_marge();

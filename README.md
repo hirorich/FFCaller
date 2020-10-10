@@ -52,3 +52,7 @@
   - MIT License
 - [Vue.js](https://github.com/vuejs/vue/releases) v.2.6.11
   - MIT License
+- [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable/releases/tag/v2.24.0) v.2.24.0
+  - MIT License
+- [sortablejs](https://github.com/SortableJS/sortablejs/releases/tag/1.10.2) v.1.10.2
+  - MIT License

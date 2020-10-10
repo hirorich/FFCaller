@@ -36,33 +36,39 @@ def _check(conn, trim_entity):
     if (trim_entity.frame_input_flag and (video_stream is None)):
         return False
     
-    # 時間・フレームを算出
+    # 時間・フレームのチェック
     if (trim_entity.frame_input_flag):
-        start_time, end_time = frame_time_converter.frame_to_time(trim_entity.start_frame, trim_entity.end_frame, video_stream.video.r_frame_rate)
-        trim_entity.start_time = start_time
-        trim_entity.end_time = end_time
-    else:
-        if (video_stream is not None):
-            start_frame, end_frame = frame_time_converter.time_to_frame(trim_entity.start_time, trim_entity.end_time, video_stream.video.r_frame_rate)
-            trim_entity.start_frame = start_frame
-            trim_entity.end_frame = end_frame
-    
-    # トリム時間チェック
-    if (0 > trim_entity.start_time):
-        return False
-    elif (trim_entity.start_time >= trim_entity.end_time):
-        return False
-    elif (trim_entity.end_time > file_duration_entity.duration):
-        return False
-    
-    # トリムフレームチェック
-    if (video_stream is not None):
+        
+        # トリムフレームチェック
+        if (video_stream is None):
+            return False
+        
         if (0 >= trim_entity.start_frame):
             return False
         elif (trim_entity.start_frame >= trim_entity.end_frame):
             return False
         elif (trim_entity.end_frame > file_duration_entity.nb_frames):
             return False
+        
+        # 時間を算出
+        start_time, end_time = frame_time_converter.frame_to_time(trim_entity.start_frame, trim_entity.end_frame, video_stream.video.r_frame_rate)
+        trim_entity.start_time = start_time
+        trim_entity.end_time = end_time
+    else:
+        
+        # トリム時間チェック
+        if (0 > trim_entity.start_time):
+            return False
+        elif (trim_entity.start_time >= trim_entity.end_time):
+            return False
+        elif (trim_entity.end_time > file_duration_entity.duration):
+            return False
+        
+        # フレームを算出
+        if (video_stream is not None):
+            start_frame, end_frame = frame_time_converter.time_to_frame(trim_entity.start_time, trim_entity.end_time, video_stream.video.r_frame_rate)
+            trim_entity.start_frame = start_frame
+            trim_entity.end_frame = end_frame
     
     # 映像フェードイン・アウトチェック
     trim_time = trim_entity.end_time - trim_entity.start_time
