@@ -34,6 +34,14 @@
     conda activate FFCaller
     pip install eel
     ```
+- [plyer](https://github.com/kivy/plyer)
+  - MIT License
+  - デスクトップ通知に使用
+  - Anacondaからターミナルを開き以下を実行することでインストール
+    ```
+    conda activate FFCaller
+    pip install plyer
+    ```
 
 ### HTML, CSS, Javascript
 - [Bootstrap](https://github.com/twbs/bootstrap/releases) v.4.4.1
@@ -43,4 +51,8 @@
 - [Popper.js](https://github.com/popperjs/popper-core/releases) v.1.16.0
   - MIT License
 - [Vue.js](https://github.com/vuejs/vue/releases) v.2.6.11
+  - MIT License
+- [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable/releases/tag/v2.24.0) v.2.24.0
+  - MIT License
+- [sortablejs](https://github.com/SortableJS/sortablejs/releases/tag/1.10.2) v.1.10.2
   - MIT License
