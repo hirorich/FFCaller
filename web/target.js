@@ -19,12 +19,11 @@ const target_component = {
                         <th>ファイル名</th>
                         <th>時間</th>
                         <th>編集</th>
-                        <th>ファイルパス</th>
                     </tr>
                 </thead>
-                <draggable tag="tbody" v-cloak v-model="target_data" v-bind:options="{animation:300}" v-on:sort="onSort()">
+                <draggable tag="tbody" v-cloak v-model="target_data" v-bind:options="{animation:300, handle:'.item-handle'}" v-on:sort="onSort()">
                     <tr v-for="(item, index) in this.target_data" :key="item.target_id">
-                        <th>{{index + 1}}</th>
+                        <th class="bg-dark text-light item-handle">{{index + 1}}</th>
                         <th>{{item.filename}}</th>
                         <th>{{formatTime(item.start_time)}} - {{formatTime(item.end_time)}}</th>
                         <th>
@@ -32,7 +31,6 @@ const target_component = {
                             <button class="btn btn-primary" v-on:click="show_media_info(item.target_id)">ファイル情報</button>
                             <button class="btn btn-secondary" v-on:click="delete_target(item.target_id)">削除</button>
                         </th>
-                        <th>{{item.filepath}}</th>
                     </tr>
                 </draggable>
             </table>

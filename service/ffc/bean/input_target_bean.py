@@ -7,7 +7,6 @@ class InputTargetBean():
     def __init__(self):
         self.__target_id = None
         self.__filename = None
-        self.__filepath = None
         self.__start_time = 0.0
         self.__end_time = 0.0
         self.__item_order = None
@@ -25,13 +24,6 @@ class InputTargetBean():
     @filename.setter
     def filename(self, filename):
         self.__filename = str(filename)
-    
-    @property
-    def filepath(self):
-        return self.__filepath
-    @filepath.setter
-    def filepath(self, filepath):
-        self.__filepath = str(filepath)
     
     @property
     def start_time(self):
@@ -58,7 +50,6 @@ class InputTargetBean():
         result = dict()
         result['target_id'] = self.__target_id
         result['filename'] = self.__filename
-        result['filepath'] = self.__filepath
         result['start_time'] = self.__start_time
         result['end_time'] = self.__end_time
         result['item_order'] = self.__item_order
