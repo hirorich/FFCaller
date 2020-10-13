@@ -24,6 +24,7 @@ def __create_output_bean(conn):
     output_bean = MargerOutputBean()
     with_video = True
     with_audio = True
+    count = 1
     for target in ffc_select.get_targets(conn):
         
         # ターゲット情報取得取得
@@ -53,15 +54,13 @@ def __create_output_bean(conn):
         
         # 出力ビーンに格納
         output_bean.append_input_bean(input_bean)
+        if count == 1:
+            output_bean.filepath = file.filename
+        
+        count += 1
     
     # 出力ストリーム指定
     output_bean.with_video = with_video
     output_bean.with_audio = with_audio
-    
-    # 出力ファイル名指定
-    if output_bean.with_video:
-        output_bean.filepath = r'output.mp4'
-    elif output_bean.with_audio:
-        output_bean.filepath = r'output.mp3'
     
     return output_bean
