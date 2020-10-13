@@ -5,16 +5,17 @@ const vm_trim_info = new Vue({
         'modal-component': modal_component,
         'trim-info-component': trim_info_component
     },
-    data: {
-        return: {
-            target_id: 0
+    data: function() {
+        return {
+            target_id: 0,
+            is_show: false
         }
     },
     template: `
         <div>
             <modal-component ref="modal">
                 <p slot="title" class="h4 text-primary">範囲選択</p>
-                <trim-info-component ref="trim" slot="body"></trim-info-component>
+                <trim-info-component ref="trim" slot="body" v-bind:is-show="is_show"></trim-info-component>
                 <button slot="button" class="btn btn-primary" v-on:click="save()">保存</button>
                 <button slot="button" class="btn btn-secondary" v-on:click="hide_modal()">閉じる</button>
             </modal-component>
@@ -30,6 +31,12 @@ const vm_trim_info = new Vue({
             this.$refs.trim.$refs.media.pause();
             this.$refs.modal.hide_modal();
         },
+        onShow: function() {
+            this.is_show = true;
+        },
+        onHide: function() {
+            this.is_show = false;
+        },
         save: function() {
             this.$refs.trim.$refs.media.pause();
             let request = {
@@ -40,6 +47,14 @@ const vm_trim_info = new Vue({
             this.$refs.modal.hide_modal();
         }
     }
+});
+
+// モーダル開閉前後イベント
+$(vm_trim_info.$refs.modal.$el).on('show.bs.modal', function () {
+    vm_trim_info.onShow();
+});
+$(vm_trim_info.$refs.modal.$el).on('hidden.bs.modal', function () {
+    vm_trim_info.onHide();
 });
 
 // トリム情報取得

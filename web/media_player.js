@@ -5,6 +5,10 @@
 // コンポーネント定義
 const media_player_component = {
     props: {
+        isShow: {
+            type: Boolean,
+            default: false
+        },
 
         // 動画ファイルパス
         mediaSrc: {
@@ -71,6 +75,10 @@ const media_player_component = {
         }
     },
     computed: {
+
+        is_show: function() {
+            return this.isShow;
+        },
 
         // 動画ソース
         media_src: function() {
@@ -150,7 +158,7 @@ const media_player_component = {
     },
     template: `
         <div>
-            <div v-if="with_video" class="row" style="margin:0;background-color:black;">
+            <div v-if="with_video && is_show" class="row" style="margin:0;background-color:black;">
                 <video ref="media"
                     class="col-12"
                     v-bind:style="{padding:0, opacity:opacity}"
@@ -163,7 +171,7 @@ const media_player_component = {
                     v-bind:src="media_src">
                 </video>
             </div>
-            <audio v-else-if="with_audio" ref="media"
+            <audio v-else-if="with_audio && is_show" ref="media"
                 v-on:loadeddata="onLoad()"
                 v-on:error="onError()"
                 v-on:canplay="onCanPlay()"
@@ -197,17 +205,12 @@ const media_player_component = {
     `,
     methods:{
 
-        // 再生位置の初期化
-        initTime: function(time) {
-            this.time = time;
-            this.$refs.media.currentTime = time;
-            this.video_fade(time);
-            this.audio_fade(time);
-        },
-
         // 動画読み込み時ハンドラ
         onLoad: function() {
-            this.initTime(this.start_time);
+            this.time = this.start_time;
+            this.$refs.media.currentTime = this.start_time;
+            this.video_fade(this.start_time);
+            this.audio_fade(this.start_time);
             this.$emit('load', this.$refs.media.duration);
         },
 
