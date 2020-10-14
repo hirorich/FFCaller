@@ -3,12 +3,6 @@ const trim_info_component = {
     components: {
         'media-player-component': media_player_component
     },
-    props: {
-        isShow: {
-            type: Boolean,
-            default: false
-        }
-    },
     data: function() {
         return {
             guid: String($.guid),
@@ -87,17 +81,12 @@ const trim_info_component = {
             }
 
             return valid;
-        },
-
-        is_show: function() {
-            return this.isShow;
         }
     },
     template: `
         <div>
             <div class="row">
                 <media-player-component ref="media" class="col-12"
-                    v-bind:is-show="is_show"
                     v-bind:media-src="media_src"
                     v-bind:with-video="with_video"
                     v-bind:with-audio="with_audio"
@@ -336,6 +325,9 @@ const trim_info_component = {
             this.in_audio_fade_out = audio_fade_out;
             this.out_audio_fade_out = audio_fade_out;
             this.work_audio_fade_out = audio_fade_out;
+
+            // 再生位置の初期化
+            this.$refs.media.initTime(this.out_start_time);
         },
 
         // 切り取り情報取得
