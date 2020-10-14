@@ -5,8 +5,8 @@ const vm_trim_info = new Vue({
         'modal-component': modal_component,
         'trim-info-component': trim_info_component
     },
-    data: {
-        return: {
+    data: function() {
+        return {
             target_id: 0
         }
     },
