@@ -8,14 +8,14 @@ from common import app_property
 from common.utility import log_utils, path_utils
 from service.ffc import ffc_add_files, ffc_response_target
 
+db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
+
 @eel.expose
 def ffc_request_choose_files():
     
-    try:
-        
-        # DB接続
-        db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
-        with sqlite3.connect(db_filename) as conn:
+    # DB接続
+    with sqlite3.connect(db_filename) as conn:
+        try:
             
             # 対象ファイル追加
             ffc_add_files.exec(conn)
@@ -25,6 +25,6 @@ def ffc_request_choose_files():
             
             # 追加情報反映
             conn.commit()
-        
-    except Exception as e:
-        message = log_utils.write_exception(e)
+        except Exception as e:
+            conn.rollback()
+            message = log_utils.write_exception(e)

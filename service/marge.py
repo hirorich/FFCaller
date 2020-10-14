@@ -9,13 +9,14 @@ from common.utility import desktop_notify_utils, log_utils, path_utils
 from service.ffc import ffc_marge
 from service.marger import marge_ffmpeg
 
+db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
+
 @eel.expose
 def ffc_request_marge():
     
     try:
         
         # DB接続
-        db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
         with sqlite3.connect(db_filename) as conn:
             
             # マージ情報取得
