@@ -27,11 +27,12 @@ const vm_trim_info = new Vue({
             this.$refs.modal.show_modal();
         },
         hide_modal: function() {
-            this.$refs.trim.$refs.media.pause();
             this.$refs.modal.hide_modal();
         },
+        hide_media: function() {
+            this.$refs.trim.$refs.media.hideMedia();
+        },
         save: function() {
-            this.$refs.trim.$refs.media.pause();
             let request = {
                 target_id: this.target_id,
                 trim: this.$refs.trim.get_trim_info()
@@ -40,6 +41,11 @@ const vm_trim_info = new Vue({
             this.$refs.modal.hide_modal();
         }
     }
+});
+
+// 非表示時に動画コンテンツを削除
+$(vm_trim_info.$refs.modal.$el).on('hidden.bs.modal', function () {
+    vm_trim_info.hide_media();
 });
 
 // トリム情報取得
