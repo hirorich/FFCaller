@@ -204,6 +204,9 @@ const media_player_component = {
         },
         hideMedia: function() {
             this.is_show = false;
+            this.is_error = false;
+            this.is_playing = false;
+            this.was_playing = false;
         },
 
         // 動画読み込み時ハンドラ
