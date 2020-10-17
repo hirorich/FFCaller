@@ -147,12 +147,22 @@ const media_player_component = {
 
         // 再生可能制御
         can_play: function() {
-            return (this.with_video || this.with_audio) && this.is_show && !this.is_error && (this.start_time < this.end_time);
+            return (this.with_video || this.with_audio) && this.is_show && !this.is_loading && !this.is_error && (this.start_time < this.end_time);
         }
     },
     template: `
         <div>
-            <div v-if="is_loading" class="row">Loading...</div>
+            <div v-if="is_loading" class="row">
+                <div class="col-12 text-primary"">
+                    <span class="spinner-border spinner-border-sm"></span>
+                    <span>Loading...</span>
+                </div>
+            </div>
+            <div v-if="is_error" class="row">
+                <div class="col-12 bg-warning text-dark">
+                    <span>読み込みエラー</span>
+                </div>
+            </div>
             <div v-if="with_video && is_show" class="row" style="margin:0;background-color:black;">
                 <video ref="media"
                     class="col-12"
@@ -232,7 +242,7 @@ const media_player_component = {
             this.is_error = true;
         },
 
-        // 動画可能時ハンドラ
+        // 動画再生可能時ハンドラ
         onCanPlay: function() {
             this.is_error = false;
         },
