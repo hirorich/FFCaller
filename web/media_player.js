@@ -240,6 +240,7 @@ const media_player_component = {
         // エラー時ハンドラ
         onError: function() {
             this.is_error = true;
+            this.is_loading = false;
         },
 
         // 動画再生可能時ハンドラ
