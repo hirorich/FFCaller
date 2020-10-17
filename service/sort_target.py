@@ -4,18 +4,16 @@
 # ==================================================
 
 import eel, sqlite3
-from common import app_property
-from common.utility import log_utils, path_utils
+from common.utility import log_utils
+from service.common.const import env_const
 from service.ffc import ffc_update_target
 from service.ffc.bean.input_target_bean import InputTargetBean
-
-db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
 
 @eel.expose
 def ffc_request_sort_target(request):
     
     # DB接続
-    with sqlite3.connect(db_filename) as conn:
+    with sqlite3.connect(env_const.DB_FILENAME) as conn:
         try:
             input_target_bean_list = []
             for input_target_dict in request:

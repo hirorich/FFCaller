@@ -5,8 +5,9 @@
 
 import pathlib, shutil
 from common import app_property
-from common.utility import file_utils, log_utils, path_utils
+from common.utility import file_utils, log_utils
 from service.analyzer import analyzer_cv2, analyzer_ffprobe
+from service.common.const import env_const
 from service.ffc.sql import ffc_add_files_sql, ffc_insert, ffc_select
 from service.ffc.entity.target_entity import TargetEntity
 from service.ffc.entity.trim_entity import TrimEntity
@@ -20,14 +21,13 @@ from service.ffc.entity.audio_entity import AudioEntity
 def exec(conn):
     try:
         # 作業フォルダ作成
-        workdir = pathlib.Path(path_utils.convert_to_absolute_path(app_property.eel.init)).joinpath(app_property.workdir)
-        workdir.mkdir(exist_ok=True)
+        env_const.WORK_DIR.mkdir(exist_ok=True)
         
         # 対象ファイル選択
         for input_file in file_utils.open_file_dialog(filetypes=[('media files', '*.'+';*.'.join(app_property.target_extension))]):
             
             # 対象ファイル追加
-            file_duration_entity = __add_file(workdir, conn, input_file)
+            file_duration_entity = __add_file(conn, input_file)
             
             # トリム情報DB登録
             __insert_triminfo(conn, file_duration_entity)
@@ -36,7 +36,7 @@ def exec(conn):
         message = log_utils.write_exception(e)
 
 # 対象ファイル追加
-def __add_file(workdir, conn, input_file):
+def __add_file(conn, input_file):
     
     # ファイル情報取得
     file = pathlib.Path(input_file)
@@ -55,7 +55,7 @@ def __add_file(workdir, conn, input_file):
     
     # ファイルコピー
     copiedfile = str(file_entity.file_id) + file.suffix
-    file_entity.workpath = workdir.joinpath(copiedfile).as_posix()
+    file_entity.workpath = env_const.WORK_DIR.joinpath(copiedfile).as_posix()
     file_entity.webpath = pathlib.Path(app_property.workdir).joinpath(copiedfile).as_posix()
     shutil.copy(file_entity.filepath, file_entity.workpath)
     
