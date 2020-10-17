@@ -18,12 +18,12 @@ def delete_target(conn, target_id):
         # ファイル削除
         if len(ffc_select.get_targets_by_file_id(conn, target_entity.file_id)) == 0:
             file_entity = ffc_select.get_file(conn, target_entity.file_id)
-            file_utils.delete_file(file_entity.workpath)
-            ffc_delete.delete_format(conn, target_entity.file_id)
-            ffc_delete.delete_video(conn, target_entity.file_id)
-            ffc_delete.delete_audio(conn, target_entity.file_id)
-            ffc_delete.delete_stream(conn, target_entity.file_id)
-            ffc_delete.delete_file(conn, target_entity.file_id)
+            if file_utils.delete_file(file_entity.workpath):
+                ffc_delete.delete_format(conn, target_entity.file_id)
+                ffc_delete.delete_video(conn, target_entity.file_id)
+                ffc_delete.delete_audio(conn, target_entity.file_id)
+                ffc_delete.delete_stream(conn, target_entity.file_id)
+                ffc_delete.delete_file(conn, target_entity.file_id)
         
     except Exception as e:
         message = log_utils.write_exception(e)
