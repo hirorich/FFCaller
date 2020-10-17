@@ -63,6 +63,8 @@ const media_player_component = {
     data: function() {
         return {
             time: parseFloat(this.startTime),
+            is_loading: false,
+            is_show: false,
             is_error: false,
             is_playing: false,
             was_playing: false,
@@ -145,28 +147,41 @@ const media_player_component = {
 
         // 再生可能制御
         can_play: function() {
-            return (this.with_video || this.with_audio) && !this.is_error && (this.start_time < this.end_time);
+            return (this.with_video || this.with_audio) && this.is_show && !this.is_loading && !this.is_error && (this.start_time < this.end_time);
         }
     },
     template: `
         <div>
-            <div v-if="with_video" class="row" style="margin:0;background-color:black;">
+            <div v-if="is_loading" class="row">
+                <div class="col-12 text-primary"">
+                    <span class="spinner-border spinner-border-sm"></span>
+                    <span>Loading...</span>
+                </div>
+            </div>
+            <div v-if="is_error" class="row">
+                <div class="col-12 bg-warning text-dark">
+                    <span>読み込みエラー</span>
+                </div>
+            </div>
+            <div v-if="with_video && is_show" class="row" style="margin:0;background-color:black;">
                 <video ref="media"
                     class="col-12"
                     v-bind:style="{padding:0, opacity:opacity}"
-                    v-on:loadeddata="onLoad()"
+                    v-on:loadstart="onLoad()"
+                    v-on:loadeddata="onLoaded()"
                     v-on:error="onError()"
-                    v-on:canplay="onCanPlay()"
+                    v-on:canplaythrough="onCanPlay()"
                     v-on:play="onPlay()"
                     v-on:pause="onPause()"
                     v-on:timeupdate="onTimeUpdate()"
                     v-bind:src="media_src">
                 </video>
             </div>
-            <audio v-else-if="with_audio" ref="media"
-                v-on:loadeddata="onLoad()"
+            <audio v-else-if="with_audio && is_show" ref="media"
+                v-on:loadstart="onLoad()"
+                v-on:loadeddata="onLoaded()"
                 v-on:error="onError()"
-                v-on:canplay="onCanPlay()"
+                v-on:canplaythrough="onCanPlay()"
                 v-on:play="onPlay()"
                 v-on:pause="onPause()"
                 v-on:timeupdate="onTimeUpdate()"
@@ -197,26 +212,38 @@ const media_player_component = {
     `,
     methods:{
 
-        // 再生位置の初期化
-        initTime: function(time) {
-            this.time = time;
-            this.$refs.media.currentTime = time;
-            this.video_fade(time);
-            this.audio_fade(time);
+        // 動画コンテンツ表示・非表示
+        showMedia: function() {
+            this.is_show = true;
+        },
+        hideMedia: function() {
+            this.is_show = false;
+            this.is_error = false;
+            this.is_playing = false;
+            this.was_playing = false;
         },
 
         // 動画読み込み時ハンドラ
         onLoad: function() {
-            this.initTime(this.start_time);
+            this.is_loading = true;
+        },
+        onLoaded: function() {
+            this.time = this.start_time;
+            this.$refs.media.currentTime = this.start_time;
+            this.video_fade(this.start_time);
+            this.audio_fade(this.start_time);
+            this.is_playing = false;
+            this.is_loading = false;
             this.$emit('load', this.$refs.media.duration);
         },
 
         // エラー時ハンドラ
         onError: function() {
             this.is_error = true;
+            this.is_loading = false;
         },
 
-        // 動画可能時ハンドラ
+        // 動画再生可能時ハンドラ
         onCanPlay: function() {
             this.is_error = false;
         },
@@ -237,8 +264,10 @@ const media_player_component = {
 
         // 再生中動画位置ハンドラ
         onTimeUpdate: function() {
-            if (this.is_playing) {
-                this.time = this.$refs.media.currentTime;
+            if (this.can_play) {
+                if (this.is_playing) {
+                    this.time = this.$refs.media.currentTime;
+                }
             }
         },
 
@@ -270,7 +299,9 @@ const media_player_component = {
 
         // 動画停止
         pause: function() {
-            this.$refs.media.pause();
+            if (this.can_play) {
+                this.$refs.media.pause();
+            }
         },
 
         // 動画再生・停止切り替え
@@ -326,7 +357,7 @@ const media_player_component = {
     },
     watch: {
         start_time: function(value) {
-            if (this.time < value) {
+            if ((this.time < value) && this.can_play) {
                 this.time = value;
                 this.$refs.media.currentTime = value;
             }
@@ -336,7 +367,7 @@ const media_player_component = {
             this.audio_fade(this.time);
         },
         end_time: function(value) {
-            if (this.time > value) {
+            if ((this.time > value) && this.can_play) {
                 this.time = value;
                 this.$refs.media.currentTime = value;
             }
@@ -366,22 +397,17 @@ const media_player_component = {
             this.audio_fade(this.time);
         },
 
-        // 再生不可になった場合再生停止
-        can_play: function(value) {
-            if (!value) {
-                this.pause();
-            }
-        },
-
         // 再生位置制御
         time: function(value) {
-            if (value < this.start_time) {
-                this.$refs.media.currentTime = this.start_time;
-            } else if (value >= this.end_time) {
-                this.pause();
-                this.$refs.media.currentTime = this.end_time;
-            } else if (!this.is_playing) {
-                this.$refs.media.currentTime = value;
+            if (this.can_play) {
+                if (value < this.start_time) {
+                    this.$refs.media.currentTime = this.start_time;
+                } else if (value >= this.end_time) {
+                    this.pause();
+                    this.$refs.media.currentTime = this.end_time;
+                } else if (!this.is_playing) {
+                    this.$refs.media.currentTime = value;
+                }
             }
 
             // video・audioフェードイン・フェードアウト

@@ -2,6 +2,14 @@
 const media_info_component = {
     data: function() {
         return {
+            file: {
+                filepath: '-'
+            },
+            format: {
+                nb_streams: 0,
+                duration: '-',
+                size: '-'
+            },
             video_stream: {
                 index: '-',
                 codec_type: '-',
@@ -22,11 +30,6 @@ const media_info_component = {
                 duration: '-',
                 bit_rate: '-',
                 sample_rate: '-'
-            },
-            format: {
-                nb_streams: 0,
-                duration: '-',
-                size: '-'
             }
         }
     },
@@ -45,6 +48,7 @@ const media_info_component = {
     },
     template: `
         <div>
+            <div class="bg-light">{{file.filepath}}</div>
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -126,9 +130,30 @@ const media_info_component = {
     `,
     methods: {
         set_media_info: function(info) {
-            this.video_stream = {};
-            this.audio_stream = {};
-            this.format = {};
+
+            try {
+                this.file.filepath = info.file.filepath;
+            } catch(e) {
+                this.file.filepath = '-';
+            }
+
+            try {
+                this.format.nb_streams = info.format.nb_streams;
+            } catch(e) {
+                this.format.nb_streams = 0;
+            }
+
+            try {
+                this.format.duration = info.format.duration;
+            } catch(e) {
+                this.format.duration = '-';
+            }
+
+            try {
+                this.format.size = info.format.size;
+            } catch(e) {
+                this.format.size = '-';
+            }
 
             try {
                 this.video_stream.index = info.video_stream.stream.stream_index;
@@ -230,24 +255,6 @@ const media_info_component = {
                 this.audio_stream.sample_rate = info.audio_stream.audio.sample_rate;
             } catch(e) {
                 this.audio_stream.sample_rate = '-';
-            }
-
-            try {
-                this.format.nb_streams = info.format.nb_streams;
-            } catch(e) {
-                this.format.nb_streams = 0;
-            }
-
-            try {
-                this.format.duration = info.format.duration;
-            } catch(e) {
-                this.format.duration = '-';
-            }
-
-            try {
-                this.format.size = info.format.size;
-            } catch(e) {
-                this.format.size = '-';
             }
         }
     }

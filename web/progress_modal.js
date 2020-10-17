@@ -26,7 +26,7 @@ const vm_progress = new Vue({
                 <div class="progress" slot="body">
                     <div v-bind:class="['progress-bar progress-bar-striped', {'progress-bar-animated': is_processing}]" v-bind:style="{ width: progress + '%' }">{{this.progress}}%</div>
                 </div>
-                <button v-if="!is_processing" slot="button" class="btn btn-primary" v-on:click="hide_modal()">完了</button>
+                <button v-if="!is_processing" slot="button" class="btn btn-success" v-on:click="hide_modal()">完了</button>
             </modal-component>
         <div>
     `,

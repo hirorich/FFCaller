@@ -327,7 +327,7 @@ const trim_info_component = {
             this.work_audio_fade_out = audio_fade_out;
 
             // 再生位置の初期化
-            this.$refs.media.initTime(this.out_start_time);
+            this.$refs.media.showMedia();
         },
 
         // 切り取り情報取得

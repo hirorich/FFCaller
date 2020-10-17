@@ -25,15 +25,17 @@ def marge(output_bean):
 # コマンドを実行し、進捗率を算出
 def __run(cmd, trim_duration):
     eel.ffc_start_vm_progress()
-    proc = subprocess.Popen(args=cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW)
-    for line in proc.stdout:
-        try:
-            log = line.decode("UTF-8").strip().split('=')
-            if len(log) >= 2 and log[0] == 'out_time':
-                dt = datetime.strptime(log[1], '%H:%M:%S.%f')
-                total_seconds = timedelta(hours=dt.hour, minutes=dt.minute, seconds=dt.second, microseconds=dt.microsecond).total_seconds()
-                eel.ffc_change_vm_progress(total_seconds / trim_duration * 100)
-            
-        except:
-            continue
+    
+    with subprocess.Popen(args=cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW) as proc:
+        for line in proc.stdout:
+            try:
+                log = line.decode("UTF-8").strip().split('=')
+                if len(log) >= 2 and log[0] == 'out_time':
+                    dt = datetime.strptime(log[1], '%H:%M:%S.%f')
+                    total_seconds = timedelta(hours=dt.hour, minutes=dt.minute, seconds=dt.second, microseconds=dt.microsecond).total_seconds()
+                    eel.ffc_change_vm_progress(total_seconds / trim_duration * 100)
+                
+            except:
+                continue
+    
     eel.ffc_end_vm_progress()

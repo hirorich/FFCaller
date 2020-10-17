@@ -5,7 +5,8 @@
 
 import eel, sqlite3
 from common import app_property
-from common.utility import desktop_notify_utils, log_utils, path_utils
+from common.utility import desktop_notify_utils, log_utils
+from service.common.const import env_const
 from service.ffc import ffc_marge
 from service.marger import marge_ffmpeg
 
@@ -15,8 +16,7 @@ def ffc_request_marge():
     try:
         
         # DB接続
-        db_filename = path_utils.convert_to_absolute_path(app_property.add_data.ffc_db_sqlite3)
-        with sqlite3.connect(db_filename) as conn:
+        with sqlite3.connect(env_const.DB_FILENAME) as conn:
             
             # マージ情報取得
             output_bean = ffc_marge.exec(conn)

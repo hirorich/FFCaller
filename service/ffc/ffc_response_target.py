@@ -20,7 +20,6 @@ def exec(conn):
             input_target = InputTargetBean()
             input_target.target_id = target.target_id
             input_target.filename = file.filename
-            input_target.filepath = file.filepath
             input_target.start_time = trim.start_time
             input_target.end_time = trim.end_time
             input_target.item_order = target.item_order

@@ -31,7 +31,9 @@ def read_file_one_line(filename):
 # ファイル削除
 def delete_file(filename):
     try:
-        os.remove(filename)
+        if is_exists(filename):
+            os.remove(filename)
+        
         return True
     except Exception as e:
         log_utils.write_exception(e)
