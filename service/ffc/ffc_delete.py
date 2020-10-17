@@ -5,6 +5,7 @@
 
 from common import app_property
 from common.utility import file_utils, log_utils
+from service.common.const import env_const
 from service.ffc.sql import ffc_delete, ffc_select
 
 # ターゲット削除削除
@@ -32,8 +33,8 @@ def delete_target(conn, target_id):
 def delete_all(conn):
     try:
         # ファイル削除
-        for file_entity in ffc_select.get_file_all(conn):
-            file_utils.delete_file(file_entity.workpath)
+        for filepath in list(env_const.WORK_DIR.iterdir()):
+            file_utils.delete_file(str(filepath))
         
         # 全テーブル削除
         ffc_delete.delete_format_all(conn)
