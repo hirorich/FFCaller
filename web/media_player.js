@@ -63,6 +63,7 @@ const media_player_component = {
     data: function() {
         return {
             time: parseFloat(this.startTime),
+            is_loading: false,
             is_show: false,
             is_error: false,
             is_playing: false,
@@ -151,13 +152,15 @@ const media_player_component = {
     },
     template: `
         <div>
+            <div v-if="is_loading" class="row">Loading...</div>
             <div v-if="with_video && is_show" class="row" style="margin:0;background-color:black;">
                 <video ref="media"
                     class="col-12"
                     v-bind:style="{padding:0, opacity:opacity}"
-                    v-on:loadeddata="onLoad()"
+                    v-on:loadstart="onLoad()"
+                    v-on:loadeddata="onLoaded()"
                     v-on:error="onError()"
-                    v-on:canplay="onCanPlay()"
+                    v-on:canplaythrough="onCanPlay()"
                     v-on:play="onPlay()"
                     v-on:pause="onPause()"
                     v-on:timeupdate="onTimeUpdate()"
@@ -165,9 +168,10 @@ const media_player_component = {
                 </video>
             </div>
             <audio v-else-if="with_audio && is_show" ref="media"
-                v-on:loadeddata="onLoad()"
+                v-on:loadstart="onLoad()"
+                v-on:loadeddata="onLoaded()"
                 v-on:error="onError()"
-                v-on:canplay="onCanPlay()"
+                v-on:canplaythrough="onCanPlay()"
                 v-on:play="onPlay()"
                 v-on:pause="onPause()"
                 v-on:timeupdate="onTimeUpdate()"
@@ -211,11 +215,15 @@ const media_player_component = {
 
         // 動画読み込み時ハンドラ
         onLoad: function() {
+            this.is_loading = true;
+        },
+        onLoaded: function() {
             this.time = this.start_time;
             this.$refs.media.currentTime = this.start_time;
             this.video_fade(this.start_time);
             this.audio_fade(this.start_time);
             this.is_playing = false;
+            this.is_loading = false;
             this.$emit('load', this.$refs.media.duration);
         },
 
