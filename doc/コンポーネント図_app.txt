@@ -1,0 +1,50 @@
+@startuml .\コンポーネント図_app.png
+
+component db {
+    database "cmn_db.sqlite3" as cmn_db
+}
+
+component env {
+    file "property.json" as property #orange
+}
+
+rectangle Python {
+    package common as common_py {
+        component app_property #orange
+        package utility {
+            component message_utils
+        }
+    }
+    package service
+    component "main.py" as main
+}
+
+component eel
+
+rectangle JavaScript {
+    package web {
+        component "index.html" as index
+        package common as common_js {
+            component "Vue.js"
+            component Bootstrap
+            component jQuery
+            component "Popper.js" as Popper
+        }
+    }
+}
+
+message_utils --> cmn_db
+app_property --> property
+service --> common_py
+service --> eel
+service <-- eel
+main --> service
+main --> common_py
+main --> eel
+index --> common_js
+Bootstrap --> jQuery
+Bootstrap --> Popper
+web --> eel
+web <-- eel
+
+@enduml
