@@ -1,0 +1,76 @@
+@startuml .\ER}_ffc_db.png
+
+entity "Target" as target {
+  *target_id : integer
+  --
+  file_id : integer
+  item_order : integer
+}
+
+entity "Trim" as trim {
+  *target_id : integer
+  --
+  start_time : real
+  end_time : real
+  start_frame : integer
+  end_frame : integer
+  frame_input_flag : boolean
+  video_fade_in : real
+  video_fade_out : real
+  audio_fade_in : real
+  audio_fade_out : real
+}
+
+entity "File" as file {
+  *file_id : integer
+  --
+  filename : text
+  filepath : text
+  workpath : text
+  webpath : text
+}
+
+entity "Format" as format {
+  *file_id : integer
+  --
+  nb_streams : integer
+  duration : real
+  size : integer
+}
+
+entity "Stream" as stream {
+  *file_id : integer
+  *stream_index : integer
+  --
+  codec_type : text
+  codec_name : text
+  codec_long_name : text
+  duration : real
+  bit_rate : integer
+}
+
+entity "Video" as video {
+  *file_id : integer
+  *stream_index : integer
+  --
+  width : integer
+  height : integer
+  r_frame_rate : text
+  nb_frames : integer
+}
+
+entity "Audio" as audio {
+  *file_id : integer
+  *stream_index : integer
+  --
+  sample_rate : integer
+}
+
+target ||..|| trim
+target }|..|| file
+file ||..|| format
+file ||..|{ stream
+stream ||..o| video
+stream ||..o{ audio
+
+@enduml

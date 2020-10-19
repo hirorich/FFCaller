@@ -1,0 +1,66 @@
+@startuml .\コンポーネント図_common.png
+
+component external_packages {
+    package plyer {
+        component notification
+    }
+}
+
+component db {
+    database "cmn_db.sqlite3" as cmn_db
+}
+
+component env {
+    file "property.json" as property #orange
+}
+
+package common {
+    component app_property #orange
+    component system_datetime
+    component user_info
+    package error {
+        component business_error {
+            rectangle BusinessError
+        }
+        component error_id
+    }
+    package utility {
+        component command_utils
+        component desktop_notify_utils
+        component file_utils
+        component json_utils
+        component log_utils #orange
+        component message_utils
+        component path_utils #orange
+        component sqlite3_utils
+        package type {
+            component number_utils
+            component str_utils
+            component type_utils
+        }
+    }
+}
+
+app_property --> json_utils
+app_property --> path_utils
+system_datetime --> app_property
+desktop_notify_utils --> app_property
+desktop_notify_utils --> path_utils
+file_utils --> log_utils
+file_utils --> str_utils
+log_utils --> system_datetime
+log_utils --> user_info
+log_utils --> message_utils
+log_utils --> BusinessError
+message_utils --> app_property
+message_utils --> path_utils
+message_utils --> sqlite3_utils
+message_utils --> str_utils
+str_utils --> type_utils
+
+desktop_notify_utils --> notification
+
+message_utils --> cmn_db
+app_property --> property
+
+@enduml

@@ -1,0 +1,9 @@
+@startuml .\ER}_cmn.png
+
+entity "tb_message" as target {
+  *id : text
+  --
+  message : text
+}
+
+@enduml
