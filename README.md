@@ -15,7 +15,7 @@
   - 呼び出すだけで再配布は行わないため GPLv3 は適用外のはず
     - [プログラムがforkやexecでプラグインを呼び出すならば、プラグインは別のプログラムであり、メインプログラムのライセンスはそれらにはなんの条件も課しません。](https://www.gnu.org/licenses/gpl-faq.ja.html#GPLAndPlugins)
 - [Google Chrome](https://www.google.com/intl/ja/chrome/)
-  - eel のローカルサーバとして localhost:9090 を使用予定
+  - eel のローカルサーバとして localhost:0 を使用予定
 
 ### Python
 - python v.3.8.2 ([Anaconda](https://www.anaconda.com/products/individual))
@@ -44,15 +44,16 @@
     ```
 
 ### HTML, CSS, Javascript
-- [Bootstrap](https://github.com/twbs/bootstrap/releases) v.4.4.1
+- [Bootstrap](https://github.com/twbs/bootstrap/releases) v.4.5.3
   - MIT License
-- [jQuery](https://jquery.com/download/) v.3.5.0
+- [jQuery](https://jquery.com/download/) v.3.5.1
   - MIT License
-- [Popper.js](https://github.com/popperjs/popper-core/releases) v.1.16.0
+- [Popper.js](https://github.com/popperjs/popper-core/releases/tag/v1.16.0) v.1.16.0
   - MIT License
+  - BootstrapのCDNからの参照がv.1.16.0であるため
 - [Vue.js](https://github.com/vuejs/vue/releases) v.2.6.11
   - MIT License
-- [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable/releases/tag/v2.24.0) v.2.24.0
+- [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable/releases) v.2.24.0
   - MIT License
-- [sortablejs](https://github.com/SortableJS/sortablejs/releases/tag/1.10.2) v.1.10.2
+- [sortablejs](https://github.com/SortableJS/sortablejs/releases) v.1.10.2
   - MIT License
