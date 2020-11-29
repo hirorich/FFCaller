@@ -44,6 +44,7 @@ def create(output_bean):
     command.extend(input_list)
     command.append('-filter_complex')
     command.append(';'.join(filter))
+    command.extend(['-map_chapters', '-1'])
     command.append(output_bean.filepath)
     
     return command, trim_duration
