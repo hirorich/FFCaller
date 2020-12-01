@@ -18,9 +18,11 @@ def update_trim(conn, trim_entity):
     query.append(r'video_fade_out = ?,')
     query.append(r'audio_fade_in = ?,')
     query.append(r'audio_fade_out = ?')
+    query.append(r'is_fade_from_white = ?')
+    query.append(r'is_fade_to_white = ?')
     query.append(r'where')
     query.append(r'target_id = ?')
-    param = (trim_entity.start_time, trim_entity.end_time, trim_entity.start_frame, trim_entity.end_frame, trim_entity.frame_input_flag, trim_entity.video_fade_in, trim_entity.video_fade_out, trim_entity.audio_fade_in, trim_entity.audio_fade_out, trim_entity.target_id)
+    param = (trim_entity.start_time, trim_entity.end_time, trim_entity.start_frame, trim_entity.end_frame, trim_entity.frame_input_flag, trim_entity.video_fade_in, trim_entity.video_fade_out, trim_entity.audio_fade_in, trim_entity.audio_fade_out, trim_entity.is_fade_from_white, trim_entity.is_fade_to_white, trim_entity.target_id)
     
     sqlite3_utils.execute(conn, ' '.join(query), param)
 

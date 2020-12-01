@@ -19,10 +19,10 @@ def insert_target(conn, target_entity):
 def insert_trim(conn, trim_entity):
     query = []
     query.append(r'insert into Trim')
-    query.append(r'(target_id, start_time, end_time, start_frame, end_frame, frame_input_flag, video_fade_in, video_fade_out, audio_fade_in, audio_fade_out)')
+    query.append(r'(target_id, start_time, end_time, start_frame, end_frame, frame_input_flag, video_fade_in, video_fade_out, audio_fade_in, audio_fade_out, is_fade_from_white, is_fade_to_white)')
     query.append(r'VALUES')
-    query.append(r'(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
-    param = (trim_entity.target_id, trim_entity.start_time, trim_entity.end_time, trim_entity.start_frame, trim_entity.end_frame, trim_entity.frame_input_flag, trim_entity.video_fade_in, trim_entity.video_fade_out, trim_entity.audio_fade_in, trim_entity.audio_fade_out)
+    query.append(r'(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    param = (trim_entity.target_id, trim_entity.start_time, trim_entity.end_time, trim_entity.start_frame, trim_entity.end_frame, trim_entity.frame_input_flag, trim_entity.video_fade_in, trim_entity.video_fade_out, trim_entity.audio_fade_in, trim_entity.audio_fade_out, trim_entity.is_fade_from_white, trim_entity.is_fade_to_white)
     
     sqlite3_utils.execute(conn, ' '.join(query), param)
 

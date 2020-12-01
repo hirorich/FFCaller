@@ -81,7 +81,7 @@ def get_targets_by_file_id(conn, file_id):
 def get_trim(conn, target_id):
     query = []
     query.append(r'select')
-    query.append(r'target_id, start_time, end_time, start_frame, end_frame, frame_input_flag, video_fade_in, video_fade_out, audio_fade_in, audio_fade_out')
+    query.append(r'target_id, start_time, end_time, start_frame, end_frame, frame_input_flag, video_fade_in, video_fade_out, audio_fade_in, audio_fade_out, is_fade_from_white, is_fade_to_white')
     query.append(r'from Trim')
     query.append(r'where')
     query.append(r'target_id = ?')
@@ -104,6 +104,8 @@ def get_trim(conn, target_id):
     trim_entity.video_fade_out = trim[7]
     trim_entity.audio_fade_in = trim[8]
     trim_entity.audio_fade_out = trim[9]
+    trim_entity.is_fade_from_white = trim[10]
+    trim_entity.is_fade_to_white = trim[11]
     
     return trim_entity
 

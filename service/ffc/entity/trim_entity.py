@@ -15,6 +15,8 @@ class TrimEntity():
         self.__video_fade_out = 0.0
         self.__audio_fade_in = 0.0
         self.__audio_fade_out = 0.0
+        self.__is_fade_from_white = False
+        self.__is_fade_to_white = False
     
     @property
     def target_id(self):
@@ -86,6 +88,20 @@ class TrimEntity():
     def audio_fade_out(self, audio_fade_out):
         self.__audio_fade_out = float(audio_fade_out)
     
+    @property
+    def is_fade_from_white(self):
+        return self.__is_fade_from_white
+    @is_fade_from_white.setter
+    def is_fade_from_white(self, is_fade_from_white):
+        self.__is_fade_from_white = bool(is_fade_from_white)
+    
+    @property
+    def is_fade_to_white(self):
+        return self.__is_fade_to_white
+    @is_fade_to_white.setter
+    def is_fade_to_white(self, is_fade_to_white):
+        self.__is_fade_to_white = bool(is_fade_to_white)
+    
     def to_dict(self):
         result = dict()
         result['target_id'] = self.__target_id
@@ -98,4 +114,6 @@ class TrimEntity():
         result['video_fade_out'] = self.__video_fade_out
         result['audio_fade_in'] = self.__audio_fade_in
         result['audio_fade_out'] = self.__audio_fade_out
+        result['is_fade_from_white'] = self.__is_fade_from_white
+        result['is_fade_to_white'] = self.__is_fade_to_white
         return result
