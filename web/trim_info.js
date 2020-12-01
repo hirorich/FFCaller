@@ -14,6 +14,8 @@ const trim_info_component = {
             r_frame_rate_denom: 0,
             media_duration: 0,
             nb_frames: 0,
+            is_fade_from_white : false,
+            is_fade_to_white : false,
             in_start_time: 0,
             in_end_time: 0,
             in_start_frame: 0,
@@ -326,6 +328,26 @@ const trim_info_component = {
             this.out_audio_fade_out = audio_fade_out;
             this.work_audio_fade_out = audio_fade_out;
 
+            // フェードイン色
+            let is_fade_from_white = false;
+            try {
+                is_fade_from_white = info.trim.is_fade_from_white;
+            } catch(e) {}
+            if (typeof(is_fade_from_white) != "boolean") {
+                is_fade_from_white = false;
+            }
+            this.is_fade_from_white = is_fade_from_white;
+
+            // フェードアウト色
+            let is_fade_to_white = false;
+            try {
+                is_fade_to_white = info.trim.is_fade_to_white;
+            } catch(e) {}
+            if (typeof(is_fade_to_white) != "boolean") {
+                is_fade_to_white = false;
+            }
+            this.is_fade_to_white = is_fade_to_white;
+
             // 再生位置の初期化
             this.$refs.media.showMedia();
         },
@@ -341,7 +363,9 @@ const trim_info_component = {
                 video_fade_in: this.work_video_fade_in,
                 video_fade_out: this.work_video_fade_out,
                 audio_fade_in: this.work_audio_fade_in,
-                audio_fade_out: this.work_audio_fade_out
+                audio_fade_out: this.work_audio_fade_out,
+                is_fade_from_white: this.is_fade_from_white,
+                is_fade_to_white: this.is_fade_to_white
             }
         },
 
