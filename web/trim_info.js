@@ -103,8 +103,8 @@ const trim_info_component = {
             <div v-cloak>
                 <div v-if="with_video" class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" v-bind:id="[guid + '-check']" v-model="frame_input_flag" class="form-check-input">
-                        <label v-bind:for="[guid + '-check']">フレーム指定</label>
+                        <input type="checkbox" v-bind:id="[guid + '-frame-check']" v-model="frame_input_flag" class="form-check-input">
+                        <label v-bind:for="[guid + '-frame-check']">フレーム指定</label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -127,8 +127,22 @@ const trim_info_component = {
                 </div>
                 <div v-if="with_video" class="form-row">
                     <label class="col-4">end_frame</label>
-                    <div class="form-group col-8"">
+                    <div class="form-group col-8">
                         <input v-model="in_end_frame" v-on:blur="onBlurEndFrame()" type="number" step=1 class="form-control" v-bind:disabled="!frame_input_flag">
+                    </div>
+                </div>
+                <div v-if="with_video" class="form-row">
+                    <div class="form-group col-6">
+                        <div class="form-check">
+                            <input type="checkbox" v-bind:id="[guid + '-fade-from-check']" v-model="is_fade_from_white" class="form-check-input">
+                            <label v-bind:for="[guid + '-fade-from-check']">fade from white</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <div class="form-check">
+                            <input type="checkbox" v-bind:id="[guid + '-fade-to-check']" v-model="is_fade_to_white" class="form-check-input">
+                            <label v-bind:for="[guid + '-fade-to-check']">fade to white</label>
+                        </div>
                     </div>
                 </div>
                 <div v-if="with_video" class="form-row">
