@@ -26,6 +26,7 @@ def marge(output_bean):
 def __run(cmd, trim_duration):
     eel.ffc_start_vm_progress()
     
+    log_utils.writeline_info(' '.join(cmd))
     with subprocess.Popen(args=cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, creationflags=subprocess.CREATE_NO_WINDOW) as proc:
         for line in proc.stdout:
             try:
