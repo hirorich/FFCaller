@@ -27,6 +27,8 @@ def ffc_request_update_trim_info(request):
             trim_entity.video_fade_out = request['trim']['video_fade_out']
             trim_entity.audio_fade_in = request['trim']['audio_fade_in']
             trim_entity.audio_fade_out = request['trim']['audio_fade_out']
+            trim_entity.is_fade_from_white = request['trim']['is_fade_from_white']
+            trim_entity.is_fade_to_white = request['trim']['is_fade_to_white']
             
             # トリム情報更新
             ffc_update_trim.exec(conn, trim_entity)

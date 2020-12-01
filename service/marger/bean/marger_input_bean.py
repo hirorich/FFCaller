@@ -12,6 +12,8 @@ class MargerInputBean():
         self.__video_fade_out = 0.0
         self.__audio_fade_in = 0.0
         self.__audio_fade_out = 0.0
+        self.__is_fade_from_white = False
+        self.__is_fade_to_white = False
     
     @property
     def workpath(self):
@@ -62,6 +64,20 @@ class MargerInputBean():
     def audio_fade_out(self, audio_fade_out):
         self.__audio_fade_out = float(audio_fade_out)
     
+    @property
+    def is_fade_from_white(self):
+        return self.__is_fade_from_white
+    @is_fade_from_white.setter
+    def is_fade_from_white(self, is_fade_from_white):
+        self.__is_fade_from_white = bool(is_fade_from_white)
+    
+    @property
+    def is_fade_to_white(self):
+        return self.__is_fade_to_white
+    @is_fade_to_white.setter
+    def is_fade_to_white(self, is_fade_to_white):
+        self.__is_fade_to_white = bool(is_fade_to_white)
+    
     def trim_duration(self):
         return self.__end_time - self.__start_time
     
@@ -83,12 +99,20 @@ class MargerInputBean():
         id_count = 0
         if self.__video_fade_in > 0:
             work_id = '[' + index + 'v' + str(id_count) + ']'
-            video_filter.append(video_id + 'fade=t=in:st=0:d=' + str(self.__video_fade_in) + work_id)
+            wk = video_id + 'fade=t=in:st=0:d=' + str(self.__video_fade_in)
+            if self.__is_fade_from_white:
+                wk += ':c=white'
+            wk += work_id
+            video_filter.append(wk)
             video_id = work_id
             id_count += 1
         if self.__video_fade_out > 0:
             work_id = '[' + index + 'v' + str(id_count) + ']'
-            video_filter.append(video_id + 'fade=t=out:st=' + str(self.trim_duration() - self.__video_fade_out) + ':d=' + str(self.__video_fade_out) + work_id)
+            wk = video_id + 'fade=t=out:st=' + str(self.trim_duration() - self.__video_fade_out) + ':d=' + str(self.__video_fade_out)
+            if self.__is_fade_to_white:
+                wk += ':c=white'
+            wk += work_id
+            video_filter.append(wk)
             video_id = work_id
             id_count += 1
         

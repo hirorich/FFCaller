@@ -51,6 +51,8 @@ def __create_output_bean(conn):
         input_bean.video_fade_out = trim.video_fade_out
         input_bean.audio_fade_in = trim.audio_fade_in
         input_bean.audio_fade_out = trim.audio_fade_out
+        input_bean.is_fade_from_white = trim.is_fade_from_white
+        input_bean.is_fade_to_white = trim.is_fade_to_white
         
         # 出力ビーンに格納
         output_bean.append_input_bean(input_bean)
