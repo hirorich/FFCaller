@@ -58,6 +58,18 @@ const media_player_component = {
         audioFadeOut: {
             type: Number,
             default: 0
+        },
+
+        // 白からフェードイン
+        isFadeFromWhite: {
+            type: Boolean,
+            default: false
+        },
+
+        // 白へフェードアウト
+        isFadeToWhite: {
+            type: Boolean,
+            default: false
         }
     },
     data: function() {
@@ -135,6 +147,23 @@ const media_player_component = {
             }
         },
 
+        // 背景色
+        background_color: function() {
+            if ((this.end_time - this.start_time) / 2 > this.time) {
+                if (Boolean(this.isFadeFromWhite)) {
+                    return 'white';
+                } else {
+                    return 'black';
+                }
+            } else {
+                if (Boolean(this.isFadeToWhite)) {
+                    return 'white';
+                } else {
+                    return 'black';
+                }
+            }
+        },
+
         // 現在時間
         current_time : function() {
             return formatTime(this.time - this.start_time);
@@ -163,10 +192,10 @@ const media_player_component = {
                     <span>読み込みエラー</span>
                 </div>
             </div>
-            <div v-if="with_video && is_show" class="row" style="margin:0;background-color:black;">
+            <div v-if="with_video && is_show" class="row" v-bind:style="[{margin:0}, {backgroundColor:background_color}]">
                 <video ref="media"
                     class="col-12"
-                    v-bind:style="{padding:0, opacity:opacity}"
+                    v-bind:style="[{padding:0}, {opacity:opacity}]"
                     v-on:loadstart="onLoad()"
                     v-on:loadeddata="onLoaded()"
                     v-on:error="onError()"

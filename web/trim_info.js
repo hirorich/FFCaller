@@ -98,6 +98,8 @@ const trim_info_component = {
                     v-bind:video-fade-out="out_video_fade_out"
                     v-bind:audio-fade-in="out_audio_fade_in"
                     v-bind:audio-fade-out="out_audio_fade_out"
+                    v-bind:is-fade-from-white="is_fade_from_white"
+                    v-bind:is-fade-to-white="is_fade_to_white"
                     v-on:load="onMediaLoad"></media-player-component>
             </div>
             <div v-cloak>
