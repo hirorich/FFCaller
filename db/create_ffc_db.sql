@@ -25,6 +25,8 @@ create table Trim (
 	video_fade_out real,
 	audio_fade_in real,
 	audio_fade_out real,
+	is_fade_from_white boolean,
+	is_fade_to_white boolean,
 	primary key (
 		target_id
 	)
