@@ -132,20 +132,6 @@ const trim_info_component = {
                     </div>
                 </div>
                 <div v-if="with_video" class="form-row">
-                    <div class="form-group col-6">
-                        <div class="form-check">
-                            <input type="checkbox" v-bind:id="[guid + '-fade-from-check']" v-model="is_fade_from_white" class="form-check-input">
-                            <label v-bind:for="[guid + '-fade-from-check']">fade from white</label>
-                        </div>
-                    </div>
-                    <div class="form-group col-6">
-                        <div class="form-check">
-                            <input type="checkbox" v-bind:id="[guid + '-fade-to-check']" v-model="is_fade_to_white" class="form-check-input">
-                            <label v-bind:for="[guid + '-fade-to-check']">fade to white</label>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="with_video" class="form-row">
                     <lebel class="col-4">video_fade_in</lebel>
                     <div class="form-group col-8">
                         <input v-model="in_video_fade_in" v-on:blur="onBlurVideoFadeIn()" type="number" step=0.001 class="form-control">
@@ -167,6 +153,20 @@ const trim_info_component = {
                     <label class="col-4">audio_fade_out</label>
                     <div class="form-group col-8">
                         <input v-model="in_audio_fade_out" v-on:blur="onBlurAudioFadeOut()" type="number" step=0.001 class="form-control">
+                    </div>
+                </div>
+                <div v-if="with_video" class="form-row">
+                    <div class="form-group col-6">
+                        <div class="form-check">
+                            <input type="checkbox" v-bind:id="[guid + '-fade-from-check']" v-model="is_fade_from_white" class="form-check-input">
+                            <label v-bind:for="[guid + '-fade-from-check']">白からフェードイン</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <div class="form-check">
+                            <input type="checkbox" v-bind:id="[guid + '-fade-to-check']" v-model="is_fade_to_white" class="form-check-input">
+                            <label v-bind:for="[guid + '-fade-to-check']">白へフェードアウト</label>
+                        </div>
                     </div>
                 </div>
             </div>
