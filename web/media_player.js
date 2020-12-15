@@ -149,7 +149,7 @@ const media_player_component = {
 
         // 背景色
         background_color: function() {
-            if ((this.end_time + this.start_time) / 2 > this.time) {
+            if ((this.video_fadein_end_time + this.video_fadeout_start_time) / 2 > this.time) {
                 if (Boolean(this.isFadeFromWhite)) {
                     return 'white';
                 } else {
